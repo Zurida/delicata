@@ -1,9 +1,12 @@
+<script setup>
+</script>
+
 <template>
-  <div>This is main page</div>
+  <div>
+    <Card />
+  </div>
 </template>
 
 
 
-<style>
-
-</style>
+<style></style>
