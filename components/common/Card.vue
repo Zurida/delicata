@@ -9,7 +9,7 @@ type Card = {
 const card: Card = {
   name: 'Тост без авокадо',
   date: '20.02.2020',
-  tags: ['Блюда из яиц', 'Завтраки'],
+  tags: ['Блюда из яиц', 'Завтраки', 'Блюда из яиц', 'Блюда из яиц', 'Блюда из яиц'],
   img: '/img/media.png'
 }
 </script>
@@ -21,15 +21,13 @@ const card: Card = {
       <div class="date">Дата добавления: {{ card.date }}</div>
       <h3 class="card__title">{{ card.name }}</h3>
       <div class="card__tags">
-
         <span class="tag" v-for="tag in card.tags">{{ tag }}</span>
-
       </div>
     </div>
   </NuxtLink>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   display: inline-block;
   background-color: var(--white);
@@ -51,10 +49,34 @@ const card: Card = {
     font-size: 2.4rem;
     font-weight: bold;
   }
+
+  &__tags {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      width: 0.1rem;
+      height: 5px;
+      /* width of the entire scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(150, 150, 150, 0.623);
+      border-radius: 20px;
+      border: 3px solid transparent;
+    }
+  }
 }
 
 .tag {
   display: inline-flex;
+  flex-shrink: 0;
+  margin-bottom: .6rem;
   padding: 0.6rem;
   border-radius: var(--border-radius);
   background-color: var(--main-3);
@@ -62,7 +84,7 @@ const card: Card = {
   line-height: 1;
   color: var(--black-soft);
 
-  &:first-child {
+  &:not(:last-child) {
     margin-right: 0.6rem;
   }
 }
