@@ -5,6 +5,12 @@ export default defineNuxtConfig({
     typeCheck: true
   },
   css: ['~/assets/css/main.css'],
-
+  modules: [
+    ['@nuxtjs/google-fonts', {
+      families: {
+        Montserrat: true,
+      }
+    }],
+  ]
 
 })
