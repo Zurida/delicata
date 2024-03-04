@@ -23,12 +23,12 @@ const cards = [
 
 <template>
   <div class="container">
-    <aside class="aside">
+    <aside class="aside reverse">
       <h2>Категории</h2>
 
-      <nav>
-
-      </nav>
+      <div>
+        <Collapse />
+      </div>
     </aside>
     <div class="main">
       <header class="header">
@@ -87,6 +87,17 @@ const cards = [
 
 
 .aside {
-  width: 32rem;
+  width: 26rem;
+
+  h2 {
+    padding-top: var(--gap);
+    padding-left: var(--gap);
+    padding-bottom: var(--gap);
+    border-bottom: 1px solid gray;
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--white-soft);
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 :root {
     --white: #ffffff;
-    --white-soft: #E8E8E8;
+    --white-soft: #eae3e3;
 
     --black: #252B42;
     --black-soft: #30353B;
@@ -24,12 +24,10 @@
     --color-border: var(--divider);
     /* --color-border-hover: var(--divider-light); */
 
-    --color-heading: var(--text-dark);
-    --color-text: var(--text-dark);
-
     --section-gap: 8rem;
     --border-radius: 0.5rem;
     --gap: 1.8rem;
+    --gap-small: 0.9rem;
 }
 
 *,
@@ -48,14 +46,18 @@ html {
 body {
     /* height: 100vh; */
     /* overflow: hidden; */
-    color: var(--color-text);
+    color: var(--text-dark);
     background: var(--color-background);
     transition: color 0.5s, background-color 0.5s;
-    line-height: 1.6;
     font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.reverse {
+    color: var(--text-light);
 }
 
 
@@ -66,4 +68,8 @@ body {
 a {
     text-decoration: none;
     color: var(--black-soft);
+}
+
+li {
+    list-style: none;
 }
