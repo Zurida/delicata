@@ -1,16 +1,25 @@
-<script setup>
+<script setup lang="ts">
+type ListItem = {
+    id: number,
+    name: string
+}
+type list = ListItem[];
+
+
 let isVisible = ref(true);
-let isActive = ref(true);
+let currentId = ref(0)
 
 function showDropdown() {
     isVisible.value = !isVisible.value;
 }
 
-function setActiveItem() {
-    isActive.value = !isActive.value;
+function setActiveId(id: number) {
+    console.log(id)
+    currentId.value = id
 }
 
-const list = ['Из яиц', 'Из творога', 'Из муки', 'Из овощей']
+const list: list = [{ id: 0, name: 'Из яиц' }, { id: 1, name: 'Из творога' }, { id: 2, name: 'Из муки' }, { id: 3, name: 'Из овощей' }]
+
 
 </script>
 
@@ -23,7 +32,8 @@ const list = ['Из яиц', 'Из творога', 'Из муки', 'Из ов�
 
         <div class="collapse__dropdown">
             <ul class="collapse__list">
-                <li v-for="item in list" @click="setActiveItem" :class="{ 'is-active': isActive }">{{ item }}</li>
+                <CollapseItem v-for="(item, i) in list" :item=item :class="{ 'is-active': item.id === currentId }"
+                    @click="setActiveId(item.id)" />
             </ul>
         </div>
     </div>
@@ -79,20 +89,6 @@ const list = ['Из яиц', 'Из творога', 'Из муки', 'Из ов�
     &__list {
         font-size: 1.6rem;
         overflow: hidden;
-
-        li {
-            padding: calc(var(--gap-small) / 3) 0;
-            transition: color 0.4s;
-
-            &.is-active {
-                color: var(--main-3)
-            }
-
-            &:hover {
-                cursor: pointer;
-                opacity: 0.8;
-            }
-        }
     }
 }
 </style>
