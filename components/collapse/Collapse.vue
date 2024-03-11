@@ -3,37 +3,45 @@ type ListItem = {
     id: number,
     name: string
 }
-type list = ListItem[];
 
+type Category = {
+    id: number,
+    title: string,
+    subcategories: ListItem[]
+}
 
+let currentId = ref(0);
 let isVisible = ref(true);
-let currentId = ref(0)
+
+const props = defineProps<{
+    category: Category,
+}>()
+
+const emit = defineEmits<{
+    (e: 'click'): void
+}>()
 
 function showDropdown() {
-    isVisible.value = !isVisible.value;
+
 }
 
 function setActiveId(id: number) {
-    console.log(id)
     currentId.value = id
+    isVisible.value = !isVisible.value;
 }
-
-const list: list = [{ id: 0, name: 'Из яиц' }, { id: 1, name: 'Из творога' }, { id: 2, name: 'Из муки' }, { id: 3, name: 'Из овощей' }]
-
-
 </script>
 
 <template>
-    <div class="collapse" :class="{ 'is-visible': isVisible }">
-        <div class="collapse__heading" @click="showDropdown">
-            <div class="collapse__title">Завтраки</div>
+    <div class="collapse">
+        <div class="collapse__heading" @click="emit('click')">
+            <div class="collapse__title">{{ category.title }}</div>
             <!-- <span class="collapse__icon"></span> -->
         </div>
 
         <div class="collapse__dropdown">
             <ul class="collapse__list">
-                <CollapseItem v-for="(item, i) in list" :item=item :class="{ 'is-active': item.id === currentId }"
-                    @click="setActiveId(item.id)" />
+                <CollapseItem v-for="item in category.subcategories" :item=item
+                    :class="{ 'is-active': item.id === currentId }" @click="setActiveId(item.id)" />
             </ul>
         </div>
     </div>

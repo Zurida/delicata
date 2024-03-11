@@ -1,4 +1,32 @@
 <script setup>
+
+const categories = [
+  {
+    id: 0,
+    title: 'Все рецепты',
+  },
+  {
+    id: 1,
+    title: 'Завтраки',
+    subcategories: [{ id: 0, name: 'Из яиц' }, { id: 1, name: 'Из творога' }, { id: 2, name: 'Из муки' }, { id: 3, name: 'Из овощей' }]
+  },
+  {
+    id: 2,
+    title: 'Первые блюда',
+    subcategories: null
+  },
+  {
+    id: 3,
+    title: 'Мясные блюда',
+    subcategories: [{ id: 0, name: 'Из говядины' }, { id: 1, name: 'Из птицы' }, { id: 2, name: 'Из баранины' }]
+  },
+  {
+    id: 4,
+    title: 'Салаты',
+    subcategories: null,
+  },
+]
+
 const cards = [
   {
     name: 'Тост без авокадо',
@@ -19,6 +47,13 @@ const cards = [
     img: '/img/meat.jpg'
   }
 ]
+
+
+let currentId = ref(0);
+
+function setActiveId(id) {
+  currentId.value = id
+}
 </script>
 
 <template>
@@ -27,7 +62,9 @@ const cards = [
       <h2>Категории</h2>
 
       <div>
-        <Collapse />
+        <Collapse v-for="category in categories" :category="category" :class="{
+          'is-visible': category.id === currentId
+        }" @click="setActiveId(category.id)" />
       </div>
     </aside>
     <div class="main">
@@ -72,7 +109,6 @@ const cards = [
 }
 
 .main {
-  /* display: flex; */
   flex: 1;
   padding: var(--gap);
   background-color: var(--white-soft);
@@ -87,7 +123,7 @@ const cards = [
 
 
 .aside {
-  width: 26rem;
+  width: 22rem;
 
   h2 {
     padding-top: var(--gap);
