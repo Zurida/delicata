@@ -126,9 +126,7 @@ function setActiveId(id) {
   width: 22rem;
 
   h2 {
-    padding-top: var(--gap);
-    padding-left: var(--gap);
-    padding-bottom: var(--gap);
+    padding: var(--gap);
     border-bottom: 1px solid gray;
     font-size: 2.4rem;
     font-weight: 600;

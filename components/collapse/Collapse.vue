@@ -1,33 +1,27 @@
 <script setup lang="ts">
-type ListItem = {
+type TListItem = {
     id: number,
     name: string
 }
 
-type Category = {
+type TCategory = {
     id: number,
     title: string,
-    subcategories: ListItem[]
+    subcategories: TListItem[]
 }
 
 let currentId = ref(0);
-let isVisible = ref(true);
 
 const props = defineProps<{
-    category: Category,
+    category: TCategory,
 }>()
 
 const emit = defineEmits<{
     (e: 'click'): void
 }>()
 
-function showDropdown() {
-
-}
-
 function setActiveId(id: number) {
     currentId.value = id
-    isVisible.value = !isVisible.value;
 }
 </script>
 
