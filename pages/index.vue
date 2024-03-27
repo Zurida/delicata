@@ -27,7 +27,7 @@ const categories = [
   },
 ]
 
-const cards = [
+const c = [
   {
     name: 'Тост без авокадо',
     date: '20.02.2020',
@@ -50,6 +50,12 @@ const cards = [
 
 
 let currentId = ref(0);
+const searchVal = ref('')
+const cards = ref(c)
+
+watch(searchVal, () => {
+  cards.value = c.filter(card => card.name.toLowerCase().includes(searchVal.value.toLowerCase()))
+})
 
 function setActiveId(id) {
   currentId.value = id
@@ -72,7 +78,7 @@ function setActiveId(id) {
         <h1 class="heading">Доска рецептов</h1>
         <div class="search">
           <div class="search__field">
-            <input type="text" placeholder="Поиск">
+            <CommonVInput v-model="searchVal"></CommonVInput>
           </div>
           <div class="search__icon">
 
@@ -118,7 +124,7 @@ function setActiveId(id) {
   display: grid;
   flex: 1;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
 }
 
 
