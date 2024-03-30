@@ -18,7 +18,7 @@
 
 /* semantic color variables for this project */
 :root {
-    --color-background: var(--black);
+    --color-background: var(--black-soft);
     --color-background-soft: var(--white-soft);
 
     --color-border: var(--divider);
@@ -44,12 +44,12 @@ html {
 }
 
 body {
-    /* height: 100vh; */
-    /* overflow: hidden; */
+    min-height: 100vh;
+    overflow: hidden;
     color: var(--text-dark);
     background: var(--color-background);
     transition: color 0.5s, background-color 0.5s;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Nunito', sans-serif;
     line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -68,8 +68,16 @@ body {
 a {
     text-decoration: none;
     color: var(--black-soft);
+    cursor: pointer;
 }
 
 li {
     list-style: none;
+}
+
+button {
+    border: none;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
 }
