@@ -29,18 +29,21 @@ const categories = [
 
 const c = [
   {
+    id: 0,
     name: 'Тост без авокадо',
     date: '20.02.2020',
     tags: ['Блюда из яиц', 'Завтраки', 'Блюда из яиц', 'Блюда из яиц', 'Блюда из яиц'],
     img: '/img/tost.jpg'
   },
   {
+    id: 1,
     name: 'Яичница',
     date: '21.02.2020',
     tags: ['Блюда из яиц'],
     img: '/img/eggs.jpg'
   },
   {
+    id: 2,
     name: 'Говядина, тушеная в сметанном соусе',
     date: '22.02.2020',
     tags: ['Вторые блюда'],
@@ -87,7 +90,7 @@ function setActiveId(id) {
       </header>
 
       <div class="cards">
-        <CommonCard v-for="card in cards" :card="card" />
+        <CommonCard v-for="card in cards" :card="card" :to="`/recipe-${card.id + 1}`" />
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 type Card = {
+  id: number,
   name: string;
   date: string;
   tags: string[];
@@ -7,7 +8,8 @@ type Card = {
 }
 
 defineProps<{
-  card: Card
+  card: Card,
+  to: string,
 }>()
 
 
@@ -15,7 +17,7 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink to="/" class="card">
+  <NuxtLink :to="to" class="card">
     <div class="card__image" :style="{ backgroundImage: `url(${card.img})` }"></div>
     <div class="card__description">
       <div class="card__date">Дата добавления: {{ card.date }}</div>
