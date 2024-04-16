@@ -18,6 +18,7 @@ export default defineNuxtConfig({
         Nunito: true,
       }
     }],
+    'nuxt-icons',
   ]
 
 })
