@@ -23,7 +23,7 @@ defineProps<{
       <div class="card__date">Дата добавления: {{ card.date }}</div>
       <h3 class="card__title" :title="card.name">{{ card.name }}</h3>
       <div class="card__tags">
-        <span class="tag" v-for="tag in card.tags">{{ tag }}</span>
+        <CommonTag v-for="tag in card.tags" :key="tag" :tag="tag" />
       </div>
     </div>
   </NuxtLink>
@@ -94,17 +94,6 @@ defineProps<{
 }
 
 .tag {
-  display: inline-flex;
-  flex-shrink: 0;
-  margin-bottom: .6rem;
-  padding: 0.6rem;
-  border-radius: var(--border-radius);
-  background-color: var(--main-3);
-  font-size: .8rem;
-  line-height: 1;
-  letter-spacing: 0.05rem;
-  color: var(--black-soft);
-
   &:not(:last-child) {
     margin-right: 0.6rem;
   }

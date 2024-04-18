@@ -7,6 +7,7 @@
                 Вернуться на доску
             </NuxtLink>
         </div>
+        <slot></slot>
     </div>
 </template>
 

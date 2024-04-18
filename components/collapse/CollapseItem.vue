@@ -18,7 +18,7 @@ const emit = defineEmits<{
     <li @click="emit('click')">{{ item.name }}</li>
 </template>
 
-<style>
+<style scoped>
 li {
     padding: calc(var(--gap-small) / 3) 0;
     transition: color 0.4s;
