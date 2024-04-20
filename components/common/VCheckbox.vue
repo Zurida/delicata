@@ -5,9 +5,11 @@
     </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .VCheckbox {
     display: flex;
-    align-items: center
+    align-items: center;
+
+    input {}
 }
 </style>

@@ -45,7 +45,7 @@ html {
 
 body {
     min-height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
     color: var(--text-dark);
     background: var(--color-background);
     transition: color 0.5s, background-color 0.5s;
