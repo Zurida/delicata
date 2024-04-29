@@ -1,14 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  // devtools: { enabled: true },
   typescript: {
     typeCheck: true
-  },
-  app: {
-    pageTransition: {
-      name: 'fade',
-      mode: 'out-in'
-    },
   },
   css: ['~/assets/css/main.css'],
   modules: [
@@ -19,6 +13,28 @@ export default defineNuxtConfig({
       }
     }],
     'nuxt-icons',
-  ]
+  ],
+  nitro: {
+    storage: {
+      users: {
+        driver:'memory',
+        base: '.cache',
+      }
+    }
+  },
+  routeRules: {
+    '/api/**': {
+      cors: true,
+    },
+    '/api/user/bob': {
+      // prerender: true,
+      isr: true,
+    },
+    '/page': {
+      headers: {
+        'x-hackathon': 'true'
+      }
+    } 
+  }
 
 })

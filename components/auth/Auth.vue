@@ -97,7 +97,7 @@ onMounted(() => {
             </h1>
 
             <div class="auth__buttons">
-                <CommonVButton is="button" class="auth__btn" @click="$router.push('/dashboard')">Войти</CommonVButton>
+                <CommonVButton is="button" class="auth__btn" @click="$router.push('/')">Войти</CommonVButton>
                 <CommonVButton is="button" class="auth__btn">Регистрация</CommonVButton>
             </div>
         </div>

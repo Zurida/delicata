@@ -10,6 +10,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "httpie": "^1.1.2",
+    "nitropack": "^2.8.1",
     "nuxt": "^3.10.2",
     "nuxt-icons": "^3.2.1",
     "sass": "^1.71.1",
