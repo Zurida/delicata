@@ -2,7 +2,6 @@ export default defineEventHandler(async event => {
     const token = getCookie(event, 'token');
     const sessionConfig = {password: '2QWwB3zvfbQZt22Tndl01gCbek2Lfbb6'}
     const session = await getSession(event, sessionConfig);
-    console.log(session)
 
     event.context.user = session.data;
 
