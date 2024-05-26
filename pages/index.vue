@@ -1,4 +1,6 @@
 <script setup>
+const { data } = await useFetch('/api/recipes/recipes')
+
 
 const categories = [
   {
@@ -63,6 +65,9 @@ watch(searchVal, () => {
 function setActiveId(id) {
   currentId.value = id
 }
+
+
+
 </script>
 
 <template>
@@ -77,6 +82,8 @@ function setActiveId(id) {
       </div>
     </aside>
     <div class="main">
+      {{ data }}
+
       <header class="header">
         <h1 class="heading">Доска рецептов</h1>
         <div class="search">
