@@ -81,3 +81,34 @@ button {
     font-family: inherit;
     cursor: pointer;
 }
+
+.title {
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: -3%;
+    text-transform: uppercase;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: var(--main-2);
+}
+
+.swiper-button-next {
+
+    &:after {
+        display: block;
+        color: var(--white);
+        font-size: 2rem !important;
+    }
+}
+
+.swiper-button-prev {
+    &:after {
+        display: block;
+        color: var(--white);
+    }
+}

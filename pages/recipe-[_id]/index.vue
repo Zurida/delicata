@@ -4,34 +4,62 @@ definePageMeta({
 })
 
 import { ref } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
-// Import Swiper styles
-import 'swiper/css';
-
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
-
-// import './style.css';
-
-// import required modules
+import { Swiper } from 'swiper';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+Swiper.use([Thumbs, FreeMode, Navigation]);
 
-const modules = [FreeMode, Navigation, Thumbs]
 
-const thumbsSwiper = ref(null);
-const setThumbsSwiper = (swiper) => {
-    thumbsSwiper.value = swiper;
-};
+const ingridients = ref([
+    {
+        name: "Хлеб",
+        number: 2,
+        mesure: "шт"
+    },
+    {
+        name: "Авокадо",
+        number: 1,
+        mesure: "шт"
+    },
+    {
+        name: "Яйцо",
+        number: 1,
+        mesure: "шт"
+    }])
+
+const selectedIngridients = ref([]);
+
+function initSlider() {
+    const swiperThumbs = new Swiper('.gallery-thumbs', {
+        spaceBetween: 10,
+        slidesPerView: 'auto',
+        freeMode: true,
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+    });
+
+    const swiper = new Swiper('.gallery-main', {
+        // speed: 400,
+        // spaceBetween: 100,
+        slidesPerView: 1,
+        thumbs: {
+            swiper: swiperThumbs,
+        },
+    });
+}
+
+onMounted(() => {
+    initSlider()
+})
+
+
 
 </script>
 <template>
     <div class="recipe">
-        <h2 class="recipe__title">Тост с авокадо</h2>
+        <h2 class="recipe__title title">Тост с авокадо</h2>
 
         <div class="recipe__timing">
-            <NuxtIcon name="clock" />
+            <NuxtIcon name="clock" class="icon-clock" />
             <p>5-7 минут</p>
         </div>
 
@@ -41,24 +69,69 @@ const setThumbsSwiper = (swiper) => {
 
         <div class="recipe__columns">
             <div class="recipe__slider">
-                <swiper :navigation="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2">
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide>
-                </swiper>
-                <swiper @swiper="setThumbsSwiper" :slidesPerView="4" :watchSlidesProgress="true" class="mySwiper"
-                    :modules="modules">
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide>
-                    <swiper-slide><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide>
-                </swiper>
+
+                <div class="swiper gallery-main">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img
+                                src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                    </div>
+                    <!-- <div class="swiper-button swiper-button-prev"></div>
+                    <div class="swiper-button swiper-button-next"></div> -->
+                </div>
+
+                <div class="swiper gallery-thumbs">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img
+                                src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="recipe__ingredients ingredients">
-                <CommonVCheckbox /> - <div class="ingredients__mesure">50г.</div>
+            <div class="recipe__ingredients">
+                <div class="recipe__subtitle">
+                    Ингридиенты:
+                </div>
+
+                <div class="recipe__list">
+                    <div class="recipe__item" v-for="ingridient in ingridients" :key="ingridient.name">
+                        <CommonVCheckbox class="recipe__checkbox" :label="ingridient.name" v-model="selectedIngridients"
+                            :value="ingridient" />
+
+                        -<span class="recipe__mesure">{{ ingridient.number }} {{ ingridient.mesure }}</span>
+                    </div>
+                </div>
             </div>
 
 
@@ -67,10 +140,14 @@ const setThumbsSwiper = (swiper) => {
             </div>
         </div>
 
-        <div class="recipe__text">
+        <div class="recipe__description">
             <h4>Способ приготовления:</h4>
-            <ol>
+            <ol class="recipe__steps">
                 <li>В очищенную мякоть авокадо добавляем соль, перец, сок лимона, сок лайма и разминаем. </li>
+                <li>В очищенную мякоть авокадо добавляем соль, перец, сок лимона, сок лайма и разминаем. </li>
+                <li>В очищенную мякоть авокадо добавляем соль, перец, сок лимона, сок лайма и разминаем. </li>
+
+
             </ol>
         </div>
 
@@ -78,9 +155,73 @@ const setThumbsSwiper = (swiper) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .recipe {
-    /* background-color: var(--white-soft); */
+    max-width: 80rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-inline: auto;
+
+    &__timing {
+        display: flex;
+        margin-bottom: .8rem;
+    }
+
+    &__columns {
+        display: flex;
+        padding-top: 2rem;
+    }
+
+    &__slider {
+        margin-right: 4rem;
+        flex-shrink: 0;
+    }
+
+    &__subtitle {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 2.6rem;
+    }
+
+    &__item {
+        display: flex;
+        font-size: 1.6rem;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__checkbox {
+        margin-right: .3rem;
+    }
+
+    &__mesure {
+        margin-right: .3rem;
+        font-weight: 600;
+    }
+
+    &__description {
+        margin-top: 3.4rem;
+
+        h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2.4rem;
+        }
+    }
+
+    &__steps {
+        font-size: 1.6rem;
+
+        li {
+            list-style: decimal;
+        }
+    }
+}
+
+.icon-clock {
+    margin-right: .4rem
 }
 
 .tag {
@@ -89,95 +230,76 @@ const setThumbsSwiper = (swiper) => {
     }
 }
 
-li {
-    list-style: decimal;
-}
-
-#app {
-    height: 100%;
-}
-
-html,
-body {
+.swiper {
     position: relative;
-    height: 100%;
+    overflow: hidden;
+
+    &-wrapper {
+        position: relative;
+        display: flex;
+        width: 30rem;
+    }
+
+    &-slide {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+
+        img {
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    }
+
+    .swiper-button {
+        position: absolute;
+        top: 50%;
+        translate: -50%, -50%;
+        cursor: pointer;
+
+        &-prev {
+            left: 0;
+        }
+
+        &-next {
+            right: 0;
+        }
+    }
 }
 
-body {
-    background: #eee;
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    color: #000;
-    margin: 0;
-    padding: 0;
+.gallery-main {
+    border-radius: 10px;
+
+    .swiper-wrapper {
+        height: 30rem;
+    }
+
+    .swiper-slide img {
+        width: 30rem;
+        height: 30rem;
+    }
 }
 
-.swiper {
-    width: 100%;
-    height: 100%;
-}
-
-.swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-
-    /* Center slide text vertically */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-body {
-    background: #000;
-    color: #000;
-}
-
-.swiper {
-    width: 100%;
-    max-width: 30rem;
-    height: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.swiper-slide {
-    background-size: cover;
-    background-position: center;
-}
-
-.mySwiper2 {
-    /* height: 80%; */
-    width: 100%;
-}
-
-.mySwiper {
-    height: 20%;
+.gallery-thumbs {
     box-sizing: border-box;
     padding: 10px 0;
-}
 
-.mySwiper .swiper-slide {
-    width: 25%;
-    height: 100%;
-    opacity: 0.4;
-}
+    .swiper-wrapper {
+        height: 7rem;
+    }
 
-.mySwiper .swiper-slide-thumb-active {
-    opacity: 1;
-}
+    .swiper-slide {
+        opacity: 0.7;
+        cursor: pointer;
 
-.swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+        img {
+            width: 7rem;
+            aspect-ratio: 1;
+        }
+    }
+
+    .swiper-slide-thumb-active {
+        opacity: 1;
+    }
 }
 </style>
