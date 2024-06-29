@@ -1,12 +1,14 @@
 <script setup>
-const { data } = await useFetch('/api/recipes/recipes')
+// const { data } = await useFetch('/api/recipes/recipes')
+
+const recipes = await useFetch('/api/recipes')
 
 
 const categories = [
-  {
-    id: 0,
-    title: 'Все рецепты',
-  },
+  // {
+  //   id: 0,
+  //   title: 'Все рецепты',
+  // },
   {
     id: 1,
     title: 'Завтраки',
@@ -19,7 +21,7 @@ const categories = [
   },
   {
     id: 3,
-    title: 'Мясные блюда',
+    title: 'Вторые блюда',
     subcategories: [{ id: 0, name: 'Из говядины' }, { id: 1, name: 'Из птицы' }, { id: 2, name: 'Из баранины' }]
   },
   {
@@ -74,7 +76,6 @@ function setActiveId(id) {
   <div class="container">
     <aside class="aside reverse">
       <h2>Категории</h2>
-
       <div>
         <Collapse v-for="category in categories" :category="category" :class="{
           'is-visible': category.id === currentId
@@ -82,8 +83,6 @@ function setActiveId(id) {
       </div>
     </aside>
     <div class="main">
-      {{ data }}
-
       <header class="header">
         <h1 class="heading">Доска рецептов</h1>
         <div class="search">
