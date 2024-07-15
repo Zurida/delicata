@@ -43,14 +43,8 @@ model Category {
   Recipe Recipe[]
 }
 
-model Menu {
-  id        Int        @id @default(autoincrement())
-  menuItems MenuItem[]
-}
-
 model MenuItem {
-  id     Int    @id @default(autoincrement())
-  title  String
-  menu   Menu?  @relation(fields: [menuId], references: [id])
-  menuId Int?
+  id    Int    @id @default(autoincrement())
+  title String
+  slug  String
 }

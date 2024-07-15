@@ -20,7 +20,7 @@ defineProps({
     padding: 0.6rem;
     border-radius: var(--border-radius);
     background-color: var(--main-3);
-    font-size: .8rem;
+    font-size: .6rem;
     line-height: 1;
     letter-spacing: 0.05rem;
     color: var(--black-soft);

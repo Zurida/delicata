@@ -52,7 +52,7 @@ defineProps<{
 
   &__date {
     margin-bottom: 1rem;
-    font-size: 1rem;
+    font-size: .8rem;
     color: #797979;
   }
 
@@ -62,7 +62,7 @@ defineProps<{
 
   &__title {
     margin-bottom: 1rem;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     line-height: 1.2;
     font-weight: bold;
     white-space: nowrap;

@@ -1,35 +1,7 @@
 <script setup>
-// const { data } = await useFetch('/api/recipes/recipes')
 
 const recipes = await useFetch('/api/recipes')
-
-
-const categories = [
-  // {
-  //   id: 0,
-  //   title: 'Все рецепты',
-  // },
-  {
-    id: 1,
-    title: 'Завтраки',
-    subcategories: [{ id: 0, name: 'Из яиц' }, { id: 1, name: 'Из творога' }, { id: 2, name: 'Из муки' }, { id: 3, name: 'Из овощей' }]
-  },
-  {
-    id: 2,
-    title: 'Первые блюда',
-    subcategories: null
-  },
-  {
-    id: 3,
-    title: 'Вторые блюда',
-    subcategories: [{ id: 0, name: 'Из говядины' }, { id: 1, name: 'Из птицы' }, { id: 2, name: 'Из баранины' }]
-  },
-  {
-    id: 4,
-    title: 'Салаты',
-    subcategories: null,
-  },
-]
+const { data: menuItems } = await useFetch('/api/menu')
 
 const c = [
   {
@@ -52,7 +24,21 @@ const c = [
     date: '22.02.2020',
     tags: ['Вторые блюда'],
     img: '/img/meat.jpg'
-  }
+  },
+  // {
+  //   id: 3,
+  //   name: 'Говядина, тушеная в сметанном соусе',
+  //   date: '22.02.2020',
+  //   tags: ['Вторые блюда'],
+  //   img: '/img/meat.jpg'
+  // },
+  // {
+  //   id: 4,
+  //   name: 'Говядина, тушеная в сметанном соусе',
+  //   date: '22.02.2020',
+  //   tags: ['Вторые блюда'],
+  //   img: '/img/meat.jpg'
+  // }
 ]
 
 
@@ -77,7 +63,7 @@ function setActiveId(id) {
     <aside class="aside reverse">
       <h2>Категории</h2>
       <div>
-        <Collapse v-for="category in categories" :category="category" :class="{
+        <Collapse v-for="category in menuItems" :category="category" :class="{
           'is-visible': category.id === currentId
         }" @click="setActiveId(category.id)" />
       </div>
@@ -132,7 +118,7 @@ function setActiveId(id) {
 .cards {
   display: grid;
   flex: 1;
-  gap: 2rem;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
 }
 
