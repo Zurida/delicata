@@ -1,13 +1,18 @@
 <script setup>
-defineProps({
-    is: String,
-    to: String
+const props = defineProps({
+    to: String,
+    href: String
 })
+
+const component = computed(() => {
+    return props.to || props.href ? resolveComponent('NuxtLink') : 'button'
+})
+
 
 </script>
 
 <template>
-    <component :is="is" :to="to" class="VButton">
+    <component :is="component" :to="to" class="VButton">
         <slot></slot>
     </component>
 </template>
