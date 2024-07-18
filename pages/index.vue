@@ -1,7 +1,8 @@
 <script setup>
 
-const recipes = await useFetch('/api/recipes')
+// const recipes = await useFetch('/api/recipes')
 const { data: menuItems } = await useFetch('/api/menu')
+const recipes = []
 
 const c = [
   {

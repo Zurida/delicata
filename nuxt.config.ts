@@ -4,7 +4,9 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
+
   css: ['~/assets/css/main.css'],
+
   modules: [
     ['@nuxtjs/google-fonts', {
       families: {
@@ -14,6 +16,7 @@ export default defineNuxtConfig({
     }],
     'nuxt-icons',
   ],
+
   nitro: {
     storage: {
       users: {
@@ -22,6 +25,7 @@ export default defineNuxtConfig({
       }
     }
   },
+
   routeRules: {
     '/api/**': {
       cors: true,
@@ -35,6 +39,7 @@ export default defineNuxtConfig({
         'x-hackathon': 'true'
       }
     } 
-  }
+  },
 
+  compatibilityDate: '2024-07-17'
 })
