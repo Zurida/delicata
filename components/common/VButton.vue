@@ -1,7 +1,8 @@
 <script setup>
 const props = defineProps({
     to: String,
-    href: String
+    href: String,
+    small: Boolean
 })
 
 const component = computed(() => {
@@ -12,13 +13,16 @@ const component = computed(() => {
 </script>
 
 <template>
-    <component :is="component" :to="to" class="VButton">
+    <component :is="component" :to="to" class="VButton" :class="{ 'VButton--small': small }">
         <slot></slot>
     </component>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .VButton {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     padding: 2rem 4rem;
     font-size: 1.8rem;
     font-weight: 600;
@@ -27,10 +31,15 @@ const component = computed(() => {
     color: var(--white);
     transition: opacity .4s;
     border-radius: .5rem;
+    text-align: center;
 
     &:hover {
         opacity: 0.9;
     }
 
+    &--small {
+        font-size: 1rem;
+        padding: 1rem 2rem;
+    }
 }
 </style>

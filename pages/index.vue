@@ -26,20 +26,20 @@ const c = [
     tags: ['Вторые блюда'],
     img: '/img/meat.jpg'
   },
-  // {
-  //   id: 3,
-  //   name: 'Говядина, тушеная в сметанном соусе',
-  //   date: '22.02.2020',
-  //   tags: ['Вторые блюда'],
-  //   img: '/img/meat.jpg'
-  // },
-  // {
-  //   id: 4,
-  //   name: 'Говядина, тушеная в сметанном соусе',
-  //   date: '22.02.2020',
-  //   tags: ['Вторые блюда'],
-  //   img: '/img/meat.jpg'
-  // }
+  {
+    id: 3,
+    name: 'Говядина, тушеная в сметанном соусе',
+    date: '22.02.2020',
+    tags: ['Вторые блюда'],
+    img: '/img/meat.jpg'
+  },
+  {
+    id: 4,
+    name: 'Говядина, тушеная в сметанном соусе',
+    date: '22.02.2020',
+    tags: ['Вторые блюда'],
+    img: '/img/meat.jpg'
+  }
 ]
 
 
@@ -63,24 +63,27 @@ function setActiveId(id) {
   <div class="container">
     <aside class="aside reverse">
       <h2>Категории</h2>
-      <div>
+      <div class="aside__container">
         <Collapse v-for="category in menuItems" :category="category" :class="{
           'is-visible': category.id === currentId
         }" @click="setActiveId(category.id)" />
       </div>
     </aside>
     <div class="main">
-      <header class="header">
-        <h1 class="heading">Доска рецептов</h1>
-        <div class="search">
+      <header>
+        <h1>Доска рецептов</h1>
+      </header>
+
+      <div class="actions">
+        <!-- <CommonVLink to="/create" class="actions__link">+ Добавить рецепт</CommonVLink> -->
+        <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
+
+        <div class="actions__search search">
           <div class="search__field">
             <CommonVInput v-model="searchVal"></CommonVInput>
           </div>
-          <div class="search__icon">
-
-          </div>
         </div>
-      </header>
+      </div>
 
       <div class="cards">
         <CommonCard v-for="card in cards" :card="card" :to="`/recipe-${card.id + 1}`" />
@@ -91,23 +94,31 @@ function setActiveId(id) {
 
 
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   display: flex;
   min-height: 100vh;
 }
 
-.header {
+header {
+  margin-bottom: calc(var(--gap) / 2);
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--gap);
-}
 
-.heading {
-  font-size: 2.4rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  &__link {
+    font-size: 1.2rem;
+  }
 }
 
 .main {
