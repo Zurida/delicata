@@ -60,7 +60,7 @@ function setActiveId(id) {
 </script>
 
 <template>
-  <div class="container">
+  <div class="home">
     <aside class="aside reverse">
       <h2>Категории</h2>
       <div class="aside__container">
@@ -95,7 +95,7 @@ function setActiveId(id) {
 
 
 <style scoped lang="scss">
-.container {
+.home {
   display: flex;
   min-height: 100vh;
 }

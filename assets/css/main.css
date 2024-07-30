@@ -62,7 +62,8 @@ body {
 
 
 .container {
-    /* padding: 0 1.5rem; */
+    max-width: 80rem;
+    margin-inline: auto;
 }
 
 a {

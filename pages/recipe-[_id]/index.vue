@@ -55,7 +55,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="recipe">
+    <div class="container recipe">
         <h2 class="recipe__title title">Тост с авокадо</h2>
 
         <div class="recipe__timing">
@@ -157,10 +157,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .recipe {
-    max-width: 80rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    margin-inline: auto;
 
     &__timing {
         display: flex;
