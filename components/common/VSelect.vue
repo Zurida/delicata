@@ -13,6 +13,8 @@ type TOption = {
     text: string
 }
 
+const componentRef = ref()
+const excludeRef = ref()
 const isActive = ref(false)
 
 const selectedOption = ref()
@@ -22,21 +24,12 @@ function handleClick(option: TOption) {
     isActive.value = false
 }
 
-onMounted(() => {
-    // document.addEventListener('click', ($event: Event) => {
-    //     console.log($event.target as HTMLInputElement)
-    // })
-})
 
-
-const componentRef = ref()
-const excludeRef = ref()
-const isOpen = ref(true)
 
 useClickOutside(
     componentRef,
     () => {
-        isOpen.value = false
+        isActive.value = false
     },
     excludeRef
 )
@@ -46,8 +39,7 @@ useClickOutside(
 <template>
     <div class="custom-select" ref="custom-select" :class="{ active: isActive }">
         <button ref="excludeRef" class="select-button" role="combobox" aria-label="select button"
-            aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
-            @click="isActive = !isActive">
+            aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown" @click="isActive = true">
             <span class="selected-value">{{ selectedOption || 'Выбрать категорию' }}</span>
             <span class="arrow"></span>
         </button>
