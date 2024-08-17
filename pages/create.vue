@@ -1,15 +1,15 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
     layout: 'recipe'
 })
 
-function sendForm(params) {
-    console.log(params)
+function sendForm() {
+    // console.log(params)
 }
 
-let category = ref('xkf')
+let category = ref('')
 
-const options = [{ value: 'breakfast', text: 'Завтраки' }, { value: 'dinner', text: 'Ужин' }]
+const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
 </script>
 
 <template>
@@ -20,9 +20,9 @@ const options = [{ value: 'breakfast', text: 'Завтраки' }, { value: 'din
         <form class="form" @submit.prevent="sendForm">
             <div class="form__select">
                 <h3>Категория</h3>
-                категория {{ category }}
-                <CommonVSelect :options="options" :name="category" v-model="category">
+                <CommonVSelect :options="options" v-model="category">
                 </CommonVSelect>
+
             </div>
 
             <div class="form__title">
