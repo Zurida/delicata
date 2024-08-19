@@ -47,7 +47,7 @@ useClickOutside(
 
         <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef">
             <li role="option" v-for="option in options" @click="handleClick(option)">
-                <input type="radio" :value="modelValue" :id="`option-${option.id}`" :name="option.name"
+                <input type="radio" :value="modelValue" :id="`option-${option.name}-${option.id}`" :name="option.name"
                     @input="$emit('update:modelValue', option.value)" />
                 <label :for="`option-${option.id}`">{{ option.text }}</label>
             </li>

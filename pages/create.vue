@@ -8,8 +8,12 @@ function sendForm() {
 }
 
 let category = ref('')
+let measure = ref('')
 
 const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
+
+const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
+
 </script>
 
 <template>
@@ -20,8 +24,7 @@ const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'c
         <form class="form" @submit.prevent="sendForm">
             <div class="form__select">
                 <h3>Категория</h3>
-                <CommonVSelect :options="options" v-model="category">
-                </CommonVSelect>
+                <CommonVSelect :options="options" v-model="category" />
 
             </div>
 
@@ -34,10 +37,7 @@ const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'c
                 <div class="form__ingridient">
                     <h3>Способ приготовления</h3>
                     <input type="text" placeholder="Инргидиент"> -
-                    <select name="measure">
-                        <option value="">Единица измерения</option>
-                        <option>мл</option>
-                    </select>
+                    <CommonVSelect :options="measures" v-model="measure" />
                 </div>
 
                 <CommonVButton small>Добавить Инргидиент</CommonVButton>
