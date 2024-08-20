@@ -14,6 +14,16 @@ const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'c
 
 const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
 
+
+const userInfo = reactive({
+    name: "Fotis",
+    bio:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita deleniti laboriosam eligendi. Incidunt dolores dicta veritatis. Quaerat ad, magnam esse, illo atque delectus minus, nihil adipisci tempora nobis iusto. Excepturi?",
+    location: "Barcelona",
+    website: "fadamakis.com",
+});
+
+
 </script>
 
 <template>
@@ -30,7 +40,9 @@ const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id:
 
             <div class="form__title">
                 <h3>Заголовок</h3>
-                <input type="text" id="title">
+                <CommonVInput v-model="userInfo.name">
+                    <template #label> Name </template>
+                </CommonVInput>
             </div>
 
             <div class="form__ingridients">
