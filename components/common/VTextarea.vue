@@ -18,19 +18,19 @@ const updateValue = (e: Event) => {
 </script>
 
 <template>
-    <div class="VInput">
-        <input type="text" class="VInput__native" v-bind="$attrs" :class="{
+    <div class="VTextarea">
+        <textarea class="VTextarea__native" v-bind="$attrs" :class="{
             'has-label': $slots.label,
             pill,
         }" :value="modelValue" @input="updateValue" />
-        <label class="VInput__label" v-if="$slots.label">
+        <label class="VTextarea__label" v-if="$slots.label">
             <slot name="label" />
         </label>
     </div>
 </template>
 
 <style scoped lang="scss">
-.VInput {
+.VTextarea {
     position: relative;
 
     &__native {

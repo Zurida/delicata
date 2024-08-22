@@ -40,7 +40,7 @@ useClickOutside(
         <button ref="excludeRef" class="select-button" role="combobox" aria-label="select button"
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
             @click="isActive = !isActive">
-            <span class="selected-value">{{ selectedOption || 'Выбрать категорию' }}</span>
+            <span class="selected-value">{{ selectedOption || 'Выбрать' }}</span>
             <!-- <span class="arrow"></span> -->
             <i class="arrow right"></i>
         </button>
@@ -96,6 +96,7 @@ useClickOutside(
 
     .select-dropdown {
         position: absolute;
+        z-index: 100;
         list-style: none;
         width: 100%;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
