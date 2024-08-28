@@ -3,8 +3,9 @@ import { useClickOutside } from '@/composables/useClickOutside'
 
 const props = defineProps<{
     options: TOption[],
-    modelValue: string
 }>()
+
+const model = defineModel()
 
 type TOption = {
     id: number | string,
@@ -24,7 +25,6 @@ function handleClick(option: TOption) {
     isActive.value = false
 }
 
-
 useClickOutside(
     componentRef,
     () => {
@@ -41,15 +41,13 @@ useClickOutside(
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
             @click="isActive = !isActive">
             <span class="selected-value">{{ selectedOption || 'Выбрать' }}</span>
-            <!-- <span class="arrow"></span> -->
             <i class="arrow right"></i>
         </button>
 
         <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef">
             <li role="option" v-for="option in options" @click="handleClick(option)">
-                <input type="radio" :value="modelValue" :id="`option-${option.name}-${option.id}`" :name="option.name"
-                    @input="$emit('update:modelValue', option.value)" />
-                <label :for="`option-${option.id}`">{{ option.text }}</label>
+                <input type="radio" :id="`option-${option.name}-${option.id}`" :value="option.value" v-model="model" />
+                <label :for="`option-${option.name}-${option.id}`">{{ option.text }}</label>
             </li>
         </ul>
     </div>

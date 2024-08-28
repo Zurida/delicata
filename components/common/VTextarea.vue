@@ -6,9 +6,6 @@ defineProps({
     modelValue: {
         type: String
     },
-    pill: {
-        type: Boolean,
-    },
 });
 
 const emit = defineEmits(['update:modelValue'])
@@ -20,8 +17,7 @@ const updateValue = (e: Event) => {
 <template>
     <div class="VTextarea">
         <textarea class="VTextarea__native" v-bind="$attrs" :class="{
-            'has-label': $slots.label,
-            pill,
+            'has-label': $slots.label
         }" :value="modelValue" @input="updateValue" />
         <label class="VTextarea__label" v-if="$slots.label">
             <slot name="label" />

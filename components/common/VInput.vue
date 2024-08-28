@@ -1,28 +1,10 @@
 <script setup lang="ts">
-defineOptions({
-    inheritAttrs: false,
-});
-defineProps({
-    modelValue: {
-        type: String
-    },
-    pill: {
-        type: Boolean,
-    },
-});
-
-const emit = defineEmits(['update:modelValue'])
-const updateValue = (e: Event) => {
-    emit('update:modelValue', (e.target as HTMLInputElement).value)
-};
+const model = defineModel()
 </script>
 
 <template>
     <div class="VInput">
-        <input type="text" class="VInput__native" v-bind="$attrs" :class="{
-            'has-label': $slots.label,
-            pill,
-        }" :value="modelValue" @input="updateValue" />
+        <input type="text" class="VInput__native" v-model="model" />
         <label class="VInput__label" v-if="$slots.label">
             <slot name="label" />
         </label>

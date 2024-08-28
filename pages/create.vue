@@ -7,20 +7,18 @@ function sendForm() {
     // console.log(params)
 }
 
-let category = ref('')
-let measure = ref('')
-
 const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
 
 const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
 
 
-const userInfo = reactive({
+const recipe = reactive({
+    category: "",
     title: "",
-    ingridient:
-        "",
-    location: "Barcelona",
-    website: "fadamakis.com",
+    ingridient: "",
+    measure: "",
+    description: "",
+    images: []
 });
 
 
@@ -34,13 +32,14 @@ const userInfo = reactive({
         <form class="form" @submit.prevent="sendForm">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="options" v-model="category" />
+                {{ recipe }}
+                <CommonVSelect :options="options" v-model="recipe.category" />
 
             </div>
 
             <div class="form__item">
                 <h3>Заголовок</h3>
-                <CommonVInput v-model="userInfo.title" placeholder="Введите заголовок"> </CommonVInput>
+                <CommonVInput v-model="recipe.title" placeholder="Введите заголовок"> </CommonVInput>
             </div>
 
             <div class="form__item ingridients">
@@ -48,8 +47,9 @@ const userInfo = reactive({
 
                 <div class="ingridients__list">
                     <div class="ingridients__item">
-                        <CommonVInput v-model="userInfo.ingridient" placeholder="Введите ингридиент"> </CommonVInput> -
-                        <CommonVSelect :options="measures" v-model="measure" class="ingridients__select" />
+                        <CommonVInput v-model="recipe.ingridient" placeholder="Введите ингридиент">
+                        </CommonVInput> -
+                        <CommonVSelect :options="measures" v-model="recipe.measure" class="ingridients__select" />
                     </div>
                 </div>
 
