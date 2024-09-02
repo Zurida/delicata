@@ -2,7 +2,8 @@
 const props = defineProps({
     to: String,
     href: String,
-    small: Boolean
+    small: Boolean,
+    disabled: Boolean
 })
 
 const component = computed(() => {
@@ -13,7 +14,8 @@ const component = computed(() => {
 </script>
 
 <template>
-    <component :is="component" :to="to" class="VButton" :class="{ 'VButton--small': small }">
+    <component :is="component" :to="to" class="VButton" :class="{ 'VButton--small': small, 'is-disabled': disabled }"
+        :disabled="disabled">
         <slot></slot>
     </component>
 </template>
@@ -40,6 +42,11 @@ const component = computed(() => {
     &--small {
         font-size: 1rem;
         padding: 1rem 2rem;
+    }
+
+    &.is-disabled {
+        background-color: gray;
+        pointer-events: none;
     }
 }
 </style>

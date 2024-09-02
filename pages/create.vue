@@ -6,21 +6,61 @@ definePageMeta({
 function sendForm() {
     // console.log(params)
 }
-
 const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
 
 const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
 
+type TIngrigient = {
+    id: number,
+    name: string,
+    quantity: number,
+    measure: string
+}
 
-const recipe = reactive({
+type TRecipe = {
+    id: number,
+    category: string,
+    title: string,
+    ingridients: TIngrigient[],
+    measure: string,
+    description: string,
+    images?: []
+}
+
+
+const recipe = reactive<TRecipe>({
+    id: 0,
     category: "",
     title: "",
-    ingridient: "",
+    ingridients: [],
     measure: "",
     description: "",
     images: []
 });
 
+let count = 0
+const isDisabled = ref(false)
+
+const ingridient = ref({
+    name: "",
+    quantity: 0,
+    measure: ""
+})
+
+function addIngridient() {
+    recipe.ingridients.push({
+        id: count++,
+        ...ingridient.value
+    })
+
+    ingridient.value.name = ""
+    ingridient.value.quantity = 0
+    ingridient.value.measure = ""
+}
+
+function handleInput() {
+    console.log(isDisabled)
+}
 
 </script>
 
@@ -32,29 +72,35 @@ const recipe = reactive({
         <form class="form" @submit.prevent="sendForm">
             <div class="form__item">
                 <h3>Категория</h3>
-                {{ recipe }}
                 <CommonVSelect :options="options" v-model="recipe.category" />
 
             </div>
 
             <div class="form__item">
                 <h3>Заголовок</h3>
-                <CommonVInput v-model="recipe.title" placeholder="Введите заголовок"> </CommonVInput>
+                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите заголовок">
+                </CommonVInput>
             </div>
 
             <div class="form__item ingridients">
                 <h3>Инргидиенты</h3>
 
-                <div class="ingridients__list">
-                    <div class="ingridients__item">
-                        <CommonVInput v-model="recipe.ingridient" placeholder="Введите ингридиент">
-                        </CommonVInput> -
-                        <CommonVSelect :options="measures" v-model="recipe.measure" class="ingridients__select" />
+                <div class="ingridients__list" v-if="recipe.ingridients.length">
+
+                    <div class="ingridients__item" v-for="item in recipe.ingridients" :key="`${item.id}`">
+                        <p class="ingridients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
+                        <span class="ingridients__remove"><nuxt-icon name="close"></nuxt-icon></span>
                     </div>
                 </div>
 
-                <CommonVButton small>Добавить Инргидиент</CommonVButton>
+                <div class="ingridients__fields" @input="handleInput">
+                    <CommonVInput v-model:model="ingridient.name" type="text" placeholder="Введите ингридиент" />
+                    <CommonVInput v-model:model="ingridient.quantity" type="number" placeholder="Введите количество" />
+                    <CommonVSelect :options="measures" v-model="ingridient.measure" class="ingridients__select" />
+                </div>
             </div>
+
+            <CommonVButton small @click="addIngridient" :disabled="isDisabled">Добавить Инргидиент</CommonVButton>
 
             <div class="form__item">
                 <h3>Способ приготовления</h3>
@@ -96,12 +142,40 @@ h3 {
     width: 100%;
 
     &__list {
-        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: var(--main-2);
     }
 
     &__item {
         display: flex;
         align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    &__text {
+        width: 100%;
+        padding: .6rem;
+        background-color: bisque;
+        border-radius: 5px;
+    }
+
+    &__remove {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        transition: scale .4s;
+
+        svg {
+            width: 3rem;
+        }
+
+        &:hover {
+            cursor: pointer;
+            scale: 1.2;
+        }
+    }
+
+    &__fields {
+        display: flex;
         gap: .5rem;
         width: 100%;
     }

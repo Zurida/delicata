@@ -65,6 +65,7 @@ useClickOutside(
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        min-height: 3.8rem;
         font-size: inherit;
         background-color: #fff;
         padding: 0.675em 1em;
