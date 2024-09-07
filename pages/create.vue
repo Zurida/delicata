@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 function sendForm() {
-    // console.log(params)
+    console.log(recipe)
 }
 const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
 
@@ -14,7 +14,7 @@ type TIngrigient = {
     id: number,
     name: string,
     quantity: number,
-    measure: string
+    measure: null
 }
 
 type TRecipe = {
@@ -39,12 +39,12 @@ const recipe = reactive<TRecipe>({
 });
 
 let count = 0
-const isDisabled = ref(false)
+const isDisabled = ref(true)
 
 const ingridient = ref({
     name: "",
     quantity: 0,
-    measure: ""
+    measure: null
 })
 
 function addIngridient() {
@@ -52,14 +52,29 @@ function addIngridient() {
         id: count++,
         ...ingridient.value
     })
-
-    ingridient.value.name = ""
-    ingridient.value.quantity = 0
-    ingridient.value.measure = ""
+    clearIngridientFields()
 }
 
-function handleInput() {
-    console.log(isDisabled)
+function clearIngridientFields() {
+    ingridient.value.name = ""
+    ingridient.value.quantity = 0
+    ingridient.value.measure = null
+}
+
+function removeIngridient(index: number) {
+    recipe.ingridients.splice(index, 1)
+}
+
+function handleChange() {
+    if (!ingridient.value.name || !ingridient.value.quantity || !ingridient.value.measure) {
+        isDisabled.value = true
+    } else {
+        isDisabled.value = false
+    }
+
+    console.log(!!ingridient.value.name, !!ingridient.value.quantity, !!ingridient.value.measure)
+
+
 }
 
 </script>
@@ -87,13 +102,14 @@ function handleInput() {
 
                 <div class="ingridients__list" v-if="recipe.ingridients.length">
 
-                    <div class="ingridients__item" v-for="item in recipe.ingridients" :key="`${item.id}`">
+                    <div class="ingridients__item" v-for="(item, index) in recipe.ingridients" :key="`${item.id}`">
                         <p class="ingridients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
-                        <span class="ingridients__remove"><nuxt-icon name="close"></nuxt-icon></span>
+                        <span class="ingridients__remove"><nuxt-icon name="close"
+                                @click="removeIngridient(index)"></nuxt-icon></span>
                     </div>
                 </div>
 
-                <div class="ingridients__fields" @input="handleInput">
+                <div class="ingridients__fields" @change="handleChange">
                     <CommonVInput v-model:model="ingridient.name" type="text" placeholder="Введите ингридиент" />
                     <CommonVInput v-model:model="ingridient.quantity" type="number" placeholder="Введите количество" />
                     <CommonVSelect :options="measures" v-model="ingridient.measure" class="ingridients__select" />
@@ -107,10 +123,10 @@ function handleInput() {
                 <CommonVTextarea placeholder="Введите текст" id="steps"></CommonVTextarea>
             </div>
 
-            <div class="form__item">
+            <!-- <div class="form__item">
                 <span>+</span>
                 <p>Добавить фото</p>
-            </div>
+            </div> -->
 
             <CommonVButton small>Сохранить</CommonVButton>
 
