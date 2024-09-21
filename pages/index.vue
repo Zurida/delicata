@@ -1,7 +1,9 @@
 <script setup>
 
 // const recipes = await useFetch('/api/recipes')
-const { data: menuItems } = await useFetch('/api/menu')
+const menu = useMenuStore()
+
+// const { data: menuItems } = await useFetch('/api/menu')
 const recipes = []
 
 const c = [
@@ -64,7 +66,7 @@ function setActiveId(id) {
     <aside class="aside reverse">
       <h2>Категории</h2>
       <div class="aside__container">
-        <Collapse v-for="category in menuItems" :category="category" :class="{
+        <Collapse v-for="category in menu.categories" :category="category" :class="{
           'is-visible': category.id === currentId
         }" @click="setActiveId(category.id)" />
       </div>
@@ -80,7 +82,7 @@ function setActiveId(id) {
 
         <div class="actions__search search">
           <div class="search__field">
-            <CommonVInput v-model="searchVal"></CommonVInput>
+            <CommonVInput v-model="searchVal" type="text"></CommonVInput>
           </div>
         </div>
       </div>

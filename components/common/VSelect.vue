@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useClickOutside } from '@/composables/useClickOutside'
+import type { TCategory } from '~/types/category';
 
 const props = defineProps<{
-    options: TOption[],
+    options: TCategory[],
 }>()
 
 const model = defineModel()
 
-type TOption = {
-    id: number | string,
-    name: string,
-    value: string,
-    text: string
-}
+// type TOption = {
+//     id: number | string,
+//     name: string,
+//     value: string,
+//     text: string
+// }
 
 const componentRef = ref()
 const excludeRef = ref()
@@ -20,8 +21,8 @@ const isActive = ref(false)
 
 const selectedOption = ref()
 
-function handleClick(option: TOption) {
-    selectedOption.value = option.text
+function handleClick(option: TCategory) {
+    selectedOption.value = option.title
     isActive.value = false
 }
 
@@ -46,8 +47,8 @@ useClickOutside(
 
         <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef">
             <li role="option" v-for="option in options" @click="handleClick(option)">
-                <input type="radio" :id="`option-${option.name}-${option.id}`" :value="option.value" v-model="model" />
-                <label :for="`option-${option.name}-${option.id}`">{{ option.text }}</label>
+                <input type="radio" :id="`option-${option.name}-${option.id}`" :value="option.slug" v-model="model" />
+                <label :for="`option-${option.name}-${option.id}`">{{ option.title }}</label>
             </li>
         </ul>
     </div>

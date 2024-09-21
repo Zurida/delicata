@@ -3,12 +3,14 @@ definePageMeta({
     layout: 'recipe'
 })
 
-function sendForm() {
-    console.log(recipe)
+const menu = useMenuStore()
+
+function handleSubmit() {
+    // console.log(recipe)
 }
 const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
 
-const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
+const measures = [{ id: 0, slug: 'мл', title: 'мл', name: 'measure' }, { id: 1, slug: 'г', title: 'г', name: 'measure' }]
 
 type TIngrigient = {
     id: number,
@@ -73,8 +75,6 @@ function handleChange() {
     }
 
     console.log(!!ingridient.value.name, !!ingridient.value.quantity, !!ingridient.value.measure)
-
-
 }
 
 </script>
@@ -84,10 +84,10 @@ function handleChange() {
         <CommonTitle title="Добавить рецепт" class="create__title" />
 
 
-        <form class="form" @submit.prevent="sendForm">
+        <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="options" v-model="recipe.category" />
+                <CommonVSelect :options="menu.categories" v-model="recipe.category" />
 
             </div>
 
@@ -127,6 +127,7 @@ function handleChange() {
                 <span>+</span>
                 <p>Добавить фото</p>
             </div> -->
+
 
             <CommonVButton small>Сохранить</CommonVButton>
 

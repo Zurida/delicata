@@ -4,7 +4,9 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-
+  // imports: {
+  //   dirs: ['types/*.ts', 'store/*.ts', 'types/**/*.ts'],
+  // },
   css: ['~/assets/css/main.css'],
 
   modules: [
@@ -15,12 +17,13 @@ export default defineNuxtConfig({
       }
     }],
     'nuxt-icons',
+    '@pinia/nuxt'
   ],
 
   nitro: {
     storage: {
       users: {
-        driver:'memory',
+        driver: 'memory',
         base: '.cache',
       }
     }
@@ -38,8 +41,7 @@ export default defineNuxtConfig({
       headers: {
         'x-hackathon': 'true'
       }
-    } 
+    }
   },
-
   compatibilityDate: '2024-07-17'
 })
