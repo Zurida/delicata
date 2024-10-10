@@ -1,6 +1,6 @@
 <script setup>
-const menu = useMenuStore()
-await callOnce(menu.fetch)
+const categories = useCategoryStore()
+await callOnce(categories.fetch)
 </script>
 
 <template>

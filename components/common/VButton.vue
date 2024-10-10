@@ -3,7 +3,13 @@ const props = defineProps({
     to: String,
     href: String,
     small: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
+    type: {
+        type: String,
+        default() {
+            return 'button'
+        }
+    }
 })
 
 const component = computed(() => {
@@ -15,7 +21,7 @@ const component = computed(() => {
 
 <template>
     <component :is="component" :to="to" class="VButton" :class="{ 'VButton--small': small, 'is-disabled': disabled }"
-        :disabled="disabled">
+        :disabled="disabled" :type="type">
         <slot></slot>
     </component>
 </template>

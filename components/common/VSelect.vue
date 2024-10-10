@@ -8,13 +8,6 @@ const props = defineProps<{
 
 const model = defineModel()
 
-// type TOption = {
-//     id: number | string,
-//     name: string,
-//     value: string,
-//     text: string
-// }
-
 const componentRef = ref()
 const excludeRef = ref()
 const isActive = ref(false)
@@ -22,7 +15,7 @@ const isActive = ref(false)
 const selectedOption = ref()
 
 function handleClick(option: TCategory) {
-    selectedOption.value = option.title
+    selectedOption.value = option.text
     isActive.value = false
 }
 
@@ -38,7 +31,7 @@ useClickOutside(
 
 <template>
     <div class="VSelect" :class="{ active: isActive }">
-        <button ref="excludeRef" class="select-button" role="combobox" aria-label="select button"
+        <button type="button" ref="excludeRef" class="select-button" role="combobox" aria-label="select button"
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
             @click="isActive = !isActive">
             <span class="selected-value">{{ selectedOption || 'Выбрать' }}</span>
@@ -47,8 +40,8 @@ useClickOutside(
 
         <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef">
             <li role="option" v-for="option in options" @click="handleClick(option)">
-                <input type="radio" :id="`option-${option.name}-${option.id}`" :value="option.slug" v-model="model" />
-                <label :for="`option-${option.name}-${option.id}`">{{ option.title }}</label>
+                <input type="radio" :id="`option-${option.name}-${option.id}`" :value="option.value" v-model="model" />
+                <label :for="`option-${option.name}-${option.id}`">{{ option.text }}</label>
             </li>
         </ul>
     </div>

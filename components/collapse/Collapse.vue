@@ -6,8 +6,8 @@ type TListItem = {
 
 type TCategory = {
     id: number,
-    title: string,
-    subcategories: TListItem[]
+    text: string,
+    subcategories?: TListItem[]
 }
 
 let currentId = ref(0);
@@ -28,7 +28,7 @@ function setActiveId(id: number) {
 <template>
     <div class="collapse">
         <div class="collapse__heading" @click="emit('click')">
-            <div class="collapse__title">{{ category.title }}</div>
+            <div class="collapse__title">{{ category.text }}</div>
             <!-- <span class="collapse__icon"></span> -->
         </div>
 

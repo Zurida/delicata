@@ -1,15 +1,18 @@
 import type { TCategory } from "~/types/category"
 
-export const useMenuStore = defineStore<string, { categories: TCategory[] }>('menuStore', {
+export const useCategoryStore = defineStore<string, { categories: TCategory[] }>('categoryStore', {
   state: () => ({
     categories: []
   }),
   actions: {
     async fetch() {
-      const categories = await $fetch('/api/menu')
-
-      this.categories = categories
-      console.log(this.categories)
+      try {
+        const categories = await $fetch('/api/category')
+        this.categories = categories
+      }
+      catch (e) {
+        console.log(e)
+      }
     }
   }
 })

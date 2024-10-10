@@ -1,9 +1,10 @@
 <script setup>
 
-// const recipes = await useFetch('/api/recipes')
-const menu = useMenuStore()
 
-// const { data: menuItems } = await useFetch('/api/menu')
+const menu = useCategoryStore()
+const { data: recipesGet } = await useFetch('/api/recipe')
+console.log('get', recipesGet)
+
 const recipes = []
 
 const c = [

@@ -3,39 +3,29 @@ definePageMeta({
     layout: 'recipe'
 })
 
-const menu = useMenuStore()
+const categories = useCategoryStore()
 
-function handleSubmit() {
-    // console.log(recipe)
-}
-const options = [{ id: 0, value: 'breakfast', text: 'Завтраки', name: 'categories' }, { id: 1, value: 'dinner', text: 'Ужин', name: 'categories' }]
-
-const measures = [{ id: 0, slug: 'мл', title: 'мл', name: 'measure' }, { id: 1, slug: 'г', title: 'г', name: 'measure' }]
+const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
 
 type TIngrigient = {
-    id: number,
     name: string,
     quantity: number,
     measure: null
 }
 
 type TRecipe = {
-    id: number,
     category: string,
     title: string,
     ingridients: TIngrigient[],
-    measure: string,
     description: string,
     images?: []
 }
 
 
 const recipe = reactive<TRecipe>({
-    id: 0,
     category: "",
     title: "",
     ingridients: [],
-    measure: "",
     description: "",
     images: []
 });
@@ -51,7 +41,6 @@ const ingridient = ref({
 
 function addIngridient() {
     recipe.ingridients.push({
-        id: count++,
         ...ingridient.value
     })
     clearIngridientFields()
@@ -73,8 +62,24 @@ function handleChange() {
     } else {
         isDisabled.value = false
     }
+}
 
-    console.log(!!ingridient.value.name, !!ingridient.value.quantity, !!ingridient.value.measure)
+async function handleSubmit(evt: Event) {
+    evt.preventDefault()
+    const body = {
+        ...recipe,
+        authorId: 1
+    }
+
+    try {
+        const response = await $fetch("/api/recipe", {
+            method: "POST",
+            body
+        })
+        navigateTo('/')
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 </script>
@@ -87,7 +92,7 @@ function handleChange() {
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="menu.categories" v-model="recipe.category" />
+                <CommonVSelect :options="categories.categories" v-model="recipe.category" />
 
             </div>
 
@@ -102,7 +107,8 @@ function handleChange() {
 
                 <div class="ingridients__list" v-if="recipe.ingridients.length">
 
-                    <div class="ingridients__item" v-for="(item, index) in recipe.ingridients" :key="`${item.id}`">
+                    <div class="ingridients__item" v-for="(item, index) in recipe.ingridients"
+                        :key="`ingridient-${index}`">
                         <p class="ingridients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
                         <span class="ingridients__remove"><nuxt-icon name="close"
                                 @click="removeIngridient(index)"></nuxt-icon></span>
@@ -120,7 +126,7 @@ function handleChange() {
 
             <div class="form__item">
                 <h3>Способ приготовления</h3>
-                <CommonVTextarea placeholder="Введите текст" id="steps"></CommonVTextarea>
+                <CommonVTextarea placeholder="Введите текст" id="steps" v-model="recipe.description"></CommonVTextarea>
             </div>
 
             <!-- <div class="form__item">
@@ -129,7 +135,7 @@ function handleChange() {
             </div> -->
 
 
-            <CommonVButton small>Сохранить</CommonVButton>
+            <CommonVButton small type="submit">Сохранить</CommonVButton>
 
         </form>
     </div>

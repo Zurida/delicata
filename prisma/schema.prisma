@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
+  id      String   @id @default(uuid())
   name    String
   recipes Recipe[]
 }
 
 model Recipe {
-  id          Int          @id @default(autoincrement())
+  id          String       @id @default(uuid())
   author      User         @relation(fields: [authorId], references: [id])
-  authorId    Int
+  authorId    String
   published   Boolean      @default(false)
   title       String
   createdAt   DateTime     @default(now())
@@ -27,31 +27,34 @@ model Recipe {
   img         String?
   ingridients Ingridient[]
   description String?
-  categories  Category[]
+  // subcategories Subcategory[]
+  category    String
 }
 
 model Ingridient {
-  id      Int      @id @default(autoincrement())
-  title   String
-  unit    String
-  recipes Recipe[]
+  id       String @id @default(uuid())
+  name     String
+  quantity Int
+  measure  String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String
+}
+
+model Subcategory {
+  id    String @id @default(uuid())
+  title String
+  // Recipe Recipe[]
 }
 
 model Category {
-  id     Int      @id @default(autoincrement())
-  title  String
-  Recipe Recipe[]
-}
-
-model MenuItem {
-  id    Int    @id @default(autoincrement())
-  title String
-  slug  String
-  name  String
+  id    String @id @default(uuid())
+  text  String
+  value String
+  name  String @default("category")
 }
 
 model Measures {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   value String
   text  String
   name  String
