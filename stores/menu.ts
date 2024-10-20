@@ -1,6 +1,6 @@
-import type { TCategory } from "~/types/category"
+import type { TExistingCategory } from "~/types/category"
 
-export const useCategoryStore = defineStore<string, { categories: TCategory[] }>('categoryStore', {
+export const useCategoryStore = defineStore<string, { categories: TExistingCategory[] }>('categoryStore', {
   state: () => ({
     categories: []
   }),
@@ -8,7 +8,8 @@ export const useCategoryStore = defineStore<string, { categories: TCategory[] }>
     async fetch() {
       try {
         const categories = await $fetch('/api/category')
-        this.categories = []
+
+        this.categories = categories
       }
       catch (e) {
         console.log(e)

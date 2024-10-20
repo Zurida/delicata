@@ -13,7 +13,7 @@ const measures = [{ id: "0", value: 'мл', text: 'мл', name: 'measure' }, { i
 // delete author in recipe when user is created
 
 const recipe = reactive<TRecipe>({
-    category: { name: "", value: "", text: "" },
+    category: "",
     title: "",
     ingridients: [],
     description: "",
@@ -83,7 +83,7 @@ async function handleSubmit(evt: Event) {
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="categories.categories" v-model="recipe.category.value" />
+                <CommonVSelect :options="categories.categories" v-model="recipe.category" />
 
             </div>
 

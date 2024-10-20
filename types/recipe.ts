@@ -9,7 +9,7 @@ type TIngrigient = {
 
 export type TRecipe = {
     author?: TUser,
-    category: TCategory,
+    category: string,
     title: string,
     ingridients: TIngrigient[],
     description: string,

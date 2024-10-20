@@ -29,16 +29,14 @@ model Recipe {
   ingridients Ingridient[]
   description String?
   tags        Tag[]
-  category    Category?    @relation(fields: [categoryId], references: [id])
-  categoryId  String
+  category    String
 }
 
 model Category {
-  id      String   @id @default(uuid())
-  name    String?  @default("category")
-  value   String
-  text    String?
-  recipes Recipe[]
+  id    String  @id @default(uuid())
+  name  String? @default("category")
+  value String
+  text  String?
 }
 
 model Ingridient {

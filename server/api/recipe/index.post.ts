@@ -7,14 +7,19 @@ export default defineEventHandler(async (event) => {
     ingridients,
     description } = await readBody(event);
 
-  // const recipe = await prisma.recipe.create({
-  //   data: {
+  const recipe = await prisma.recipe.create({
+    data: {
+      category: category,
+      title: title,
+      ingridients: {
+        create: ingridients,
+      },
+      description: description
+    }
+  })
+    .catch((error) => {
+      console.error(error);
+    });
 
-  //   }
-  // })
-  //   .catch((error) => {
-  //     console.error(ingridients);
-  //   });
-
-  return {};
+  return recipe;
 });
