@@ -13,22 +13,32 @@ datasource db {
 model User {
   id      String   @id @default(uuid())
   name    String
+  email   String   @unique @default("test@mail.ru")
   recipes Recipe[]
 }
 
 model Recipe {
   id          String       @id @default(uuid())
-  author      User         @relation(fields: [authorId], references: [id])
-  authorId    String
-  published   Boolean      @default(false)
+  author      User?        @relation(fields: [authorId], references: [id])
+  authorId    String?
   title       String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  source      String?
   img         String?
   ingridients Ingridient[]
   description String?
-  // subcategories Subcategory[]
-  category    String
+  tags        Tag[]
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  categoryId  String
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  name    String?  @default("category")
+  value   String
+  text    String?
+  recipes Recipe[]
 }
 
 model Ingridient {
@@ -40,20 +50,14 @@ model Ingridient {
   recipeId String
 }
 
-model Subcategory {
-  id    String @id @default(uuid())
-  title String
-  // Recipe Recipe[]
+model Tag {
+  id       String  @id @default(uuid())
+  title    String
+  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId String?
 }
 
-model Category {
-  id    String @id @default(uuid())
-  text  String
-  value String
-  name  String @default("category")
-}
-
-model Measures {
+model Measure {
   id    String @id @default(uuid())
   value String
   text  String

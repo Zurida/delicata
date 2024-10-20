@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { formatDate } from '~/assets/js/utils';
+
 type Card = {
   id: number,
-  name: string;
-  date: string;
+  title: string;
+  createdAt: string;
   tags: string[];
   img: string;
 }
@@ -18,10 +20,10 @@ defineProps<{
 
 <template>
   <NuxtLink :to="to" class="card">
-    <div class="card__image" :style="{ backgroundImage: `url(${card.img})` }"></div>
+    <div class="card__image" :style="{ backgroundImage: card.img ? `url(${card.img})` : 'none' }"></div>
     <div class="card__description">
-      <div class="card__date">Дата добавления: {{ card.date }}</div>
-      <h3 class="card__title" :title="card.name">{{ card.name }}</h3>
+      <div class="card__date">Добавлено: {{ formatDate(card.createdAt) }}</div>
+      <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
       <div class="card__tags">
         <CommonTag v-for="tag in card.tags" :key="tag" :tag="tag" />
       </div>
@@ -44,6 +46,7 @@ defineProps<{
   &__image {
     width: 100%;
     aspect-ratio: 1.5;
+    background-color: #979797;
     background-size: cover;
     background-position: center;
     border-top-left-radius: var(--border-radius);

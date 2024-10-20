@@ -1,36 +1,25 @@
 <script setup lang="ts">
+import type { TRecipe } from '~/types/recipe';
+
 definePageMeta({
     layout: 'recipe'
 })
 
 const categories = useCategoryStore()
 
-const measures = [{ id: 0, value: 'мл', text: 'мл', name: 'measure' }, { id: 1, value: 'г', text: 'г', name: 'measure' }]
+const measures = [{ id: "0", value: 'мл', text: 'мл', name: 'measure' }, { id: "1", value: 'г', text: 'г', name: 'measure' }]
 
-type TIngrigient = {
-    name: string,
-    quantity: number,
-    measure: null
-}
 
-type TRecipe = {
-    category: string,
-    title: string,
-    ingridients: TIngrigient[],
-    description: string,
-    images?: []
-}
-
+// delete author in recipe when user is created
 
 const recipe = reactive<TRecipe>({
-    category: "",
+    category: { name: "", value: "", text: "" },
     title: "",
     ingridients: [],
     description: "",
     images: []
 });
 
-let count = 0
 const isDisabled = ref(true)
 
 const ingridient = ref({
@@ -66,9 +55,10 @@ function handleChange() {
 
 async function handleSubmit(evt: Event) {
     evt.preventDefault()
-    const body = {
-        ...recipe,
-        authorId: 1
+    console.log(recipe)
+
+    const body: TRecipe = {
+        ...recipe
     }
 
     try {
@@ -76,7 +66,7 @@ async function handleSubmit(evt: Event) {
             method: "POST",
             body
         })
-        navigateTo('/')
+        // navigateTo('/')
     } catch (error) {
         console.log(error)
     }
@@ -86,13 +76,14 @@ async function handleSubmit(evt: Event) {
 
 <template>
     <div class="container">
+        {{ recipe }}
         <CommonTitle title="Добавить рецепт" class="create__title" />
 
 
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="categories.categories" v-model="recipe.category" />
+                <CommonVSelect :options="categories.categories" v-model="recipe.category.value" />
 
             </div>
 

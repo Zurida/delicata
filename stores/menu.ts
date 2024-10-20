@@ -8,7 +8,7 @@ export const useCategoryStore = defineStore<string, { categories: TCategory[] }>
     async fetch() {
       try {
         const categories = await $fetch('/api/category')
-        this.categories = categories
+        this.categories = []
       }
       catch (e) {
         console.log(e)

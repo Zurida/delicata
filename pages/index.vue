@@ -3,62 +3,26 @@
 
 const menu = useCategoryStore()
 const { data: recipesGet } = await useFetch('/api/recipe')
-console.log('get', recipesGet)
-
-const recipes = []
-
-const c = [
-  {
-    id: 0,
-    name: 'Тост без авокадо',
-    date: '20.02.2020',
-    tags: ['Блюда из яиц', 'Завтраки', 'Блюда из яиц', 'Блюда из яиц', 'Блюда из яиц'],
-    img: '/img/tost.jpg'
-  },
-  {
-    id: 1,
-    name: 'Яичница',
-    date: '21.02.2020',
-    tags: ['Блюда из яиц'],
-    img: '/img/eggs.jpg'
-  },
-  {
-    id: 2,
-    name: 'Говядина, тушеная в сметанном соусе',
-    date: '22.02.2020',
-    tags: ['Вторые блюда'],
-    img: '/img/meat.jpg'
-  },
-  {
-    id: 3,
-    name: 'Говядина, тушеная в сметанном соусе',
-    date: '22.02.2020',
-    tags: ['Вторые блюда'],
-    img: '/img/meat.jpg'
-  },
-  {
-    id: 4,
-    name: 'Говядина, тушеная в сметанном соусе',
-    date: '22.02.2020',
-    tags: ['Вторые блюда'],
-    img: '/img/meat.jpg'
-  }
-]
-
 
 let currentId = ref(0);
 const searchVal = ref('')
-const cards = ref(c)
+const cards = ref(recipesGet)
 
 watch(searchVal, () => {
-  cards.value = c.filter(card => card.name.toLowerCase().includes(searchVal.value.toLowerCase()))
+  cards.value = recipesGet.filter(card => card.name.toLowerCase().includes(searchVal.value.toLowerCase()))
 })
 
-function setActiveId(id) {
-  currentId.value = id
+async function setActiveId(category) {
+  currentId.value = category.id
+
+  try {
+    const response = await $fetch(`/api/filterRecipes?category=${category.value}`)
+
+    cards.value = response
+  } catch (error) {
+    console.log(error)
+  }
 }
-
-
 
 </script>
 
@@ -69,7 +33,7 @@ function setActiveId(id) {
       <div class="aside__container">
         <Collapse v-for="category in menu.categories" :category="category" :class="{
           'is-visible': category.id === currentId
-        }" @click="setActiveId(category.id)" />
+        }" @click="setActiveId(category)" />
       </div>
     </aside>
     <div class="main">
@@ -78,7 +42,6 @@ function setActiveId(id) {
       </header>
 
       <div class="actions">
-        <!-- <CommonVLink to="/create" class="actions__link">+ Добавить рецепт</CommonVLink> -->
         <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
 
         <div class="actions__search search">

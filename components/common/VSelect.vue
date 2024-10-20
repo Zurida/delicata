@@ -38,10 +38,10 @@ useClickOutside(
             <i class="arrow right"></i>
         </button>
 
-        <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef">
-            <li role="option" v-for="option in options" @click="handleClick(option)">
-                <input type="radio" :id="`option-${option.name}-${option.id}`" :value="option.value" v-model="model" />
-                <label :for="`option-${option.name}-${option.id}`">{{ option.text }}</label>
+        <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef" v-if="options">
+            <li role="option" v-for="(option, index) in options" @click="handleClick(option)">
+                <input type="radio" :id="`option-${option.name}-${index}`" :value="option.value" v-model="model" />
+                <label :for="`option-${option.name}-${index}`">{{ option.text }}</label>
             </li>
         </ul>
     </div>
