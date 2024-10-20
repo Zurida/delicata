@@ -5,12 +5,9 @@ definePageMeta({
     layout: 'recipe'
 })
 
-const categories = useCategoryStore()
+const { data: measures } = await useFetch('/api/measures')
+const { categories } = useCategoryStore()
 
-const measures = [{ id: "0", value: 'мл', text: 'мл', name: 'measure' }, { id: "1", value: 'г', text: 'г', name: 'measure' }]
-
-
-// delete author in recipe when user is created
 
 const recipe = reactive<TRecipe>({
     category: "",
@@ -55,7 +52,6 @@ function handleChange() {
 
 async function handleSubmit(evt: Event) {
     evt.preventDefault()
-    console.log(recipe)
 
     const body: TRecipe = {
         ...recipe
@@ -66,7 +62,7 @@ async function handleSubmit(evt: Event) {
             method: "POST",
             body
         })
-        // navigateTo('/')
+        navigateTo('/')
     } catch (error) {
         console.log(error)
     }
@@ -76,14 +72,12 @@ async function handleSubmit(evt: Event) {
 
 <template>
     <div class="container">
-        {{ recipe }}
         <CommonTitle title="Добавить рецепт" class="create__title" />
-
 
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="categories.categories" v-model="recipe.category" />
+                <CommonVSelect :options="categories" v-model="recipe.category" />
 
             </div>
 
@@ -105,7 +99,6 @@ async function handleSubmit(evt: Event) {
                                 @click="removeIngridient(index)"></nuxt-icon></span>
                     </div>
                 </div>
-
                 <div class="ingridients__fields" @change="handleChange">
                     <CommonVInput v-model:model="ingridient.name" type="text" placeholder="Введите ингридиент" />
                     <CommonVInput v-model:model="ingridient.quantity" type="number" placeholder="Введите количество" />

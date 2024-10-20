@@ -34,7 +34,6 @@ model Recipe {
 
 model Category {
   id    String  @id @default(uuid())
-  name  String? @default("category")
   value String
   text  String?
 }
@@ -59,5 +58,4 @@ model Measure {
   id    String @id @default(uuid())
   value String
   text  String
-  name  String
 }
