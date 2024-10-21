@@ -9,6 +9,11 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 Swiper.use([Thumbs, FreeMode, Navigation]);
 
 
+const { params: { id } } = useRoute();
+
+const { status, data: recipe } = await useLazyAsyncData('count', () => $fetch(`/api/recipe/${id}`))
+
+
 const ingridients = ref([
     {
         name: "Хлеб",
@@ -55,20 +60,24 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="container recipe">
-        <h2 class="recipe__title title">Тост с авокадо</h2>
 
-        <div class="recipe__timing">
+
+    <div class="container recipe">
+        <!-- {{ status === 'pending' ? 'Loading' : recipe }} -->
+
+        <h2 class="recipe__title title">{{ recipe.title }}</h2>
+
+        <!-- <div class="recipe__timing">
             <NuxtIcon name="clock" class="icon-clock" />
             <p>5-7 минут</p>
-        </div>
+        </div> -->
 
         <div class="recipe__tags">
             <CommonTag v-for="tag in 4"></CommonTag>
         </div>
 
         <div class="recipe__columns">
-            <div class="recipe__slider">
+            <div class="recipe__slider" v-if="recipe.images">
 
                 <div class="swiper gallery-main">
                     <div class="swiper-wrapper">
@@ -125,11 +134,11 @@ onMounted(() => {
                 </div>
 
                 <div class="recipe__list">
-                    <div class="recipe__item" v-for="ingridient in ingridients" :key="ingridient.name">
+                    <div class="recipe__item" v-for="ingridient in recipe.ingridients" :key="ingridient.name">
                         <CommonVCheckbox class="recipe__checkbox" :label="ingridient.name" v-model="selectedIngridients"
                             :value="ingridient" />
 
-                        -<span class="recipe__mesure">{{ ingridient.number }} {{ ingridient.mesure }}</span>
+                        -<span class="recipe__mesure">{{ ingridient.quantity }} {{ ingridient.measure }}</span>
                     </div>
                 </div>
             </div>
@@ -143,11 +152,7 @@ onMounted(() => {
         <div class="recipe__description">
             <h4>Способ приготовления:</h4>
             <ol class="recipe__steps">
-                <li>В очищенную мякоть авокадо добавляем соль, перец, сок лимона, сок лайма и разминаем. </li>
-                <li>В очищенную мякоть авокадо добавляем соль, перец, сок лимона, сок лайма и разминаем. </li>
-                <li>В очищенную мякоть авокадо добавляем соль, перец, сок лимона, сок лайма и разминаем. </li>
-
-
+                <li>{{ recipe.description }}</li>
             </ol>
         </div>
 

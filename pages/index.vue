@@ -52,7 +52,7 @@ async function setActiveId(category) {
       </div>
 
       <div class="cards">
-        <CommonCard v-for="card in cards" :card="card" :to="`/recipe-${card.id + 1}`" />
+        <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
       </div>
     </div>
   </div>
