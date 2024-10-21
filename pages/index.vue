@@ -8,9 +8,9 @@ let currentId = ref(0);
 const searchVal = ref('')
 const cards = ref(recipesGet)
 
-watch(searchVal, () => {
-  cards.value = recipesGet.filter(card => card.name.toLowerCase().includes(searchVal.value.toLowerCase()))
-})
+// watch(searchVal, () => {
+//   cards.value = recipesGet.value.filter(card => card.title.toLowerCase().includes(searchVal.value.toLowerCase()))
+// })
 
 async function setActiveId(category) {
   currentId.value = category.id
@@ -45,9 +45,9 @@ async function setActiveId(category) {
         <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
 
         <div class="actions__search search">
-          <div class="search__field">
+          <!-- <div class="search__field">
             <CommonVInput v-model="searchVal" type="text"></CommonVInput>
-          </div>
+          </div> -->
         </div>
       </div>
 

@@ -10,26 +10,8 @@ Swiper.use([Thumbs, FreeMode, Navigation]);
 
 
 const { params: { id } } = useRoute();
-
 const { status, data: recipe } = await useLazyAsyncData('count', () => $fetch(`/api/recipe/${id}`))
 
-
-const ingridients = ref([
-    {
-        name: "Хлеб",
-        number: 2,
-        mesure: "шт"
-    },
-    {
-        name: "Авокадо",
-        number: 1,
-        mesure: "шт"
-    },
-    {
-        name: "Яйцо",
-        number: 1,
-        mesure: "шт"
-    }])
 
 const selectedIngridients = ref([]);
 
@@ -56,8 +38,6 @@ onMounted(() => {
     initSlider()
 })
 
-
-
 </script>
 <template>
 
@@ -65,7 +45,7 @@ onMounted(() => {
     <div class="container recipe">
         <!-- {{ status === 'pending' ? 'Loading' : recipe }} -->
 
-        <h2 class="recipe__title title">{{ recipe.title }}</h2>
+        <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
 
         <!-- <div class="recipe__timing">
             <NuxtIcon name="clock" class="icon-clock" />
