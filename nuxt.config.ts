@@ -43,5 +43,14 @@ export default defineNuxtConfig({
       }
     }
   },
-  compatibilityDate: '2024-07-17'
+  compatibilityDate: '2024-07-17',
+  vite: {
+    css: {
+      preprocessorOptions: {
+        sass: {
+          api: 'modern'
+        }
+      },
+    },
+  }
 })
