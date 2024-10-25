@@ -1,5 +1,5 @@
 
-import { prisma } from '../../../prisma/db'
+import { prisma } from "~/prisma/db"
 
 export default defineEventHandler(async (event) => {
     const { context } = event;
