@@ -45,7 +45,7 @@ onMounted(() => {
     <div class="container recipe">
         <!-- {{ status === 'pending' ? 'Loading' : recipe }} -->
 
-        <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
+        <h2 class="recipe__title title">{{ recipe.title }}</h2>
 
         <!-- <div class="recipe__timing">
             <NuxtIcon name="clock" class="icon-clock" />
