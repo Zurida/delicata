@@ -683,7 +683,7 @@ const _routes = [
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CPVksHhF.mjs')
+    component: () => import('./index-B0e22wqX.mjs')
   },
   {
     name: "login",
@@ -694,7 +694,7 @@ const _routes = [
     name: "recipe-id",
     path: "/recipe/:id()",
     meta: __nuxt_page_meta || {},
-    component: () => import('./_id_-jB-xvcsH.mjs')
+    component: () => import('./_id_-D7gFTIjJ.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
