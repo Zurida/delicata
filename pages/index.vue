@@ -1,29 +1,6 @@
 <script setup>
 
 
-const menu = useCategoryStore()
-const { data: recipesGet } = await useFetch('/api/recipe')
-
-let currentId = ref(0);
-const searchVal = ref('')
-const cards = ref(recipesGet)
-
-// watch(searchVal, () => {
-//   cards.value = recipesGet.value.filter(card => card.title.toLowerCase().includes(searchVal.value.toLowerCase()))
-// })
-
-async function setActiveId(category) {
-  currentId.value = category.id
-
-  try {
-    const response = await $fetch(`/api/filterRecipes?category=${category.value}`)
-
-    cards.value = response
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 </script>
 
 <template>
