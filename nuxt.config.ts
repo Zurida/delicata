@@ -21,6 +21,10 @@ export default defineNuxtConfig({
   ],
 
   nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: false,
+    },
     storage: {
       users: {
         driver: 'memory',
@@ -52,8 +56,5 @@ export default defineNuxtConfig({
         }
       },
     },
-  },
-  experimental: {
-    payloadExtraction: false
   }
 })
