@@ -22,8 +22,8 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      crawlLinks: true,
-      failOnError: false,
+      concurrency: 250,
+      interval: 100,
     },
     storage: {
       users: {
