@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "homepage": "./",
+  "homepage": "https://zurida.github.io/cookBook/",
   "dependencies": {
     "nuxt": "^3.14.0",
     "vue": "latest",
