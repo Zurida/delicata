@@ -1,5 +1,10 @@
+<script setup>
+const categories = useCategoryStore()
+await callOnce(categories.fetch)
+</script>
+
 <template>
-  <div>
-    This is cookbook
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
