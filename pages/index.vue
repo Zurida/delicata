@@ -42,7 +42,6 @@ async function setActiveId(category) {
       </header>
 
       <div class="actions">
-        <NuxtLink to="/create" class="actions__link">+ Добавить рецепт</NuxtLink>
 
         <div class="actions__search search">
           <!-- <div class="search__field">
