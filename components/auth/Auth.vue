@@ -97,7 +97,7 @@ onMounted(() => {
             </h1>
 
             <div class="auth__buttons">
-                <CommonVButton class="auth__btn" to="/">Войти</CommonVButton>
+                <CommonVButton class="auth__btn">Войти</CommonVButton>
                 <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
             </div>
         </div>

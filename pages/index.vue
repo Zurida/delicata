@@ -42,7 +42,7 @@ async function setActiveId(category) {
       </header>
 
       <div class="actions">
-        <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
+        <NuxtLink to="/create" class="actions__link">+ Добавить рецепт</NuxtLink>
 
         <div class="actions__search search">
           <!-- <div class="search__field">
@@ -52,7 +52,7 @@ async function setActiveId(category) {
       </div>
 
       <div class="cards">
-        <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
+        <CommonCard v-for="card in cards" :card="card" />
       </div>
     </div>
   </div>

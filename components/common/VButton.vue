@@ -1,29 +1,17 @@
 <script setup>
 const props = defineProps({
-    to: String,
-    href: String,
     small: Boolean,
     disabled: Boolean,
-    type: {
-        type: String,
-        default() {
-            return 'button'
-        }
-    }
 })
 
-const component = computed(() => {
-    return props.to || props.href ? resolveComponent('NuxtLink') : 'button'
-})
 
 
 </script>
 
 <template>
-    <component :is="component" :to="to" class="VButton" :class="{ 'VButton--small': small, 'is-disabled': disabled }"
-        :disabled="disabled" :type="type">
+    <button class="VButton" :class="{ 'VButton--small': small, 'is-disabled': disabled }" :disabled="disabled">
         <slot></slot>
-    </component>
+    </button>
 </template>
 
 <style scoped lang="scss">

@@ -19,8 +19,8 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink :to="to" class="card">
-    <div class="card__image" :style="{ backgroundImage: card.img ? `url(${card.img})` : 'none' }"></div>
+  <div class="card">
+    <div class="card__image"></div>
     <div class="card__description">
       <div class="card__date">Добавлено: {{ formatDate(card.createdAt) }}</div>
       <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
@@ -28,7 +28,7 @@ defineProps<{
         <CommonTag v-for="tag in card.tags" :key="tag" :tag="tag" />
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>
 
 <style lang="scss" scoped>
