@@ -2,20 +2,20 @@
 
 
 const menu = useCategoryStore()
-const { data: recipesGet } = await useFetch('/api/recipe')
+// const { data: recipesGet } = await useFetch('/api/recipe')
 
 let currentId = ref(0);
 const searchVal = ref('')
-const cards = ref(recipesGet)
+// const cards = ref(recipesGet)
 
 
 async function setActiveId(category) {
   currentId.value = category.id
 
   try {
-    const response = await $fetch(`/api/filterRecipes?category=${category.value}`)
+    // const response = await $fetch(`/api/filterRecipes?category=${category.value}`)
 
-    cards.value = response
+    // cards.value = response
   } catch (error) {
     console.log(error)
   }
@@ -28,9 +28,7 @@ async function setActiveId(category) {
     <aside class="aside reverse">
       <h2>Категории</h2>
       <div class="aside__container">
-        <Collapse v-for="category in menu.categories" :category="category" :class="{
-          'is-visible': category.id === currentId
-        }" @click="setActiveId(category)" />
+
       </div>
     </aside>
     <div class="main">
