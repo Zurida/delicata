@@ -1,3 +1,5 @@
 <template>
-  my app
+  <div>
+    this is cookbook
+  </div>
 </template>
