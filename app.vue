@@ -3,5 +3,7 @@
 </script>
 
 <template>
-  <div>this is app</div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
