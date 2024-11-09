@@ -1,9 +1,39 @@
+<script setup>
+
+
+const menu = useCategoryStore()
+const { data: recipesGet } = await useFetch('/api/recipe')
+
+let currentId = ref(0);
+const searchVal = ref('')
+const cards = ref(recipesGet)
+
+// watch(searchVal, () => {
+//   cards.value = recipesGet.value.filter(card => card.title.toLowerCase().includes(searchVal.value.toLowerCase()))
+// })
+
+async function setActiveId(category) {
+  currentId.value = category.id
+
+  try {
+    const response = await $fetch(`/api/filterRecipes?category=${category.value}`)
+
+    cards.value = response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+</script>
+
 <template>
   <div class="home">
     <aside class="aside reverse">
       <h2>Категории</h2>
       <div class="aside__container">
-
+        <Collapse v-for="category in menu.categories" :category="category" :class="{
+          'is-visible': category.id === currentId
+        }" @click="setActiveId(category)" />
       </div>
     </aside>
     <div class="main">
@@ -12,13 +42,17 @@
       </header>
 
       <div class="actions">
-        <!-- <NuxtLink to="/create" class="actions__link">+ Добавить рецепт</NuxtLink> -->
+        <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
 
         <div class="actions__search search">
+          <!-- <div class="search__field">
+            <CommonVInput v-model="searchVal" type="text"></CommonVInput>
+          </div> -->
         </div>
       </div>
 
       <div class="cards">
+        <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
       </div>
     </div>
   </div>
