@@ -1,7 +1,14 @@
 <script setup>
 const canvas = ref(null)
+const titles = ['cook', 'book']
+
+
+function transformTitle(refTitle) {
+    refTitle.value = refTitle.value.split('')
+}
 
 onMounted(() => {
+
     const canvasVal = canvas.value;
     const ctx = canvas.value.getContext('2d')
 
@@ -12,23 +19,22 @@ onMounted(() => {
     const htmlRoot = document.querySelector(':root');
     const rootStyles = getComputedStyle(htmlRoot);
 
-    // const colors = ['#FFD037', '#255735', '#E83C3C']
     const colors = [rootStyles.getPropertyValue('--main-1'), rootStyles.getPropertyValue('--main-2'), rootStyles.getPropertyValue('--main-3')]
 
     class Particle {
         constructor(effect) {   // every particle will expect a reference pointing to the main effect object. We are not creating copies of the effect, 
 
-            this.effect = effect   //just pointing to that sane effect class from multiple places 
-            this.radius = Math.random() * 20 + 80
+            this.effect = effect   //just pointing to that same effect class from multiple places 
+            this.radius = Math.random() * 20 + 10
             this.x = this.radius + Math.random() * (this.effect.width - this.radius * 2) // расчеты, чтобы круги были видны полностью и не разрывались экраном по краям
             this.y = this.radius + Math.random() * (this.effect.height - this.radius * 2)
-            this.vx = Math.random() * 4 - 2 // velocity  
-            this.vy = Math.random() * 4 - 2 // velocity  
+            this.vx = Math.random() * 2 - 1 // velocity  
+            this.vy = Math.random() * 2 - 1 // velocity  
             this.color = Math.floor(Math.random() * 3)
         }
 
         draw(context) { // defines what each particle looks like
-            ctx.globalAlpha = 0.2;
+            ctx.globalAlpha = 0.3;
 
 
             ctx.fillStyle = colors[this.color]
@@ -56,7 +62,7 @@ onMounted(() => {
             this.width = this.canvas.width
             this.height = this.canvas.height
             this.particles = []
-            this.numberOfParticles = 4
+            this.numberOfParticles = 30
             this.createParticles()
         }
 
@@ -92,8 +98,11 @@ onMounted(() => {
         <canvas ref="canvas"></canvas>
         <div class="container">
             <h1 class="auth__heading">
-                <span>COOK</span>
-                <span>BOOK</span>
+                <p v-for="(title, index) in titles" :key="`title-${title}`">
+                    <span v-for="(letter, i) in title" :key="`title${index}-letter-${i}`"
+                        :style="`animation-delay: 0.${i + 2}s`">{{
+                            letter }}</span>
+                </p>
             </h1>
 
             <div class="auth__buttons">
@@ -122,19 +131,24 @@ canvas {
 
 .auth {
     &__heading {
-        font-size: 18rem;
+        font-size: 14rem;
         line-height: 1;
         color: var(--white-soft);
 
         span {
-            display: block;
+            display: inline-block;
+            text-transform: uppercase;
             font-weight: 700;
+            scale: 1.5;
+            opacity: 0;
+            animation: transformLetter 2s ease;
+            animation-fill-mode: forwards;
+        }
 
-            &:last-child {
-                margin-top: -7rem;
-                opacity: 0.5;
-                padding-left: 2rem;
-            }
+        p:last-child {
+            margin-top: -7rem;
+            opacity: 0.5;
+            padding-left: 2rem;
         }
     }
 
@@ -150,6 +164,13 @@ canvas {
         &:last-child {
             margin-left: 2rem;
         }
+    }
+}
+
+@keyframes transformLetter {
+    100% {
+        opacity: 1;
+        scale: 1;
     }
 }
 </style>
