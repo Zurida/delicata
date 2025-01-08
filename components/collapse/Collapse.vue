@@ -59,7 +59,7 @@ function setActiveId(id: number) {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: var(--gap) var(--gap) var(--gap-small) var(--gap);
+        padding: 0 var(--gap) var(--gap);
         font-size: 1.8rem;
         font-weight: 700;
         transition: color 0.4s;

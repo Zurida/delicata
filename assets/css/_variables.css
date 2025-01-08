@@ -1,0 +1,23 @@
+:root {
+    --fs-sm: 12px;
+    --fs-md: 11px;
+    --fs-lg: 10px;
+    --fs-xl: 12px;
+    --white: #ffffff;
+
+    /* --black: #001524; */
+    --black: #2a3a42;
+
+    --main-1: #f95738;
+    --main-2: #e8dab2;
+    --main-3: #f95738;
+    --text-light: var(--white);
+    --text-dark: var(--black);
+    --header-height: 4.8rem;
+}
+
+:root {
+    --color-background: var(--black);
+    --border-radius: 0.4rem;
+    --gap: 2.4rem;
+}

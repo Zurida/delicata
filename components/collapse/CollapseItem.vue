@@ -20,7 +20,7 @@ const emit = defineEmits<{
 
 <style scoped>
 li {
-    padding: calc(var(--gap-small) / 3) 0;
+    padding: calc(var(--gap) / 3) 0;
     transition: color 0.4s;
 
     &.is-active {

@@ -38,7 +38,6 @@ defineProps<{
   border-radius: var(--border-radius);
   transition: box-shadow 0.4s;
 
-  /* color: var(--black-soft); */
   &:hover {
     box-shadow: 0 0 20px 0 rgba(150, 150, 150, 0.623);
   }
@@ -46,7 +45,7 @@ defineProps<{
   &__image {
     width: 100%;
     aspect-ratio: 1.5;
-    background-color: #979797;
+    background-color: #9ea4a7;
     background-size: cover;
     background-position: center;
     border-top-left-radius: var(--border-radius);

@@ -28,31 +28,42 @@ async function setActiveId(category) {
 
 <template>
   <div class="home">
-    <aside class="aside reverse">
-      <h2>Категории</h2>
-      <div class="aside__container">
-        <Collapse v-for="category in menu.categories" :category="category" :class="{
-          'is-visible': category.id === currentId
-        }" @click="setActiveId(category)" />
-      </div>
-    </aside>
-    <div class="main">
-      <header>
-        <h1>Доска рецептов</h1>
-      </header>
+    <div class="home__header">
+      <p class="logo">DELICATA</p>
 
-      <div class="actions">
-        <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
-
-        <div class="actions__search search">
-          <!-- <div class="search__field">
-            <CommonVInput v-model="searchVal" type="text"></CommonVInput>
-          </div> -->
+    </div>
+    <div class="home__content">
+      <aside class="aside reverse">
+        <h2>Категории</h2>
+        <div class="aside__container">
+          <Collapse v-for="category in menu.categories" :category="category" :class="{
+            'is-visible': category.id === currentId
+          }" @click="setActiveId(category)" />
         </div>
-      </div>
+        <div class="btn">
+          <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
+        </div>
+      </aside>
+      <div class="main">
+        <header>
+          <h1>Доска рецептов</h1>
+          <div class="actions__search search">
+            <div class="search__field">
+              <CommonVInput v-model="searchVal" type="text"></CommonVInput>
+            </div>
+          </div>
+        </header>
 
-      <div class="cards">
-        <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
+        <div class="actions">
+          <p>Моя доска</p>
+          <p>Меню на неделю</p>
+          <p>Все рецепты</p>
+
+        </div>
+
+        <div class="cards">
+          <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
+        </div>
       </div>
     </div>
   </div>
@@ -61,36 +72,65 @@ async function setActiveId(category) {
 
 
 <style scoped lang="scss">
-.home {
+.btn {
   display: flex;
-  min-height: 100vh;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: var(--gap);
+}
+
+.logo {
+  font-size: 2rem;
+}
+
+.home {
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: var(--gap);
+    height: var(--header-height);
+    background-color: var(--white);
+    box-shadow: 0 0 5px 5px rgb(37, 37, 37);
+  }
+
+  &__content {
+    display: flex;
+    min-height: calc(100vh - var(--header-height));
+  }
 }
 
 header {
   margin-bottom: calc(var(--gap) / 2);
+  display: flex;
+  align-items: center;
 }
 
 h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
+  font-size: 2rem;
   text-transform: uppercase;
 }
 
 .actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: var(--gap);
 
   &__link {
+    display: inline-flex;
     font-size: 1.2rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__search {
+    margin-left: auto;
   }
 }
 
 .main {
   flex: 1;
   padding: var(--gap);
-  background-color: var(--white-soft);
+  background-color: #EFF2F4;
 }
 
 .cards {
@@ -102,15 +142,16 @@ h1 {
 
 
 .aside {
+  display: flex;
+  flex-direction: column;
   width: 22rem;
+  background-color: var(--black);
 
   h2 {
     padding: var(--gap);
-    border-bottom: 1px solid gray;
-    font-size: 2.4rem;
-    font-weight: 600;
+    font-size: 2rem;
     text-transform: uppercase;
-    color: var(--white-soft);
+    color: var(--white);
   }
 }
 </style>

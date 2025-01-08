@@ -23,6 +23,6 @@ defineProps({
     font-size: .6rem;
     line-height: 1;
     letter-spacing: 0.05rem;
-    color: var(--black-soft);
+    color: var(--black);
 }
 </style>

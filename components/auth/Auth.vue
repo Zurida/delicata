@@ -1,6 +1,6 @@
 <script setup>
 const canvas = ref(null)
-const titles = ['cook', 'book']
+const titles = ['DELICATA']
 
 
 function transformTitle(refTitle) {
@@ -11,7 +11,6 @@ onMounted(() => {
 
     const canvasVal = canvas.value;
     const ctx = canvas.value.getContext('2d')
-
     canvasVal.width = innerWidth;
     canvasVal.height = innerHeight
 
@@ -34,7 +33,7 @@ onMounted(() => {
         }
 
         draw(context) { // defines what each particle looks like
-            ctx.globalAlpha = 0.3;
+            ctx.globalAlpha = 0.5;
 
 
             ctx.fillStyle = colors[this.color]
@@ -98,6 +97,7 @@ onMounted(() => {
         <canvas ref="canvas"></canvas>
         <div class="container">
             <h1 class="auth__heading">
+
                 <p v-for="(title, index) in titles" :key="`title-${title}`">
                     <span v-for="(letter, i) in title" :key="`title${index}-letter-${i}`"
                         :style="`animation-delay: 0.${i + 2}s`">{{
@@ -106,7 +106,7 @@ onMounted(() => {
             </h1>
 
             <div class="auth__buttons">
-                <CommonVButton class="auth__btn">Войти</CommonVButton>
+                <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
                 <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
             </div>
         </div>
@@ -120,6 +120,11 @@ canvas {
     left: 0;
 }
 
+svg {
+    width: 100px;
+    height: 100px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -131,9 +136,9 @@ canvas {
 
 .auth {
     &__heading {
-        font-size: 14rem;
+        font-size: 10rem;
         line-height: 1;
-        color: var(--white-soft);
+        color: var(--white);
 
         span {
             display: inline-block;

@@ -1,34 +1,4 @@
-:root {
-    --white: #ffffff;
-    --white-soft: #eae3e3;
-
-    --black: #252B42;
-    --black-soft: #30353B;
-    /* --black-mute: #282828; */
-
-    --main-1: #E83C3C;
-    --main-2: #255735;
-    --main-3: #FFD037;
-
-    --divider: rgba(60, 60, 60, 0.29);
-
-    --text-light: var(--white-soft);
-    --text-dark: var(--black);
-}
-
-/* semantic color variables for this project */
-:root {
-    --color-background: var(--black-soft);
-    --color-background-soft: var(--white-soft);
-
-    --color-border: var(--divider);
-    /* --color-border-hover: var(--divider-light); */
-
-    --section-gap: 8rem;
-    --border-radius: 0.5rem;
-    --gap: 1.8rem;
-    --gap-small: 0.9rem;
-}
+@import "_variables.css";
 
 *,
 *::before,
@@ -39,17 +9,25 @@
 }
 
 html {
-    font-size: 10px;
+    font-size: var(--fs-lg);
     line-height: 1;
+
+    @media screen and (767px < width <1440px) {
+        font-size: var(--fs-md);
+    }
+
+    @media screen and (319px <width <768px) {
+        font-size: var(--fs-sm);
+    }
 }
 
 body {
     min-height: 100vh;
     /* overflow: hidden; */
     color: var(--text-dark);
-    background: var(--color-background);
+    background: #EFF2F4;
     transition: color 0.5s, background-color 0.5s;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -68,7 +46,7 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--black-soft);
+    color: var(--black);
     cursor: pointer;
 }
 
