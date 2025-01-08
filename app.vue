@@ -5,6 +5,7 @@ await callOnce(categories.fetch)
 
 <template>
   <NuxtLayout>
+    <LayoutHeader />
     <NuxtPage />
   </NuxtLayout>
 </template>

@@ -19,15 +19,18 @@ html {
     @media screen and (319px <width <768px) {
         font-size: var(--fs-sm);
     }
+
+    @media screen and (width > 1920px) {
+        font-size: var(--fs-xl);
+    }
 }
 
 body {
     min-height: 100vh;
-    /* overflow: hidden; */
-    color: var(--text-dark);
+    color: var(--black);
     background: #EFF2F4;
     transition: color 0.5s, background-color 0.5s;
-    font-family: 'Epilogue', sans-serif;
+    font-family: 'Advent Pro', sans-serif;
     line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -35,7 +38,7 @@ body {
 }
 
 .reverse {
-    color: var(--text-light);
+    color: var(--white);
 }
 
 
@@ -50,6 +53,10 @@ a {
     cursor: pointer;
 }
 
+ul {
+    padding: 0;
+}
+
 li {
     list-style: none;
 }
@@ -59,6 +66,14 @@ button {
     outline: none;
     font-family: inherit;
     cursor: pointer;
+}
+
+h2 {
+    font-size: var(--h2);
+}
+
+h4 {
+    font-size: var(--h4);
 }
 
 .title {

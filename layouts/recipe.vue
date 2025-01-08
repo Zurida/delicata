@@ -14,8 +14,7 @@
 <style scoped lang="scss">
 .recipe {
     min-height: 100vh;
-    padding: 1rem 1.5rem;
-    background-color: var(--white-soft);
+    background-color: var(--white);
 
     &-link {
         max-width: 80rem;

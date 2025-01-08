@@ -9,16 +9,12 @@ export default defineNuxtConfig({
   // },
   css: ['~/assets/css/main.css'],
 
-  modules: [
-    ['@nuxtjs/google-fonts', {
-      families: {
-        Montserrat: true,
-        Nunito: true,
-      }
-    }],
-    'nuxt-icons',
-    '@pinia/nuxt'
-  ],
+  modules: [['@nuxtjs/google-fonts', {
+    families: {
+      Montserrat: true,
+      Nunito: true,
+    }
+  }], 'nuxt-icons', '@pinia/nuxt', '@nuxt/fonts'],
 
   nitro: {
     storage: {
