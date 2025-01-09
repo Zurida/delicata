@@ -88,11 +88,11 @@ async function setActiveId(category) {
   }
 }
 
-header {
-  margin-bottom: var(--gap);
-  display: flex;
-  align-items: center;
-}
+// header {
+//   margin-bottom: var(--gap);
+//   display: flex;
+//   align-items: center;
+// }
 
 h4 {
   text-transform: uppercase;
@@ -105,7 +105,7 @@ h4 {
 
   &__link {
     display: inline-flex;
-    font-size: 1.2rem;
+    font-size: var(--fs-small);
     margin-left: auto;
     margin-right: auto;
   }
@@ -141,11 +141,12 @@ h4 {
 
   &__nav {
     display: flex;
+    margin-top: var(--gap-sm);
     margin-bottom: var(--gap);
 
     li {
       margin-right: 1rem;
-      font-size: 1.6rem;
+      font-size: var(--fs-base);
       cursor: pointer;
       transition: color .4s;
 

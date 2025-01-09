@@ -29,5 +29,6 @@
     --h2: 4.8rem;
     --h3: 3.6rem;
     --h4: 2.6rem;
-    --text-main: 1.6rem;
+    --fs-base: 1.6rem;
+    --fs-small: 1.2rem;
 }

@@ -19,7 +19,7 @@
     &-link {
         max-width: 80rem;
         margin-inline: auto;
-        font-size: 1.6rem;
+        font-size: var(--fs-base);
         font-weight: 500;
         color: var(--main-2);
         transition: color .4s;

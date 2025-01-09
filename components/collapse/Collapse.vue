@@ -51,9 +51,6 @@ function setActiveId(id: number) {
         }
 
         .collapse__item {
-            // color: var(--main-3);
-            // background-color: #2f4f4f;
-
             &:after {
                 transform: scaleY(1) translateY(0);
             }
@@ -117,7 +114,7 @@ function setActiveId(id: number) {
     }
 
     &__list {
-        font-size: 1.6rem;
+        font-size: var(--fs-base);
         overflow: hidden;
     }
 }

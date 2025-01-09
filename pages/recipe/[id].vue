@@ -168,7 +168,7 @@ onMounted(() => {
 
     &__item {
         display: flex;
-        font-size: 1.6rem;
+        font-size: var(--fs-base);
 
         &:not(:last-child) {
             margin-bottom: 1rem;
@@ -195,7 +195,7 @@ onMounted(() => {
     }
 
     &__steps {
-        font-size: 1.6rem;
+        font-size: var(--fs-base);
 
         li {
             list-style: decimal;

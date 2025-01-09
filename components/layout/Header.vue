@@ -1,9 +1,16 @@
 <script setup lang="ts">
+const isActive = ref(false);
 
+function handleClick() {
+    isActive.value = !isActive.value
+}
 </script>
 
 <template>
     <header class="header">
+        <Transition>
+            <div class="header__overlay" @click="isActive = false" v-if="isActive"></div>
+        </Transition>
         <nuxt-link to="/" class="header__logo">
             <CommonVLogo />
             <p>DELICATA</p>
@@ -13,8 +20,13 @@
             <li>Меню на неделю</li>
         </ul>
 
+
         <div class="header__user">
-            <IconsIconUser></IconsIconUser>
+            <UserInfo />
+            <UserAvatar @click="handleClick" :is-active="isActive" />
+            <Transition>
+                <UserPopup v-if="isActive"></UserPopup>
+            </Transition>
         </div>
     </header>
 </template>
@@ -32,23 +44,6 @@
     background-color: var(--white);
     box-shadow: 0 11px 7px -11px rgb(37, 37, 37);
 
-    &__menu {
-        display: flex;
-        font-size: var(--text-main);
-        gap: 1rem;
-        font-size: 1.8rem;
-        text-transform: uppercase;
-
-        li {
-            cursor: pointer;
-            transition: color .4s;
-
-            &:hover {
-                color: var(--main-1);
-            }
-        }
-    }
-
     &__logo {
         display: flex;
         align-items: center;
@@ -64,21 +59,46 @@
         }
     }
 
+    &__menu {
+        display: flex;
+        font-size: var(--fs-base);
+        gap: 1rem;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+
+        li {
+            cursor: pointer;
+            transition: color .4s;
+
+            &:hover {
+                color: var(--main-1);
+            }
+        }
+    }
+
     &__user {
+        position: relative;
         display: flex;
         align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        width: 3.8rem;
-        aspect-ratio: 1;
-        padding: .6rem;
-        background-color: gray;
-        border-radius: 50%;
 
-        svg {
-            width: 100%;
-            height: 100%;
+        .user-avatar {
+            flex: none;
+            margin-left: 1rem;
         }
+    }
+
+    .user-popup {
+        top: 120%;
+        right: 0;
+    }
+
+    &__overlay {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
     }
 }
 </style>
