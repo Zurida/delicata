@@ -32,6 +32,7 @@ async function setActiveId(category) {
       <aside class="aside reverse">
         <h4>Категории</h4>
         <div class="aside__container">
+          <Collapse :category="{ id: 0, text: 'Все категории' }"></Collapse>
           <Collapse v-for="category in menu.categories" :category="category" :class="{
             'is-visible': category.id === currentId
           }" @click="setActiveId(category)" />
@@ -42,7 +43,7 @@ async function setActiveId(category) {
       </aside>
       <div class="main">
         <header>
-          <h4>Доска рецептов</h4>
+          <!-- <h4>Доска рецептов</h4> -->
           <!-- <div class="actions__search search">
             <div class="search__field">
               <CommonVInput v-model="searchVal" type="text"></CommonVInput>
@@ -51,10 +52,9 @@ async function setActiveId(category) {
         </header>
 
         <ul class="main__nav">
-          <li>Моя доска</li>
-          <li>Меню на неделю</li>
+          <li>Мои рецепты</li>
           <li>Все рецепты</li>
-
+          <!-- <li>Меню на неделю</li> -->
         </ul>
 
         <div class="cards">
@@ -119,7 +119,7 @@ h4 {
   position: sticky;
   display: flex;
   flex-direction: column;
-  width: 22rem;
+  width: 19rem;
   height: 100vh;
   padding-top: calc(var(--header-height) + var(--gap-sm));
   background-color: var(--black);

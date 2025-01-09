@@ -24,7 +24,7 @@ li {
     transition: color 0.4s;
 
     &.is-active {
-        color: var(--main-3)
+        color: var(--main-3);
     }
 
     &:hover {

@@ -8,10 +8,13 @@
             <CommonVLogo />
             <p>DELICATA</p>
         </nuxt-link>
-        <div class="header__actions">
-            <div class="header__user">
-                <IconsIconUser></IconsIconUser>
-            </div>
+        <ul class="header__menu">
+            <li>Доска рецептов</li>
+            <li>Меню на неделю</li>
+        </ul>
+
+        <div class="header__user">
+            <IconsIconUser></IconsIconUser>
         </div>
     </header>
 </template>
@@ -22,11 +25,29 @@
     width: 100%;
     z-index: 1;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 0 var(--gap);
     height: var(--header-height);
     background-color: var(--white);
     box-shadow: 0 11px 7px -11px rgb(37, 37, 37);
+
+    &__menu {
+        display: flex;
+        font-size: var(--text-main);
+        gap: 1rem;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+
+        li {
+            cursor: pointer;
+            transition: color .4s;
+
+            &:hover {
+                color: var(--main-1);
+            }
+        }
+    }
 
     &__logo {
         display: flex;
@@ -41,10 +62,6 @@
         p {
             font-weight: 300;
         }
-    }
-
-    &__actions {
-        margin-left: auto;
     }
 
     &__user {

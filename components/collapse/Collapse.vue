@@ -27,7 +27,7 @@ function setActiveId(id: number) {
 
 <template>
     <div class="collapse">
-        <div class="collapse__heading" @click="emit('click')">
+        <div class="collapse__item" @click="emit('click')">
             <div class="collapse__title">{{ category.text }}</div>
             <!-- <span class="collapse__icon"></span> -->
         </div>
@@ -50,24 +50,52 @@ function setActiveId(id: number) {
             grid-template-rows: 1fr;
         }
 
-        .collapse__heading {
-            color: var(--main-3);
+        .collapse__item {
+            // color: var(--main-3);
+            // background-color: #2f4f4f;
+
+            &:after {
+                transform: scaleY(1) translateY(0);
+            }
         }
     }
 
-    &__heading {
+    &__item {
+        position: relative;
+        z-index: 2;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 var(--gap) var(--gap);
+        padding: calc(var(--gap) / 1.4) var(--gap);
         font-size: 1.8rem;
         font-weight: 700;
         transition: color 0.4s;
+        overflow: hidden;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #2f4f4f;
+            transform: scaleY(0) translateX(-102%);
+            transition: all 0.4s;
+            z-index: 1;
+            border-radius: 0;
+        }
 
         &:hover {
             cursor: pointer;
             color: var(--main-3);
         }
+    }
+
+    &__title {
+        position: relative;
+        z-index: 2;
     }
 
     &__icon {
