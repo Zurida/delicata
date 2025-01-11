@@ -22,7 +22,7 @@ const props = defineProps<{
     padding: .6rem;
     background-color: gray;
     border-radius: 10%;
-    transition: all .4s;
+    transition: all .3s;
 
     &:hover {
         border-radius: 50%
@@ -30,11 +30,6 @@ const props = defineProps<{
 
     &.is-active {
         border-radius: 50%
-    }
-
-    svg {
-        width: 100%;
-        height: 100%;
     }
 }
 </style>

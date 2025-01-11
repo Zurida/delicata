@@ -8,6 +8,6 @@
 <style scoped>
 p {
     text-align: right;
-    font-size: 1.2rem;
+    font-size: var(--fs-small);
 }
 </style>

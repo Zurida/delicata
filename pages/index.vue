@@ -42,20 +42,26 @@ async function setActiveId(category) {
         </div>
       </aside>
       <div class="main">
-        <header>
-          <!-- <h4>Доска рецептов</h4> -->
-          <!-- <div class="actions__search search">
+        <div>
+          <!-- <h4>Доска рецептов</h4>
+          <div class="actions__search search">
             <div class="search__field">
               <CommonVInput v-model="searchVal" type="text"></CommonVInput>
             </div>
           </div> -->
-        </header>
+        </div>
 
         <ul class="main__nav">
           <li>Мои рецепты</li>
           <li>Все рецепты</li>
           <!-- <li>Меню на неделю</li> -->
         </ul>
+
+
+        <div class="filters">
+          <CommonTag tag="Завтрак"></CommonTag>
+        </div>
+
 
         <div class="cards">
           <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
@@ -121,7 +127,7 @@ h4 {
   flex-direction: column;
   width: 19rem;
   height: 100vh;
-  padding-top: calc(var(--header-height) + var(--gap-sm));
+  padding-top: var(--gap-sm);
   background-color: var(--black);
 
   h4 {
@@ -136,7 +142,7 @@ h4 {
 .main {
   flex: 1;
   padding: var(--gap);
-  padding: calc(var(--header-height) + var(--gap-sm)) var(--gap) var(--gap);
+  padding: var(--gap-sm) var(--gap) var(--gap);
   background-color: #EFF2F4;
 
   &__nav {

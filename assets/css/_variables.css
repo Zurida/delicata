@@ -1,15 +1,15 @@
 /* Screen font-sizes for html*/
 :root {
-    --fs-sm: 12px;
-    --fs-md: 11px;
-    --fs-lg: 10px;
-    --fs-xl: 15px;
+    --fs-320: 8px;
+    --fs-768: 10px;
+    --fs-1440: 11px;
+    --fs-1920: 15px;
 }
 
 /* Colors */
 :root {
     --main-1: #f95738;
-    --main-2: #e8dab2;
+    --main-2: #2f4f4f;
     --main-3: #9ea4a7;
     --white: #ffffff;
     --black: #2a3a42;
@@ -31,4 +31,5 @@
     --h4: 2.6rem;
     --fs-base: 1.6rem;
     --fs-small: 1.2rem;
+    --fs-micro: 1rem;
 }

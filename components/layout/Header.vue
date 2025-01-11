@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import VOverlay from '../common/VOverlay.vue';
+
 const isActive = ref(false);
 
 function handleClick() {
@@ -9,14 +11,14 @@ function handleClick() {
 <template>
     <header class="header">
         <Transition>
-            <div class="header__overlay" @click="isActive = false" v-if="isActive"></div>
+            <VOverlay @click="isActive = false" v-if="isActive" />
         </Transition>
         <nuxt-link to="/" class="header__logo">
             <CommonVLogo />
             <p>DELICATA</p>
         </nuxt-link>
-        <ul class="header__menu">
-            <li>Доска рецептов</li>
+        <ul class="header__menu menu">
+            <li class="menu__item is-active">Доска рецептов</li>
             <li>Меню на неделю</li>
         </ul>
 
@@ -34,6 +36,8 @@ function handleClick() {
 <style lang="scss" scoped>
 .header {
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     z-index: 1;
     display: flex;
@@ -73,6 +77,10 @@ function handleClick() {
             &:hover {
                 color: var(--main-1);
             }
+
+            &.is-active {
+                color: var(--main-1);
+            }
         }
     }
 
@@ -90,15 +98,6 @@ function handleClick() {
     .user-popup {
         top: 120%;
         right: 0;
-    }
-
-    &__overlay {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
     }
 }
 </style>

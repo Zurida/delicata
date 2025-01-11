@@ -1,8 +1,4 @@
 <script setup>
-definePageMeta({
-    layout: 'recipe'
-})
-
 import { ref } from 'vue'
 import { Swiper } from 'swiper';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';

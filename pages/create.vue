@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { TRecipe } from '~/types/recipe';
 
-definePageMeta({
-    layout: 'recipe'
-})
-
 const { data: measures } = await useFetch('/api/measures')
 const { categories } = useCategoryStore()
 

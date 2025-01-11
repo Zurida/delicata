@@ -54,7 +54,7 @@ defineProps<{
 
   &__date {
     margin-bottom: 1rem;
-    font-size: .8rem;
+    font-size: var(--fs-micro);
     color: #797979;
   }
 

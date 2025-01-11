@@ -19,10 +19,11 @@ defineProps({
     margin-bottom: .6rem;
     padding: 0.6rem;
     border-radius: var(--border-radius);
-    background-color: var(--main-3);
-    font-size: .6rem;
+    background-color: var(--white);
+    font-size: var(--fs-micro);
     line-height: 1;
     letter-spacing: 0.05rem;
     color: var(--black);
+    border: .5px solid var(--main-3);
 }
 </style>

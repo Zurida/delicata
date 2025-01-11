@@ -2,13 +2,7 @@
 const canvas = ref(null)
 const titles = ['DELICATA']
 
-
-function transformTitle(refTitle) {
-    refTitle.value = refTitle.value.split('')
-}
-
 onMounted(() => {
-
     const canvasVal = canvas.value;
     const ctx = canvas.value.getContext('2d')
     canvasVal.width = innerWidth;
@@ -22,7 +16,6 @@ onMounted(() => {
 
     class Particle {
         constructor(effect) {   // every particle will expect a reference pointing to the main effect object. We are not creating copies of the effect, 
-
             this.effect = effect   //just pointing to that same effect class from multiple places 
             this.radius = Math.random() * 20 + 10
             this.x = this.radius + Math.random() * (this.effect.width - this.radius * 2) // расчеты, чтобы круги были видны полностью и не разрывались экраном по краям
@@ -93,10 +86,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
+    <div class="auth">
         <canvas ref="canvas"></canvas>
         <div class="container">
             <h1 class="auth__heading">
+                <CommonVLogo></CommonVLogo>
+
 
                 <p v-for="(title, index) in titles" :key="`title-${title}`">
                     <span v-for="(letter, i) in title" :key="`title${index}-letter-${i}`"
@@ -104,12 +99,23 @@ onMounted(() => {
                             letter }}</span>
                 </p>
             </h1>
+        </div>
+        <div class="auth__content">
 
-            <div class="auth__buttons">
-                <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
-                <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
+
+            <div class="auth__form auth-form">
+
+                <div class="auth-form__container">
+                    <CommonVInput type="text"></CommonVInput>
+                    <CommonVInput type="text"></CommonVInput>
+                </div>
+                <div class="auth__buttons">
+                    <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
+                    <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
+                </div>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -120,25 +126,43 @@ canvas {
     left: 0;
 }
 
-svg {
-    width: 100px;
-    height: 100px;
-}
-
 .container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: absolute;
     top: 50%;
     left: 50%;
     translate: -50% -50%;
+    transform: scale(2);
+    animation: removeScale 1.4s ease-in-out;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
 }
 
 .auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+
+    &__content {
+        position: relative;
+        z-index: 2;
+    }
+
     &__heading {
-        font-size: 10rem;
+        display: flex;
+        align-items: center;
+        font-size: 5rem;
         line-height: 1;
-        color: var(--white);
+        color: var(--black);
+
+        svg {
+            width: 5rem;
+            aspect-ratio: 1;
+            flex-shrink: 0;
+        }
 
         span {
             display: inline-block;
@@ -146,14 +170,14 @@ svg {
             font-weight: 700;
             scale: 1.5;
             opacity: 0;
-            animation: transformLetter 2s ease;
+            animation: transformLetter 1.5s ease;
             animation-fill-mode: forwards;
         }
 
         p:last-child {
-            margin-top: -7rem;
-            opacity: 0.5;
-            padding-left: 2rem;
+            opacity: 0.8;
+            padding-left: 1rem;
+            min-width: 10rem;
         }
     }
 
@@ -170,12 +194,37 @@ svg {
             margin-left: 2rem;
         }
     }
+
+    &-form {
+        position: relative;
+        width: 40rem;
+        padding: 4rem;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        opacity: 0;
+        animation: showForm 1s ease-in;
+        animation-delay: 3s;
+        animation-fill-mode: forwards;
+    }
 }
 
 @keyframes transformLetter {
     100% {
         opacity: 1;
         scale: 1;
+    }
+}
+
+@keyframes removeScale {
+    to {
+        transform: scale(1.2);
+        top: 20%;
+    }
+}
+
+@keyframes showForm {
+    100% {
+        opacity: 1;
     }
 }
 </style>
