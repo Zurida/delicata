@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="UserInfo">
         <p>Admin</p>
         <p>test@mail.ru</p>
     </div>

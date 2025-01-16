@@ -14,7 +14,7 @@ function handleClick() {
             <VOverlay @click="isActive = false" v-if="isActive" />
         </Transition>
         <nuxt-link to="/" class="header__logo">
-            <CommonVLogo />
+            <CommonVLogo :is-animated="false" />
             <p>DELICATA</p>
         </nuxt-link>
         <ul class="header__menu menu">
@@ -88,6 +88,11 @@ function handleClick() {
         position: relative;
         display: flex;
         align-items: center;
+
+        .UserInfo {
+            position: relative;
+            z-index: 1;
+        }
 
         .user-avatar {
             flex: none;

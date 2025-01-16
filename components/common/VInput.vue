@@ -1,32 +1,43 @@
 <script setup lang="ts">
+import { AuthFormSchema } from '~/types/schemas';
+
 const model = defineModel<string | number>('model')
 
 const props = defineProps<{
-    type: string
+    id?: string,
+    type: string,
+    hasBorder?: boolean,
+    error?: string,
+    label?: string,
+    placeholder?: string,
+    validator?: (value: typeof model['value']) => boolean
 }>()
-
 
 const isError = ref(false)
 function validate() {
-    if (typeof model.value === 'string') {
-        isError.value = model.value.length < 3
+    if (props.validator) {
+        const parseResult = props.validator(model.value);
     }
+    // if (typeof model.value === 'string') {
+    //     isError.value = model.value.length < 3
+    // }
 
-    if (typeof model.value === 'number') {
-        isError.value = model.value < 1
-    }
+    // if (typeof model.value === 'number') {
+    //     isError.value = model.value < 1
+    // }
 }
 </script>
 
 <template>
     <div class="VInput">
-        <input class="VInput__native" :class="{ 'is-error': isError }" v-model="model" v-bind="$attrs" :type="type"
-            @input="validate" />
-        <label class="VInput__label" v-if="$slots.label">
-            <slot name="label" />
+        <input class="VInput__native" :class="{ 'is-error': error, 'has-border': hasBorder, 'has-label': label }"
+            v-model="model" :type="type" @input="validate" :placeholder="placeholder" />
+
+        <label :for="id" class="VInput__label" v-if="label"
+            :class="{ 'is-lifted': typeof model === 'string' ? model.length : false }">
+            {{ props.label }}
         </label>
-        <p v-if="isError" class="VInput__error">Введите {{ type === 'number' ? 'число' : 'не менее 3 символов' }}
-        </p>
+        <p v-if="isError" class="VInput__error">{{ error }}</p>
     </div>
 </template>
 
@@ -39,11 +50,10 @@ function validate() {
         min-height: 3.8rem;
         padding: 0.675em 1em;
         border-radius: 5px;
-        border: none;
-        outline: none;
         font-family: inherit;
         -moz-appearance: textfield;
         transition: box-shadow .4s;
+        color: var(--black);
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -51,19 +61,25 @@ function validate() {
             margin: 0;
         }
 
+        &::placeholder {
+            opacity: .5;
+        }
 
-        &:focus~.label,
-        &:not(:placeholder-shown)~.label {
-            opacity: 0.65;
-            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        &:focus~.VInput__label {
+            color: var(--black);
+            top: 0;
         }
 
         &.has-label {
-            padding-top: 2rem;
-
             &::placeholder {
+                opacity: 0;
                 color: transparent;
             }
+        }
+
+        &.has-border {
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         &.is-error {
@@ -74,13 +90,23 @@ function validate() {
 
     &__label {
         position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        // padding: 1rem;
+        top: 50%;
+        left: 1%;
+        padding: 0 .5rem;
+        border-radius: 5px;
+        background-color: #fff;
+        font-size: var(--fs-small);
+        font-family: inherit;
+        color: rgb(153, 153, 153);
         pointer-events: none;
-        transform-origin: 0 0;
-        transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+        transform: translateY(-50%);
+        transition: color 0.2s, top 0.3s ease-in-out;
+
+        &.is-lifted {
+            opacity: 1;
+            top: 0;
+        }
     }
+
 }
 </style>

@@ -126,7 +126,6 @@ h4 {
   display: flex;
   flex-direction: column;
   width: 19rem;
-  height: 100vh;
   padding-top: var(--gap-sm);
   background-color: var(--black);
 
@@ -141,7 +140,6 @@ h4 {
 
 .main {
   flex: 1;
-  padding: var(--gap);
   padding: var(--gap-sm) var(--gap) var(--gap);
   background-color: #EFF2F4;
 

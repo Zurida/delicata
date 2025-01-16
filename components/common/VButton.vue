@@ -31,10 +31,9 @@ const component = computed(() => {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: var(--gap);
-    font-size: 1.8rem;
+    padding: var(--gap-sm) var(--gap);
+    font-size: 1.4rem;
     font-weight: 600;
-    line-height: 1;
     background-color: var(--main-1);
     color: var(--white);
     transition: opacity .4s;
@@ -46,7 +45,7 @@ const component = computed(() => {
     }
 
     &--small {
-        font-size: 1rem;
+        font-size: var(--fs-small);
         padding: 1rem 2rem;
     }
 

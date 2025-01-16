@@ -90,7 +90,7 @@ onMounted(() => {
         <canvas ref="canvas"></canvas>
         <div class="container">
             <h1 class="auth__heading">
-                <CommonVLogo></CommonVLogo>
+                <CommonVLogo is-animated></CommonVLogo>
 
 
                 <p v-for="(title, index) in titles" :key="`title-${title}`">
@@ -104,10 +104,10 @@ onMounted(() => {
 
 
             <div class="auth__form auth-form">
-
                 <div class="auth-form__container">
-                    <CommonVInput type="text"></CommonVInput>
-                    <CommonVInput type="text"></CommonVInput>
+                    <CommonVInput type="text" :has-border="true" label="Имя">Введите имя
+                    </CommonVInput>
+                    <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
                 </div>
                 <div class="auth__buttons">
                     <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
@@ -198,7 +198,7 @@ canvas {
     &-form {
         position: relative;
         width: 40rem;
-        padding: 4rem;
+        padding: calc(var(--gap) * 2);
         background-color: var(--white);
         border-radius: var(--border-radius);
         opacity: 0;
@@ -206,6 +206,10 @@ canvas {
         animation-delay: 3s;
         animation-fill-mode: forwards;
     }
+}
+
+.VInput {
+    margin-bottom: var(--gap);
 }
 
 @keyframes transformLetter {
