@@ -44,8 +44,8 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         sass: {
-          api: 'modern'
-        }
+          api: 'modern',
+        },
       },
     },
   },

@@ -88,34 +88,44 @@ onMounted(() => {
 <template>
     <div class="auth">
         <canvas ref="canvas"></canvas>
-        <div class="container">
-            <h1 class="auth__heading">
+        <div class="auth__container">
+            <h1 class="auth__intro">
                 <CommonVLogo is-animated></CommonVLogo>
-
-
                 <p v-for="(title, index) in titles" :key="`title-${title}`">
                     <span v-for="(letter, i) in title" :key="`title${index}-letter-${i}`"
                         :style="`animation-delay: 0.${i + 2}s`">{{
                             letter }}</span>
                 </p>
             </h1>
-        </div>
-        <div class="auth__content">
 
+            <div class="auth__content">
+                <div class="auth__menu">
 
-            <div class="auth__form auth-form">
-                <div class="auth-form__container">
-                    <CommonVInput type="text" :has-border="true" label="Имя">Введите имя
-                    </CommonVInput>
-                    <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
+                    <span>Войти</span> | <span>Регистрация</span>
                 </div>
-                <div class="auth__buttons">
-                    <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
-                    <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
+                <div class="auth__form auth-form">
+                    <div class="auth-form__container">
+                        <CommonVInput type="text" :has-border="true" label="Имя">Введите имя</CommonVInput>
+                        <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
+                    </div>
+                    <div class="auth__buttons">
+                        <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
+                        <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
+                    </div>
                 </div>
+
+                <!-- <div class="auth__form auth-form">
+                    <div class="auth-form__container">
+                        <CommonVInput type="text" :has-border="true" label="Имя">Введите имя</CommonVInput>
+                        <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
+                    </div>
+                    <div class="auth__buttons">
+                        <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
+                        <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
+                    </div>
+                </div> -->
             </div>
         </div>
-
     </div>
 </template>
 
@@ -126,37 +136,30 @@ canvas {
     left: 0;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    transform: scale(2);
-    animation: removeScale 1.4s ease-in-out;
-    animation-delay: 2s;
-    animation-fill-mode: forwards;
-}
-
 .auth {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 
-    &__content {
-        position: relative;
-        z-index: 2;
-    }
-
-    &__heading {
+    &__container {
         display: flex;
         align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    &__intro {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 5rem;
         line-height: 1;
         color: var(--black);
+        scale: 1.4;
+        animation: removeScale 1s ease-in-out;
+        animation-delay: 1.4s;
+        animation-fill-mode: forwards;
 
         svg {
             width: 5rem;
@@ -181,6 +184,43 @@ canvas {
         }
     }
 
+    &__menu {
+        text-align: center;
+        padding-bottom: var(--gap);
+        font-size: var(--fs-base);
+        color: var(--main-1);
+
+        span {
+            display: inline-block;
+            padding-left: var(--gap-sm);
+            padding-right: var(--gap-sm);
+            cursor: pointer;
+
+            &:hover {
+                color: var(--main-2);
+            }
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40rem;
+        padding: 2rem 4rem;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        opacity: 0;
+        animation: showForm 1s ease-in-out;
+        animation-delay: 1.6s;
+        animation-fill-mode: forwards;
+        // box-shadow: 0 0 3px 1px var(--main-3);
+        margin-top: 2rem;
+        transform: translateY(100%);
+    }
+
+    &-form {}
+
     &__buttons {
         position: relative;
         z-index: 2;
@@ -193,18 +233,6 @@ canvas {
         &:last-child {
             margin-left: 2rem;
         }
-    }
-
-    &-form {
-        position: relative;
-        width: 40rem;
-        padding: calc(var(--gap) * 2);
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        opacity: 0;
-        animation: showForm 1s ease-in;
-        animation-delay: 3s;
-        animation-fill-mode: forwards;
     }
 }
 
@@ -221,14 +249,14 @@ canvas {
 
 @keyframes removeScale {
     to {
-        transform: scale(1.2);
-        top: 20%;
+        scale: 1;
     }
 }
 
 @keyframes showForm {
     100% {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 </style>

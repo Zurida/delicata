@@ -13,7 +13,7 @@ html {
     font-size: var(--fs-1440);
     line-height: 1;
 
-    @media screen and (width > 1920px) {
+    @media screen and (min-width: 1441px) {
         font-size: var(--fs-1920);
     }
 
@@ -24,8 +24,6 @@ html {
     @media screen and (320px <=width <768px) {
         font-size: var(--fs-320);
     }
-
-
 }
 
 body {
