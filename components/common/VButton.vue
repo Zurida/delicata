@@ -31,7 +31,7 @@ const component = computed(() => {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: var(--gap-sm) var(--gap);
+    padding: .8rem 1rem;
     font-size: 1.4rem;
     font-weight: 600;
     background-color: var(--main-1);
@@ -42,11 +42,6 @@ const component = computed(() => {
 
     &:hover {
         opacity: 0.9;
-    }
-
-    &--small {
-        font-size: var(--fs-small);
-        padding: 1rem 2rem;
     }
 
     &.is-disabled {

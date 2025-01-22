@@ -1,6 +1,14 @@
 <script setup>
+import AuthFormLogin from './AuthFormLogin.vue';
+import AuthFormRegister from './AuthFormRegister.vue';
+
 const canvas = ref(null)
 const titles = ['DELICATA']
+const tabs = {
+    "Регистрация": AuthFormRegister,
+    "Вход": AuthFormLogin,
+}
+const currentTab = ref('Регистрация');
 
 onMounted(() => {
     const canvasVal = canvas.value;
@@ -82,6 +90,9 @@ onMounted(() => {
     animate()
 })
 
+function toggleTab(tab) {
+    currentTab.value = tab
+}
 
 </script>
 
@@ -100,30 +111,14 @@ onMounted(() => {
 
             <div class="auth__content">
                 <div class="auth__menu">
-
-                    <span>Войти</span> | <span>Регистрация</span>
+                    <span v-for="(_, tab) in tabs" :key="tab" @click="toggleTab(tab)"
+                        :class="[{ 'is-active': currentTab === tab }]">
+                        {{ tab }}
+                    </span>
                 </div>
-                <div class="auth__form auth-form">
-                    <div class="auth-form__container">
-                        <CommonVInput type="text" :has-border="true" label="Имя">Введите имя</CommonVInput>
-                        <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
-                    </div>
-                    <div class="auth__buttons">
-                        <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
-                        <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
-                    </div>
-                </div>
-
-                <!-- <div class="auth__form auth-form">
-                    <div class="auth-form__container">
-                        <CommonVInput type="text" :has-border="true" label="Имя">Введите имя</CommonVInput>
-                        <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
-                    </div>
-                    <div class="auth__buttons">
-                        <CommonVButton to="/" class="auth__btn">Войти</CommonVButton>
-                        <CommonVButton class=" auth__btn">Регистрация</CommonVButton>
-                    </div>
-                </div> -->
+                <Transition mode="out-in">
+                    <component :is="tabs[currentTab]" class="tab"></component>
+                </Transition>
             </div>
         </div>
     </div>
@@ -178,6 +173,7 @@ canvas {
         }
 
         p:last-child {
+            position: relative;
             opacity: 0.8;
             padding-left: 1rem;
             min-width: 10rem;
@@ -188,16 +184,37 @@ canvas {
         text-align: center;
         padding-bottom: var(--gap);
         font-size: var(--fs-base);
-        color: var(--main-1);
+
 
         span {
             display: inline-block;
             padding-left: var(--gap-sm);
             padding-right: var(--gap-sm);
             cursor: pointer;
+            transition: color 0.4s;
 
-            &:hover {
-                color: var(--main-2);
+            &.is-active {
+                color: var(--main-1);
+            }
+
+            &:hover:not(.is-active) {
+                color: var(--main-1);
+            }
+
+            &:last-child {
+                position: relative;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    width: 1px;
+                    height: 80%;
+                    background-color: var(--black);
+                    opacity: 0.4;
+                    transform: translateY(-50%);
+                }
             }
         }
     }
@@ -208,7 +225,7 @@ canvas {
         justify-content: center;
         width: 40rem;
         padding: 2rem 4rem;
-        background-color: var(--white);
+        background-color: #ffffffc2;
         border-radius: var(--border-radius);
         opacity: 0;
         animation: showForm 1s ease-in-out;
@@ -219,25 +236,6 @@ canvas {
         transform: translateY(100%);
     }
 
-    &-form {}
-
-    &__buttons {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-    }
-
-    &__btn {
-        &:last-child {
-            margin-left: 2rem;
-        }
-    }
-}
-
-.VInput {
-    margin-bottom: var(--gap);
 }
 
 @keyframes transformLetter {

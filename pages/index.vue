@@ -38,7 +38,7 @@ async function setActiveId(category) {
           }" @click="setActiveId(category)" />
         </div>
         <div class="btn">
-          <CommonVButton small to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
+          <CommonVButton to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
         </div>
       </aside>
       <div class="main">
