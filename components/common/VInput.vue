@@ -2,22 +2,31 @@
 import { AuthFormSchema } from '~/types/schemas';
 
 const model = defineModel<string | number>('model')
-
-const props = defineProps<{
+interface Props {
     id?: string,
-    type: string,
-    hasBorder?: boolean,
+    type?: string,
     error?: string,
     label?: string,
     placeholder?: string,
-    validator?: (value: typeof model['value']) => boolean
-}>()
+}
+const props = withDefaults(defineProps<Props>(), {
+    type: 'text',
+})
+
+// const props = defineProps<{
+//     id?: string,
+//     type?: string,
+//     error?: string,
+//     label?: string,
+//     placeholder?: string,
+//     validator?: (value: typeof model['value']) => boolean
+// }>()
 
 const isError = ref(false)
 function validate() {
-    if (props.validator) {
-        const parseResult = props.validator(model.value);
-    }
+    // if (props.validator) {
+    //     const parseResult = props.validator(model.value);
+    // }
     // if (typeof model.value === 'string') {
     //     isError.value = model.value.length < 3
     // }
@@ -30,8 +39,8 @@ function validate() {
 
 <template>
     <div class="VInput">
-        <input class="VInput__native" :class="{ 'is-error': error, 'has-border': hasBorder, 'has-label': label }"
-            v-model="model" :type="type" @input="validate" :placeholder="placeholder" />
+        <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="model" :type="type"
+            @input="validate" :placeholder="placeholder" />
 
         <label :for="id" class="VInput__label" v-if="label"
             :class="{ 'is-lifted': typeof model === 'string' ? model.length : false }">
@@ -54,6 +63,8 @@ function validate() {
         -moz-appearance: textfield;
         transition: box-shadow .4s;
         color: var(--black);
+        border: 1px solid #ccc;
+        border-radius: 5px;
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -75,11 +86,6 @@ function validate() {
                 opacity: 0;
                 color: transparent;
             }
-        }
-
-        &.has-border {
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
 
         &.is-error {

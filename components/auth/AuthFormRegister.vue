@@ -1,9 +1,9 @@
 <template>
     <div class="auth-form">
         <div class="auth-form__container">
-            <CommonVInput type="text" :has-border="true" label="Имя">Введите имя</CommonVInput>
-            <CommonVInput type="text" :has-border="true" label="Почта"></CommonVInput>
-            <CommonVInput type="text" :has-border="true" label="Телефон"></CommonVInput>
+            <CommonVInput label="Введите имя">Введите имя</CommonVInput>
+            <CommonVInput label="Введите email"></CommonVInput>
+            <CommonVInput label="Придумайте пароль"></CommonVInput>
         </div>
         <div class="auth-form__buttons">
             <CommonVButton to="/" class="auth-form__btn">Зарегистрироваться</CommonVButton>

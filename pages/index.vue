@@ -122,10 +122,11 @@ h4 {
 }
 
 .aside {
-  position: sticky;
+  position: fixed;
   display: flex;
   flex-direction: column;
   width: 19rem;
+  height: calc(100vh - var(--header-height));
   padding-top: var(--gap-sm);
   background-color: var(--black);
 
@@ -140,7 +141,7 @@ h4 {
 
 .main {
   flex: 1;
-  padding: var(--gap-sm) var(--gap) var(--gap);
+  padding: var(--gap-sm) var(--gap) var(--gap) calc(19rem + var(--gap));
   background-color: #EFF2F4;
 
   &__nav {

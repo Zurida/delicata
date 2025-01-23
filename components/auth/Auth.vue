@@ -5,8 +5,8 @@ import AuthFormRegister from './AuthFormRegister.vue';
 const canvas = ref(null)
 const titles = ['DELICATA']
 const tabs = {
-    "Регистрация": AuthFormRegister,
     "Вход": AuthFormLogin,
+    "Регистрация": AuthFormRegister
 }
 const currentTab = ref('Регистрация');
 
