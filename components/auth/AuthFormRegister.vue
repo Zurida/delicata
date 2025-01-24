@@ -1,5 +1,5 @@
 <template>
-    <div class="auth-form">
+    <form class="auth-form">
         <div class="auth-form__container">
             <CommonVInput label="Введите имя">Введите имя</CommonVInput>
             <CommonVInput label="Введите email"></CommonVInput>
@@ -8,7 +8,7 @@
         <div class="auth-form__buttons">
             <CommonVButton to="/" class="auth-form__btn">Зарегистрироваться</CommonVButton>
         </div>
-    </div>
+    </form>
 </template>
 
 <style scoped lang="scss">

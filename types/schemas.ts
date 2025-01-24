@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const AuthFormSchema = z.object({
-    name: z.string().min(3, { message: 'Введите не менее 3 символов' }),
     email: z.string().email(),
+    password: z.string().min(3, { message: 'Введите не менее 3 символов' })
 });
 
-export type FormData = z.infer<typeof AuthFormSchema>
-export type FormErrors = Partial<Record<keyof FormData, string>>
+export type TAuthForm = z.infer<typeof AuthFormSchema>
+export type TAuthFormErrors = Partial<Record<keyof TAuthForm, string>> // each field is made optional using Partial<>

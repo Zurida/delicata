@@ -43,18 +43,17 @@ async function setActiveId(category) {
       </aside>
       <div class="main">
         <div>
-          <!-- <h4>Доска рецептов</h4>
+          <h4>Доска рецептов</h4>
           <div class="actions__search search">
             <div class="search__field">
               <CommonVInput v-model="searchVal" type="text"></CommonVInput>
             </div>
-          </div> -->
+          </div>
         </div>
 
         <ul class="main__nav">
           <li>Мои рецепты</li>
           <li>Все рецепты</li>
-          <!-- <li>Меню на неделю</li> -->
         </ul>
 
 

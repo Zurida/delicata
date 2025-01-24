@@ -1,62 +1,43 @@
 <script setup lang="ts">
-import { AuthFormSchema } from '~/types/schemas';
+const modelValue = defineModel<string | number>()
 
-const model = defineModel<string | number>('model')
 interface Props {
     id?: string,
     type?: string,
     error?: string,
     label?: string,
-    placeholder?: string,
+    placeholder?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     type: 'text',
 })
-
-// const props = defineProps<{
-//     id?: string,
-//     type?: string,
-//     error?: string,
-//     label?: string,
-//     placeholder?: string,
-//     validator?: (value: typeof model['value']) => boolean
-// }>()
-
-const isError = ref(false)
-function validate() {
-    // if (props.validator) {
-    //     const parseResult = props.validator(model.value);
-    // }
-    // if (typeof model.value === 'string') {
-    //     isError.value = model.value.length < 3
-    // }
-
-    // if (typeof model.value === 'number') {
-    //     isError.value = model.value < 1
-    // }
-}
 </script>
 
 <template>
     <div class="VInput">
-        <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="model" :type="type"
-            @input="validate" :placeholder="placeholder" />
-
-        <label :for="id" class="VInput__label" v-if="label"
-            :class="{ 'is-lifted': typeof model === 'string' ? model.length : false }">
-            {{ props.label }}
-        </label>
-        <p v-if="isError" class="VInput__error">{{ error }}</p>
+        <div class="VInput__body">
+            <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="modelValue"
+                :type="type" :placeholder="placeholder" />
+            <label :for="id" class="VInput__label" v-if="label"
+                :class="{ 'is-lifted': typeof modelValue === 'string' ? modelValue.length : false }">
+                {{ props.label }}
+            </label>
+        </div>
+        <p v-if="props.error" class="VInput__error">{{ props.error }}</p>
     </div>
 </template>
 
 <style scoped lang="scss">
 .VInput {
-    position: relative;
+
+    &__body {
+        position: relative;
+        height: 3.8rem;
+    }
 
     &__native {
         width: 100%;
-        min-height: 3.8rem;
+
         padding: 0.675em 1em;
         border-radius: 5px;
         font-family: inherit;
@@ -89,7 +70,7 @@ function validate() {
         }
 
         &.is-error {
-            box-shadow: 0 0 0 1px red;
+            border-color: red;
         }
     }
 
