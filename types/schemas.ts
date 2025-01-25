@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const AuthFormSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email('Некорректный формат почты'),
     password: z.string().min(3, { message: 'Введите не менее 3 символов' })
 });
 

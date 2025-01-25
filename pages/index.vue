@@ -42,23 +42,26 @@ async function setActiveId(category) {
         </div>
       </aside>
       <div class="main">
-        <div>
+        <!-- <div>
           <h4>Доска рецептов</h4>
-          <div class="actions__search search">
-            <div class="search__field">
-              <CommonVInput v-model="searchVal" type="text"></CommonVInput>
-            </div>
-          </div>
-        </div>
+
+        </div> -->
 
         <ul class="main__nav">
           <li>Мои рецепты</li>
           <li>Все рецепты</li>
         </ul>
 
+        <div class="actions__search search">
+          <div class="search__field">
+            <CommonVInput v-model="searchVal" placeholder="Найти рецепт"></CommonVInput>
+          </div>
+        </div>
+
 
         <div class="filters">
-          <CommonTag tag="Завтрак"></CommonTag>
+          <CommonTag tag="Завтрак" is-active="false"></CommonTag>
+          <CommonTag tag="Завтрак" is-active="false"></CommonTag>
         </div>
 
 
@@ -93,14 +96,10 @@ async function setActiveId(category) {
   }
 }
 
-// header {
-//   margin-bottom: var(--gap);
-//   display: flex;
-//   align-items: center;
-// }
-
 h4 {
   text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: var(--gap);
 }
 
 .actions {
@@ -117,6 +116,7 @@ h4 {
 
   &__search {
     margin-left: auto;
+    margin-bottom: var(--gap);
   }
 }
 
@@ -145,8 +145,8 @@ h4 {
 
   &__nav {
     display: flex;
-    margin-top: var(--gap-sm);
-    margin-bottom: var(--gap);
+    // margin-top: var(--gap-sm);
+    margin-bottom: var(--gap-sm);
 
     li {
       margin-right: 1rem;
@@ -159,6 +159,10 @@ h4 {
       }
     }
   }
+}
+
+.filters {
+  margin-bottom: var(--gap);
 }
 
 .cards {

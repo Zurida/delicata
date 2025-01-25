@@ -70,9 +70,6 @@ const onSubmit = async () => {
 
 <template>
     <form class="auth-form" @submit.prevent="onSubmit">
-        {{ authFormData }}
-
-        <CommonEmptyInput v-model="authFormData.email"></CommonEmptyInput>
         <div class="auth-form__container">
             <CommonVInput id="email" label="Email" :error="authFormErrors.email" v-model="authFormData.email">Введите
                 почту
