@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
 
     &__body {
         position: relative;
-        height: 3.8rem;
+        min-height: 3.8rem;
     }
 
     &__native {

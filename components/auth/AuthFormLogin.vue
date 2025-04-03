@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { z } from "zod";
+import type { ZodIssue } from "zod"
 import type { TAuthForm, TAuthFormErrors } from "~/types/schemas";
 import { AuthFormSchema } from "~/types/schemas";
 
@@ -8,58 +8,76 @@ const initialFormData: TAuthForm = {
     email: "",
 };
 
-const authFormData = ref<TAuthForm>({ ...initialFormData });
+const isLoading = ref(false);
+const router = useRouter();
+
+
+const authFormData = ref({ ...initialFormData });
 const authFormErrors = ref<TAuthFormErrors>({});
 const statusMessage = ref<string | null>(null);
 
+let errors: ZodIssue[]
+
+
 // Validation.
-const validateFormData = (): boolean => {
-    // Parse form data without throwing an error.
-    const result: z.SafeParseReturnType<TAuthForm, TAuthForm>
-        = AuthFormSchema.safeParse(authFormData.value);
+const validateFormData = (value: unknown): boolean => {
+    const result = AuthFormSchema.safeParse(value);
 
-    // Debug: Log validation results client-side.
-    // console.log("Results client: ", result);
-
-    // Display errors.
     if (!result.success) {
-        authFormErrors.value = result.error.errors.reduce((acc: TAuthFormErrors, error: any) => {
-            const key = error.path[0] as keyof TAuthForm;
-            acc[key] = error.message;
-            return acc
-        }, {} as TAuthFormErrors)
-        return false;
+        errors = [...result.error.errors];
     }
 
-    // Reset errors if data are valid.
-    authFormErrors.value = {};
-    return true;
+    return result.success;
 };
 
-// Handle form submission.
+const displayErrors = () => {
+    authFormErrors.value = errors.reduce((acc: Record<string, string>, error) => {
+        acc[error.path[0]] = error.message;
+        return acc
+    }, {})
+    return false;
+}
+
 const onSubmit = async () => {
+    isLoading.value = true;
+
     // Reset statusMessage.
     statusMessage.value = null;
 
     // Check if validation failed.
-    if (!validateFormData()) return;
+    if (!validateFormData(authFormData.value)) {
+        return displayErrors();
+    };
+
+    // Reset errors if data are valid.
+    authFormErrors.value = {};
 
     // If the validation is successful, send data to the server.
     try {
-        const response: Response = await fetch("https://kavkaz-build.ru/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(authFormData.value)
-        });
+
+        const res = await $fetch('/api/auth/login', {
+            method: 'POST',
+            body: authFormData.value
+        })
+
+        console.log(res)
+        // await $fetch('/api/login', {
+        //     method: 'POST',
+        //     body: authFormData.value
+        // })
+        //     .then(async () => {
+        //         await navigateTo('/')
+        //     })
+        //     .catch(() => alert('Bad credentials'))
 
         // Response handling.
-        const result = await response.json();
-        statusMessage.value = result.message;
+        // const result = await response.json();
+        // statusMessage.value = result.message;
 
         // Reset the form values.
-        if (result.statusCode === 200) {
-            authFormData.value = { ...initialFormData };
-        }
+        // if (result.statusCode === 200) {
+        //     authFormData.value = { ...initialFormData };
+        // }
     } catch {
         statusMessage.value = "There was an unexpected error.";
     }
@@ -74,7 +92,8 @@ const onSubmit = async () => {
             <CommonVInput id="email" label="Email" :error="authFormErrors.email" v-model="authFormData.email">Введите
                 почту
             </CommonVInput>
-            <CommonVInput id="password" label="Пароль" :error="authFormErrors.password" v-model="authFormData.password">
+            <CommonVInput id="password" label="Пароль" type="password" :error="authFormErrors.password"
+                v-model="authFormData.password">
                 Введите пароль
             </CommonVInput>
         </div>

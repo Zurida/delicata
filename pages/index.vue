@@ -1,12 +1,16 @@
 <script setup>
-
-
 const menu = useCategoryStore()
 const { data: recipesGet } = await useFetch('/api/recipe')
 
 let currentId = ref(0);
 const searchVal = ref('')
 const cards = ref(recipesGet)
+
+// const { session, loggedIn, user } = useUserSession()
+
+// definePageMeta({
+//   middleware: ['authenticated'],
+// })
 
 // watch(searchVal, () => {
 //   cards.value = recipesGet.value.filter(card => card.title.toLowerCase().includes(searchVal.value.toLowerCase()))
@@ -42,6 +46,7 @@ async function setActiveId(category) {
         </div>
       </aside>
       <div class="main">
+
         <!-- <div>
           <h4>Доска рецептов</h4>
 
@@ -60,8 +65,8 @@ async function setActiveId(category) {
 
 
         <div class="filters">
-          <CommonTag tag="Завтрак" is-active="false"></CommonTag>
-          <CommonTag tag="Завтрак" is-active="false"></CommonTag>
+          <CommonTag tag="Завтрак" :is-active="false"></CommonTag>
+          <CommonTag tag="Завтрак" :is-active="false"></CommonTag>
         </div>
 
 
@@ -126,7 +131,7 @@ h4 {
   flex-direction: column;
   width: 19rem;
   height: calc(100vh - var(--header-height));
-  padding-top: var(--gap-sm);
+  padding-top: var(--gap);
   background-color: var(--black);
 
   h4 {
@@ -140,7 +145,7 @@ h4 {
 
 .main {
   flex: 1;
-  padding: var(--gap-sm) var(--gap) var(--gap) calc(19rem + var(--gap));
+  padding: var(--gap) var(--gap) var(--gap) calc(19rem + var(--gap));
   background-color: #EFF2F4;
 
   &__nav {

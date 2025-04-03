@@ -32,12 +32,18 @@ function toggleTab(tab: keyof typeof tabs) {
             </h1>
 
             <div class="auth__content">
+                <AuthState v-slot="{ loggedIn, clear }">
+                    <button v-if="loggedIn" @click="clear">Logout</button>
+                    <NuxtLink v-else to="/login">Login</NuxtLink>
+                </AuthState>
                 <div class="auth__menu">
                     <span v-for="(_, tab) in tabs" :key="tab" @click="toggleTab(tab)"
                         :class="[{ 'is-active': currentTab === tab }]">
                         {{ tab }}
                     </span>
                 </div>
+
+                <!-- Need to add to forms <Client Only> -->
                 <Transition mode="out-in">
                     <component :is="tabs[currentTab]" class="tab"></component>
                 </Transition>

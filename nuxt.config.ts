@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // devtools: { enabled: true },
+  runtimeConfig: {
+    myProxyUrl: process.env.NUXT_MY_PROXY_URL,
+  },
   typescript: {
     typeCheck: true
   },
@@ -14,7 +17,7 @@ export default defineNuxtConfig({
       Montserrat: true,
       Nunito: true,
     }
-  }], 'nuxt-icons', '@pinia/nuxt', '@nuxt/fonts'],
+  }], 'nuxt-icons', '@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils'],
 
   nitro: {
     storage: {
@@ -22,16 +25,16 @@ export default defineNuxtConfig({
         driver: 'memory',
         base: '.cache',
       }
-    }
+    },
+
   },
 
   routeRules: {
     '/api/**': {
       cors: true,
     },
-    '/api/user/bob': {
-      // prerender: true,
-      isr: true,
+    '/api/auth': {
+      prerender: true,
     },
     '/page': {
       headers: {

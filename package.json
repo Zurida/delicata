@@ -13,8 +13,10 @@
     "@nuxt/fonts": "^0.10.3",
     "@pinia/nuxt": "^0.5.4",
     "@prisma/client": "^5.14.0",
+    "bcrypt": "^5.1.1",
     "nitropack": "^2.8.1",
     "nuxt": "^3.10.2",
+    "nuxt-auth-utils": "^0.5.16",
     "nuxt-icons": "^3.2.1",
     "pinia": "^2.2.2",
     "sass": "^1.71.1",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "^3.1.3",
+    "@types/bcrypt": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.56.0",
