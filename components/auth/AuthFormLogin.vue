@@ -9,8 +9,6 @@ const initialFormData: TAuthForm = {
 };
 
 const isLoading = ref(false);
-const router = useRouter();
-
 
 const authFormData = ref({ ...initialFormData });
 const authFormErrors = ref<TAuthFormErrors>({});
@@ -55,12 +53,14 @@ const onSubmit = async () => {
     // If the validation is successful, send data to the server.
     try {
 
-        const res = await $fetch('/api/auth/login', {
+        await $fetch('/api/auth', {
             method: 'POST',
             body: authFormData.value
+        }).then(async () => {
+            await navigateTo('/')
         })
+            .catch(() => alert('Bad credentials'))
 
-        console.log(res)
         // await $fetch('/api/login', {
         //     method: 'POST',
         //     body: authFormData.value

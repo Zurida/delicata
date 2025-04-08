@@ -34,7 +34,7 @@ function toggleTab(tab: keyof typeof tabs) {
             <div class="auth__content">
                 <AuthState v-slot="{ loggedIn, clear }">
                     <button v-if="loggedIn" @click="clear">Logout</button>
-                    <NuxtLink v-else to="/login">Login</NuxtLink>
+                    <NuxtLink v-else to="/auth">Login</NuxtLink>
                 </AuthState>
                 <div class="auth__menu">
                     <span v-for="(_, tab) in tabs" :key="tab" @click="toggleTab(tab)"

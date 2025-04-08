@@ -1,13 +1,12 @@
 export default defineEventHandler(async (event) => {
-    // Get the current user session
-    // const session = await getUserSession(event)
+    const url = getRequestURL(event);
+    const session = await getUserSession(event)
 
-    // console.log(event.context, session)
+    if (url.pathname !== "/auth" && !session.user) {
+        return sendRedirect(event, "/auth");
+    }
 
-    // if (!session) {
-    //     throw createError({
-    //         statusCode: 401,
-    //         message: 'Unauthorized',
-    //     });
+    // if (url.pathname === "/auth" && session.user) {
+    //     return sendRedirect(event, "/");
     // }
 });
