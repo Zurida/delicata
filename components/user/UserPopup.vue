@@ -1,9 +1,12 @@
 <template>
     <div class="user-popup">
         <nuxt-link to="/profile">Профиль</nuxt-link>
-        <a class="user-popup__logout">
-            <IconsIconLogout></IconsIconLogout>Выйти
-        </a>
+        <AuthState v-slot="{ loggedIn, clear }">
+
+            <a class="user-popup__logout" v-if="loggedIn" @click="clear">
+                <IconsIconLogout></IconsIconLogout>Выйти
+            </a>
+        </AuthState>
     </div>
 </template>
 

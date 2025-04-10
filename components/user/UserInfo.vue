@@ -1,7 +1,11 @@
+<script setup>
+const { loggedIn, user, clear, fetch } = useUserSession();
+</script>
+
 <template>
     <div class="UserInfo">
         <p>Admin</p>
-        <p>test@mail.ru</p>
+        <p v-if="loggedIn">{{ user?.username }}</p>
     </div>
 </template>
 

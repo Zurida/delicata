@@ -56,6 +56,8 @@ const onSubmit = async () => {
         await $fetch('/api/auth', {
             method: 'POST',
             body: authFormData.value
+        }).then(() => {
+            navigateTo('/')
         })
             .catch(() => alert('Bad credentials'))
 
