@@ -2,6 +2,9 @@
 const menu = useCategoryStore()
 const { data: recipesGet } = await useFetch('/api/recipe')
 
+const { data: myRecipes } = await useFetch('/api/recipes')
+
+
 let currentId = ref(0);
 const searchVal = ref('')
 const cards = ref(recipesGet)
@@ -35,6 +38,7 @@ async function setActiveId(category) {
     <div class="home__content">
       <aside class="aside reverse">
         <h4>Категории</h4>
+
         <div class="aside__container">
           <Collapse :category="{ id: 0, text: 'Все категории' }"></Collapse>
           <Collapse v-for="category in menu.categories" :category="category" :class="{
@@ -71,7 +75,7 @@ async function setActiveId(category) {
 
 
         <div class="cards">
-          <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
+          <CommonCard v-for="card in myRecipes" :card="card" :to="`/recipe/${card.id}`" />
         </div>
       </div>
     </div>

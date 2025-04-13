@@ -1,13 +1,15 @@
 <script setup lang="ts">
-const props = defineProps<{
-    tag?: string,
+import type { TTag } from '~/types/tag';
+
+defineProps<{
+    tag?: TTag,
     isActive?: boolean
 
 }>()
 </script>
 
 <template>
-    <span class="tag" @click="$emit('click')" :class="{ 'is-active': isActive }">{{ props.tag }}</span>
+    <span class="tag" @click="$emit('click')" :class="{ 'is-active': isActive }">{{ tag }}</span>
 </template>
 
 <style>
@@ -29,7 +31,6 @@ const props = defineProps<{
         background-color: var(--main-1);
         color: var(--white);
         border-color: var(--main-1);
-        font-weight: 600;
     }
 
     &.is-active {

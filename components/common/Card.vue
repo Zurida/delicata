@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { formatDate } from '~/assets/js/utils';
+import type { TTag } from '~/types/tag';
 
 type Card = {
   id: number,
   title: string;
-  createdAt: string;
-  tags: string[];
+  created_at: string;
+  tags: TTag[];
   img: string;
 }
 
@@ -22,10 +23,10 @@ defineProps<{
   <NuxtLink :to="to" class="card">
     <div class="card__image" :style="{ backgroundImage: card.img ? `url(${card.img})` : 'none' }"></div>
     <div class="card__description">
-      <div class="card__date">Добавлено: {{ formatDate(card.createdAt) }}</div>
+      <div class="card__date">Добавлено: {{ formatDate(card.created_at) }}</div>
       <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
       <div class="card__tags">
-        <CommonTag v-for="tag in card.tags" :key="tag" :tag="tag" />
+        <CommonTag v-for="tag in card.tags" :key="tag.title" :tag="tag" />
       </div>
     </div>
   </NuxtLink>

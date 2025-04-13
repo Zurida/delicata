@@ -7,7 +7,7 @@ export const useCategoryStore = defineStore<string, { categories: TExistingCateg
   actions: {
     async fetch() {
       try {
-        const categories = await $fetch('/api/category')
+        const categories = await $fetch('/api/categories')
 
         this.categories = categories
       }
