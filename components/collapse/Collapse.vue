@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 type TListItem = {
     id: number,
     name: string
@@ -6,7 +7,7 @@ type TListItem = {
 
 type TCategory = {
     id: number,
-    text: string,
+    title: string,
     subcategories?: TListItem[]
 }
 
@@ -28,7 +29,7 @@ function setActiveId(id: number) {
 <template>
     <div class="collapse">
         <div class="collapse__item" @click="emit('click')">
-            <div class="collapse__title">{{ category.text }}</div>
+            <div class="collapse__title">{{ category.title }}</div>
             <!-- <span class="collapse__icon"></span> -->
         </div>
 

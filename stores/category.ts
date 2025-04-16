@@ -1,19 +1,33 @@
 import type { TExistingCategory } from "~/types/category"
 
-export const useCategoryStore = defineStore<string, { categories: TExistingCategory[] }>('categoryStore', {
-  state: () => ({
-    categories: []
-  }),
-  actions: {
-    async fetch() {
-      try {
-        const categories = await $fetch('/api/categories')
+// export const useCategoryStore = defineStore<
+//   'category',
+//   { categoryList: TExistingCategory[]; category: TExistingCategory | null; }
+// >('category', {
+//   state: () => {
+//     return {
+//       categoryList: [],
+//       category: null,
+//     }
+//   },
 
-        this.categories = categories
-      }
-      catch (e) {
-        console.log(e)
-      }
+export const useCategoryStore = defineStore('category', {
+  state: () => {
+    return {
+      categoryList: [] as TExistingCategory[],
     }
-  }
+  },
+  actions: {
+    async fetchCategories() {
+      try {
+        await $fetch('/api/categories').then((res: TExistingCategory[]) => {
+          this.categoryList = res;
+        })
+      } catch (error) {
+        console.error('Error fetching:', error);
+      }
+
+    }
+  },
 })
+

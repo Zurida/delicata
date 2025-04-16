@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { TRecipe } from '~/types/recipe';
+import type { TExistingCategory } from '~/types/category';
 
 const { data: measures } = await useFetch('/api/measures')
-const { categories } = useCategoryStore()
+// const categories = TExistingCategory[]
 
 
 const recipe = reactive<TRecipe>({
@@ -73,7 +74,7 @@ async function handleSubmit(evt: Event) {
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="categories" v-model="recipe.category" />
+                <!-- <CommonVSelect :options="categories" v-model="recipe.category" /> -->
 
             </div>
 

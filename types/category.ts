@@ -1,5 +1,6 @@
 export type TCategory = {
-    value: string,
+    value?: string,
+    title: string,
     text: string | null,
 }
 

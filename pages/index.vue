@@ -1,13 +1,16 @@
 <script setup>
-const menu = useCategoryStore()
-const { data: recipesGet } = await useFetch('/api/recipe')
+const categoryStore = useCategoryStore()
 
-const { data: myRecipes } = await useFetch('/api/recipes')
+onBeforeMount(async () => {
+  await categoryStore.fetchCategories();
+});
+
+const { data: recipes } = await useFetch('/api/recipes')
 
 
 let currentId = ref(0);
 const searchVal = ref('')
-const cards = ref(recipesGet)
+const cards = ref(recipes)
 
 // const { session, loggedIn, user } = useUserSession()
 
@@ -15,15 +18,12 @@ const cards = ref(recipesGet)
 //   middleware: ['authenticated'],
 // })
 
-// watch(searchVal, () => {
-//   cards.value = recipesGet.value.filter(card => card.title.toLowerCase().includes(searchVal.value.toLowerCase()))
-// })
-
 async function setActiveId(category) {
   currentId.value = category.id
 
   try {
-    const response = await $fetch(`/api/filterRecipes?category=${category.value}`)
+    const response = await $fetch(`/api/recipes?category=${category.id}`)
+    console.log(response)
 
     cards.value = response
   } catch (error) {
@@ -38,10 +38,9 @@ async function setActiveId(category) {
     <div class="home__content">
       <aside class="aside reverse">
         <h4>Категории</h4>
-
         <div class="aside__container">
           <Collapse :category="{ id: 0, text: 'Все категории' }"></Collapse>
-          <Collapse v-for="category in menu.categories" :category="category" :class="{
+          <Collapse v-for="category in categoryStore.categoryList" :category="category" :class="{
             'is-visible': category.id === currentId
           }" @click="setActiveId(category)" />
         </div>
@@ -69,13 +68,13 @@ async function setActiveId(category) {
 
 
         <div class="filters">
-          <CommonTag tag="Завтрак" :is-active="false"></CommonTag>
-          <CommonTag tag="Завтрак" :is-active="false"></CommonTag>
+          <!-- <CommonTag tag="Завтрак" :is-active="false"></CommonTag>
+          <CommonTag tag="Завтрак" :is-active="false"></CommonTag> -->
         </div>
 
 
         <div class="cards">
-          <CommonCard v-for="card in myRecipes" :card="card" :to="`/recipe/${card.id}`" />
+          <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
         </div>
       </div>
     </div>

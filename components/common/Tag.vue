@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-    <span class="tag" @click="$emit('click')" :class="{ 'is-active': isActive }">{{ tag }}</span>
+    <span class="tag" @click="$emit('click')" :class="{ 'is-active': isActive }">{{ tag?.title }}</span>
 </template>
 
 <style>
