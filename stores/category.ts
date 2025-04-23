@@ -14,15 +14,14 @@ import type { TExistingCategory } from "~/types/category"
 export const useCategoryStore = defineStore('category', {
   state: () => {
     return {
-      categoryList: [] as TExistingCategory[],
+      categories: [] as TExistingCategory[],
     }
   },
   actions: {
     async fetchCategories() {
       try {
-        await $fetch('/api/categories').then((res: TExistingCategory[]) => {
-          this.categoryList = res;
-        })
+        const categories = await useFetch<TExistingCategory[]>('/api/categories')
+        this.categories = categories.data ? categories.data.value as TExistingCategory[] : []
       } catch (error) {
         console.error('Error fetching:', error);
       }

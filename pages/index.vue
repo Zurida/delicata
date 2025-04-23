@@ -1,10 +1,6 @@
 <script setup>
 const categoryStore = useCategoryStore()
 
-onBeforeMount(async () => {
-  await categoryStore.fetchCategories();
-});
-
 const { data: recipes } = await useFetch('/api/recipes')
 
 
@@ -22,7 +18,7 @@ async function setActiveId(category) {
   currentId.value = category.id
 
   try {
-    const response = await $fetch(`/api/recipes?category=${category.id}`)
+    const response = await $fetch(`/api/recipes?category_id=${category.id}`)
     console.log(response)
 
     cards.value = response
@@ -40,7 +36,7 @@ async function setActiveId(category) {
         <h4>Категории</h4>
         <div class="aside__container">
           <Collapse :category="{ id: 0, text: 'Все категории' }"></Collapse>
-          <Collapse v-for="category in categoryStore.categoryList" :category="category" :class="{
+          <Collapse v-for="category in categoryStore.categories" :category="category" :class="{
             'is-visible': category.id === currentId
           }" @click="setActiveId(category)" />
         </div>

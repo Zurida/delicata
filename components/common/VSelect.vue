@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { useClickOutside } from '@/composables/useClickOutside'
-import type { TOption } from '~/types/options';
+import type { TOption } from '~/types/option';
 
 const props = defineProps<{
     options: TOption[] | null,
+    selectName: string
 }>()
 
 const model = defineModel()
 
 const componentRef = ref()
-const excludeRef = ref()
+const buttonRef = ref()
 const isActive = ref(false)
 
 const selectedOption = ref()
 
 function handleClick(option: TOption) {
-    selectedOption.value = option.text
+    selectedOption.value = option.title
     isActive.value = false
 }
 
@@ -24,24 +25,24 @@ useClickOutside(
     () => {
         isActive.value = false
     },
-    excludeRef
+    buttonRef
 )
 
 </script>
 
 <template>
     <div class="VSelect" :class="{ active: isActive }">
-        <button type="button" ref="excludeRef" class="select-button" role="combobox" aria-label="select button"
+        <button type="button" ref="buttonRef" class="select-button" role="combobox" aria-label="select button"
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
             @click="isActive = !isActive">
             <span class="selected-value">{{ selectedOption || 'Выбрать' }}</span>
             <i class="arrow right"></i>
         </button>
 
-        <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef" v-if="options">
-            <li role="option" v-for="(option, index) in options" @click="handleClick(option)">
-                <input type="radio" :id="`option-${option.value}-${index}`" :value="option.value" v-model="model" />
-                <label :for="`option-${option.value}-${index}`">{{ option.text }}</label>
+        <ul class="select-dropdown" role="listbox" id="select-dropdown" ref="componentRef">
+            <li role="option" v-for="option in options">
+                <input type="radio" :id="`${selectName}-${option.id}`" :value="option.id" v-model="model" />
+                <label :for="`${selectName}-${option.id}`" @click="handleClick(option)">{{ option.title }}</label>
             </li>
         </ul>
     </div>

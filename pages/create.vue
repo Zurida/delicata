@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { TRecipe } from '~/types/recipe';
-import type { TExistingCategory } from '~/types/category';
 
 const { data: measures } = await useFetch('/api/measures')
-// const categories = TExistingCategory[]
-
+const categoryStore = useCategoryStore()
 
 const recipe = reactive<TRecipe>({
     category: "",
@@ -55,7 +53,7 @@ async function handleSubmit(evt: Event) {
     }
 
     try {
-        const response = await $fetch("/api/recipe", {
+        const response = await $fetch("/api/recipes", {
             method: "POST",
             body
         })
@@ -74,7 +72,7 @@ async function handleSubmit(evt: Event) {
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <!-- <CommonVSelect :options="categories" v-model="recipe.category" /> -->
+                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category" select-name="categories" />
 
             </div>
 
@@ -99,7 +97,8 @@ async function handleSubmit(evt: Event) {
                 <div class="ingridients__fields" @change="handleChange">
                     <CommonVInput v-model:model="ingridient.name" type="text" placeholder="Введите ингридиент" />
                     <CommonVInput v-model:model="ingridient.quantity" type="number" placeholder="Введите количество" />
-                    <CommonVSelect :options="measures" v-model="ingridient.measure" class="ingridients__select" />
+                    <CommonVSelect :options="measures" v-model="ingridient.measure" select-name="measures"
+                        class="ingridients__select" />
                 </div>
             </div>
 

@@ -1,4 +1,5 @@
 export type TOption = {
-    value: string,
+    id: string | number,
+    title: string,
     text: string | null,
 }

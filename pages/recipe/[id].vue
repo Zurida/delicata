@@ -6,7 +6,7 @@ Swiper.use([Thumbs, FreeMode, Navigation]);
 
 
 const { params: { id } } = useRoute();
-const { data: recipe } = await useFetch(`/api/recipe/${id}`)
+const { data: recipe } = await useFetch(`/api/recipes/${id}`)
 
 
 const selectedIngridients = ref([]);
