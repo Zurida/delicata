@@ -10,16 +10,16 @@ const cards = ref(recipes)
 
 // const { session, loggedIn, user } = useUserSession()
 
-// definePageMeta({
-//   middleware: ['authenticated'],
-// })
+definePageMeta({
+  middleware: ['auth'],
+});
+
 
 async function setActiveId(category) {
   currentId.value = category.id
 
   try {
     const response = await $fetch(`/api/recipes?category_id=${category.id}`)
-    console.log(response)
 
     cards.value = response
   } catch (error) {

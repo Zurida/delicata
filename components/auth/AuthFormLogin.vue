@@ -57,7 +57,9 @@ const onSubmit = async () => {
             method: 'POST',
             body: authFormData.value
         }).then(() => {
-            navigateTo('/')
+            // navigateTo('/')
+            window.location.replace('/')
+
         })
             .catch(() => alert('Bad credentials'))
 

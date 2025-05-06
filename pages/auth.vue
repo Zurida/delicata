@@ -3,8 +3,14 @@ import AuthFormLogin from '~/components/auth/AuthFormLogin.vue';
 import AuthFormRegister from '~/components/auth/AuthFormRegister.vue';
 
 definePageMeta({
-    layout: 'auth'
+    layout: 'auth',
+    middleware: ['auth2']
 })
+
+const authCookie = useCookie('auth_token')
+if (authCookie.value) {
+    authCookie.value = null
+}
 
 const titles = ['DELICATA']
 const tabs = {

@@ -1,12 +1,16 @@
-import type { TUser } from "~/types/user"
+import type { TNewUser } from "~/types/user"
 
-export const useAuthStore = defineStore("auth", () => {
+export const useAuthStore = defineStore("auth", {
     state: () => ({
         isAuthenticated: false,
         isLoggedIn: false,
-        user: <TUser>{},
+        user: null,
         authTokens: null
-    })
+    }),
 
-    actions: { }
+    actions: {
+        async registerUser(credentials: TNewUser) {
+
+        },
+    }
 })

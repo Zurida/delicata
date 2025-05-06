@@ -5,7 +5,7 @@ const { loggedIn, user, clear, fetch } = useUserSession();
 <template>
     <div class="UserInfo">
         <p>Admin</p>
-        <p v-if="loggedIn">{{ user?.username }}</p>
+        <p v-if="loggedIn">{{ user?.email }}</p>
     </div>
 </template>
 
