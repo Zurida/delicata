@@ -33,9 +33,10 @@ const updateValue = (e: Event) => {
         width: 100%;
         padding: 0.675em 1em;
         border-radius: 5px;
-        border: none;
+        border: 1px solid var(--border-color);
         outline: none;
         font-family: inherit;
+        resize: none;
 
 
         &:focus~.label,

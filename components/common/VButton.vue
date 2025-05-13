@@ -48,5 +48,10 @@ const component = computed(() => {
         background-color: gray;
         pointer-events: none;
     }
+
+    &--small {
+        padding: .4rem .8rem;
+        font-size: 1rem;
+    }
 }
 </style>

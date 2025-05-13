@@ -60,15 +60,16 @@ useClickOutside(
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        min-height: 3.8rem;
+        height: 3.6rem;
         font-size: inherit;
         background-color: #fff;
         padding: 0.675em 1em;
-        border-radius: 0.25rem;
+        border-radius: 0.4rem;
+        border: 1px solid var(--border-color);
     }
 
     .arrow {
-        border: solid var(--black);
+        border: solid #2f4f4fc4;
         border-width: 0 2px 2px 0;
         display: inline-block;
         padding: 3px;

@@ -5,40 +5,41 @@ const { data: measures } = await useFetch('/api/measures')
 const categoryStore = useCategoryStore()
 
 const recipe = reactive<TRecipe>({
-    category: "",
     title: "",
-    ingridients: [],
+    category_id: 0,
+    source: "",
+    ingredients: [],
     description: "",
-    images: []
+    tags: []
 });
 
 const isDisabled = ref(true)
 
-const ingridient = ref({
+const ingredient = ref({
     name: "",
     quantity: 0,
     measure: null
 })
 
-function addIngridient() {
-    recipe.ingridients.push({
-        ...ingridient.value
+function addingredient() {
+    recipe.ingredients?.push({
+        ...ingredient.value
     })
-    clearIngridientFields()
+    clearingredientFields()
 }
 
-function clearIngridientFields() {
-    ingridient.value.name = ""
-    ingridient.value.quantity = 0
-    ingridient.value.measure = null
+function clearingredientFields() {
+    ingredient.value.name = ""
+    ingredient.value.quantity = 0
+    ingredient.value.measure = null
 }
 
-function removeIngridient(index: number) {
-    recipe.ingridients.splice(index, 1)
+function removeingredient(index: number) {
+    recipe.ingredients?.splice(index, 1)
 }
 
 function handleChange() {
-    if (!ingridient.value.name || !ingridient.value.quantity || !ingridient.value.measure) {
+    if (!ingredient.value.name || !ingredient.value.quantity || !ingredient.value.measure) {
         isDisabled.value = true
     } else {
         isDisabled.value = false
@@ -46,18 +47,20 @@ function handleChange() {
 }
 
 async function handleSubmit(evt: Event) {
+
     evt.preventDefault()
 
     const body: TRecipe = {
         ...recipe
     }
-
     try {
-        const response = await $fetch("/api/recipes", {
-            method: "POST",
+        return await $fetch('/api/recipes', {
+            method: 'POST',
             body
         })
-        navigateTo('/')
+
+
+        // navigateTo('/')
     } catch (error) {
         console.log(error)
     }
@@ -72,7 +75,8 @@ async function handleSubmit(evt: Event) {
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория</h3>
-                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category" select-name="categories" />
+                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id"
+                    select-name="categories" />
 
             </div>
 
@@ -82,27 +86,28 @@ async function handleSubmit(evt: Event) {
                 </CommonVInput>
             </div>
 
-            <div class="form__item ingridients">
+            <div class="form__item ingredients">
                 <h3>Инргидиенты</h3>
 
-                <div class="ingridients__list" v-if="recipe.ingridients.length">
+                <div class="ingredients__list" v-if="recipe.ingredients?.length">
 
-                    <div class="ingridients__item" v-for="(item, index) in recipe.ingridients"
-                        :key="`ingridient-${index}`">
-                        <p class="ingridients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
-                        <span class="ingridients__remove"><nuxt-icon name="close"
-                                @click="removeIngridient(index)"></nuxt-icon></span>
+                    <div class="ingredients__item" v-for="(item, index) in recipe.ingredients"
+                        :key="`ingredient-${index}`">
+                        <p class="ingredients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
+                        <span class="ingredients__remove"><nuxt-icon name="close"
+                                @click="removeingredient(index)"></nuxt-icon></span>
                     </div>
                 </div>
-                <div class="ingridients__fields" @change="handleChange">
-                    <CommonVInput v-model:model="ingridient.name" type="text" placeholder="Введите ингридиент" />
-                    <CommonVInput v-model:model="ingridient.quantity" type="number" placeholder="Введите количество" />
-                    <CommonVSelect :options="measures" v-model="ingridient.measure" select-name="measures"
-                        class="ingridients__select" />
+                <div class="ingredients__fields" @change="handleChange">
+                    <CommonVInput v-model:model="ingredient.name" type="text" placeholder="Введите ингридиент" />
+                    <CommonVInput v-model:model="ingredient.quantity" type="number" placeholder="Введите количество" />
+                    <CommonVSelect :options="measures" v-model="ingredient.measure" select-name="measures"
+                        class="ingredients__select" />
                 </div>
             </div>
 
-            <CommonVButton small @click="addIngridient" :disabled="isDisabled">Добавить Инргидиент</CommonVButton>
+            <CommonVButton small @click="addingredient" :disabled="isDisabled" class="ingredients__btn">Добавить
+                Инргидиент</CommonVButton>
 
             <div class="form__item">
                 <h3>Способ приготовления</h3>
@@ -126,12 +131,15 @@ async function handleSubmit(evt: Event) {
     &__title {
         margin-top: 2rem;
         margin-bottom: 2rem;
+        padding: 0 var(--gap);
     }
 }
 
 .form {
+    padding: 0 var(--gap);
+
     &__item {
-        margin-bottom: 1rem;
+        margin-bottom: 1.6rem;
     }
 }
 
@@ -141,7 +149,7 @@ h3 {
     font-weight: 600;
 }
 
-.ingridients {
+.ingredients {
     width: 100%;
 
     &__list {
@@ -185,6 +193,10 @@ h3 {
 
     &__select {
         flex: 1;
+    }
+
+    &__btn {
+        margin-bottom: 1.6rem;
     }
 }
 </style>

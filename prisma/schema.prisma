@@ -27,7 +27,7 @@ model Recipe {
   updatedAt   DateTime     @updatedAt
   source      String?
   img         String?
-  ingridients Ingridient[]
+  ingredients ingredient[]
   description String?
   tags        Tag[]
   category    String
@@ -39,7 +39,7 @@ model Category {
   text  String?
 }
 
-model Ingridient {
+model ingredient {
   id       String @id @default(uuid())
   name     String
   quantity Int

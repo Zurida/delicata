@@ -32,19 +32,18 @@ const props = withDefaults(defineProps<Props>(), {
 
     &__body {
         position: relative;
-        min-height: 3.8rem;
     }
 
     &__native {
         width: 100%;
-
+        height: 3.6rem;
         padding: 0.675em 1em;
         border-radius: 5px;
         font-family: inherit;
         -moz-appearance: textfield;
         transition: box-shadow .4s;
         color: var(--black);
-        border: 1px solid #ccc;
+        border: 1px solid var(--border-color);
         border-radius: 5px;
 
         &::-webkit-outer-spin-button,

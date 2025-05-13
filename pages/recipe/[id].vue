@@ -9,7 +9,7 @@ const { params: { id } } = useRoute();
 const { data: recipe } = await useFetch(`/api/recipes/${id}`)
 
 
-const selectedIngridients = ref([]);
+const selectedingredients = ref([]);
 
 function initSlider() {
     const swiperThumbs = new Swiper('.gallery-thumbs', {
@@ -110,11 +110,11 @@ onMounted(() => {
                 </div>
 
                 <div class="recipe__list">
-                    <div class="recipe__item" v-for="ingridient in recipe.ingridients" :key="ingridient.name">
-                        <CommonVCheckbox class="recipe__checkbox" :label="ingridient.name" v-model="selectedIngridients"
-                            :value="ingridient" />
+                    <div class="recipe__item" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
+                        <CommonVCheckbox class="recipe__checkbox" :label="ingredient.name" v-model="selectedingredients"
+                            :value="ingredient" />
 
-                        -<span class="recipe__mesure">{{ ingridient.quantity }} {{ ingridient.measure }}</span>
+                        -<span class="recipe__mesure">{{ ingredient.quantity }} {{ ingredient.measure }}</span>
                     </div>
                 </div>
             </div>
