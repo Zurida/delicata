@@ -2,6 +2,8 @@
 import type { TRecipe } from '~/types/recipe';
 
 const { data: measures } = await useFetch('/api/measures')
+const { data: tags } = await useFetch('/api/tags')
+
 const categoryStore = useCategoryStore()
 
 const recipe = reactive<TRecipe>({
@@ -34,11 +36,16 @@ function clearingredientFields() {
     ingredient.value.measure = null
 }
 
-function removeingredient(index: number) {
+function removeIngredient(index: number) {
     recipe.ingredients?.splice(index, 1)
 }
 
+function removeTag(index: number) {
+    recipe.tags?.splice(index, 1)
+}
+
 function handleChange() {
+    console.log('hi')
     if (!ingredient.value.name || !ingredient.value.quantity || !ingredient.value.measure) {
         isDisabled.value = true
     } else {
@@ -58,8 +65,6 @@ async function handleSubmit(evt: Event) {
             method: 'POST',
             body
         })
-
-
         // navigateTo('/')
     } catch (error) {
         console.log(error)
@@ -69,25 +74,28 @@ async function handleSubmit(evt: Event) {
 </script>
 
 <template>
-    <div class="container">
-        <CommonTitle title="Добавить рецепт" class="create__title" />
-
+    <div class="create container">
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
-                <h3>Категория</h3>
+                <h3>Категория*</h3>
                 <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id"
                     select-name="categories" />
-
             </div>
 
             <div class="form__item">
-                <h3>Заголовок</h3>
-                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите заголовок">
+                <h3>Заголовок*</h3>
+                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите текст">
+                </CommonVInput>
+            </div>
+
+            <div class="form__item">
+                <h3>Источник</h3>
+                <CommonVInput v-model="recipe.source" type="text" placeholder="Укажите автора или ссылку на автора">
                 </CommonVInput>
             </div>
 
             <div class="form__item ingredients">
-                <h3>Инргидиенты</h3>
+                <h3>Ингредиенты</h3>
 
                 <div class="ingredients__list" v-if="recipe.ingredients?.length">
 
@@ -95,11 +103,11 @@ async function handleSubmit(evt: Event) {
                         :key="`ingredient-${index}`">
                         <p class="ingredients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
                         <span class="ingredients__remove"><nuxt-icon name="close"
-                                @click="removeingredient(index)"></nuxt-icon></span>
+                                @click="removeIngredient(index)"></nuxt-icon></span>
                     </div>
                 </div>
                 <div class="ingredients__fields" @change="handleChange">
-                    <CommonVInput v-model:model="ingredient.name" type="text" placeholder="Введите ингридиент" />
+                    <CommonVInput v-model:model="ingredient.name" type="text" placeholder="Введите ингредиент" />
                     <CommonVInput v-model:model="ingredient.quantity" type="number" placeholder="Введите количество" />
                     <CommonVSelect :options="measures" v-model="ingredient.measure" select-name="measures"
                         class="ingredients__select" />
@@ -108,6 +116,15 @@ async function handleSubmit(evt: Event) {
 
             <CommonVButton small @click="addingredient" :disabled="isDisabled" class="ingredients__btn">Добавить
                 Инргидиент</CommonVButton>
+
+            <div class="form__item tags">
+                <h3>Тэги</h3>
+                <div class="tags__fields">
+                    <CommonVTag class="recipe__tag" v-for="tag in tags" :label="tag.title" v-model="recipe.tags"
+                        :value="tag.title" />
+                </div>
+            </div>
+
 
             <div class="form__item">
                 <h3>Способ приготовления</h3>
@@ -120,7 +137,7 @@ async function handleSubmit(evt: Event) {
             </div> -->
 
 
-            <CommonVButton small type="submit">Сохранить</CommonVButton>
+            <CommonVButton type="submit">Сохранить</CommonVButton>
 
         </form>
     </div>
@@ -128,11 +145,8 @@ async function handleSubmit(evt: Event) {
 
 <style lang="scss">
 .create {
-    &__title {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        padding: 0 var(--gap);
-    }
+    padding-top: var(--gap);
+    padding-bottom: var(--gap);
 }
 
 .form {
@@ -197,6 +211,14 @@ h3 {
 
     &__btn {
         margin-bottom: 1.6rem;
+    }
+}
+
+.tags {
+    &__fields {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
     }
 }
 </style>

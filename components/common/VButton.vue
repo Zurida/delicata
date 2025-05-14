@@ -32,8 +32,9 @@ const component = computed(() => {
     justify-content: center;
     align-items: center;
     padding: .8rem 1rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
+    letter-spacing: .06rem;
     background-color: var(--main-1);
     color: var(--white);
     transition: opacity .4s;
@@ -50,8 +51,9 @@ const component = computed(() => {
     }
 
     &--small {
-        padding: .4rem .8rem;
+        padding: .6rem .8rem;
         font-size: 1rem;
+        border-radius: .3rem;
     }
 }
 </style>

@@ -41,7 +41,10 @@ async function setActiveId(category) {
           }" @click="setActiveId(category)" />
         </div>
         <div class="btn">
-          <CommonVButton to="/create" class="actions__link">+ Добавить рецепт</CommonVButton>
+          <CommonVButton to="/create" class="actions__link">
+            <IconsIconAdd />
+            <p>Добавить рецепт</p>
+          </CommonVButton>
         </div>
       </aside>
       <div class="main">
@@ -116,6 +119,18 @@ h4 {
     font-size: var(--fs-small);
     margin-left: auto;
     margin-right: auto;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+      margin-right: .4rem;
+      fill: currentColor;
+    }
+
+    p {
+      font-weight: 600;
+
+    }
   }
 
   &__search {

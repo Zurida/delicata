@@ -106,7 +106,7 @@ onMounted(() => {
 
             <div class="recipe__ingredients">
                 <div class="recipe__subtitle">
-                    Ингридиенты:
+                    Ингредиенты:
                 </div>
 
                 <div class="recipe__list">
