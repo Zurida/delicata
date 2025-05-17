@@ -18,12 +18,12 @@ const recipe = reactive<TRecipe>({
 const isDisabled = ref(true)
 
 const ingredient = ref({
-    name: "",
+    title: "",
     quantity: 0,
-    measure: null
+    measure_id: null
 })
 
-function addingredient() {
+function addIngredient() {
     recipe.ingredients?.push({
         ...ingredient.value
     })
@@ -31,9 +31,10 @@ function addingredient() {
 }
 
 function clearingredientFields() {
-    ingredient.value.name = ""
+    ingredient.value.title = ""
     ingredient.value.quantity = 0
-    ingredient.value.measure = null
+    ingredient.value.measure_id = null
+    isDisabled.value = true
 }
 
 function removeIngredient(index: number) {
@@ -45,11 +46,10 @@ function removeTag(index: number) {
 }
 
 function handleChange() {
-    console.log('hi')
-    if (!ingredient.value.name || !ingredient.value.quantity || !ingredient.value.measure) {
-        isDisabled.value = true
-    } else {
+    if (ingredient.value.title && ingredient.value.quantity && ingredient.value.measure_id) {
         isDisabled.value = false
+    } else {
+        isDisabled.value = true
     }
 }
 
@@ -88,35 +88,6 @@ async function handleSubmit(evt: Event) {
                 </CommonVInput>
             </div>
 
-            <div class="form__item">
-                <h3>Источник</h3>
-                <CommonVInput v-model="recipe.source" type="text" placeholder="Укажите автора или ссылку на автора">
-                </CommonVInput>
-            </div>
-
-            <div class="form__item ingredients">
-                <h3>Ингредиенты</h3>
-
-                <div class="ingredients__list" v-if="recipe.ingredients?.length">
-
-                    <div class="ingredients__item" v-for="(item, index) in recipe.ingredients"
-                        :key="`ingredient-${index}`">
-                        <p class="ingredients__text">{{ item.name }} - {{ item.quantity }} {{ item.measure }}</p>
-                        <span class="ingredients__remove"><nuxt-icon name="close"
-                                @click="removeIngredient(index)"></nuxt-icon></span>
-                    </div>
-                </div>
-                <div class="ingredients__fields" @change="handleChange">
-                    <CommonVInput v-model:model="ingredient.name" type="text" placeholder="Введите ингредиент" />
-                    <CommonVInput v-model:model="ingredient.quantity" type="number" placeholder="Введите количество" />
-                    <CommonVSelect :options="measures" v-model="ingredient.measure" select-name="measures"
-                        class="ingredients__select" />
-                </div>
-            </div>
-
-            <CommonVButton small @click="addingredient" :disabled="isDisabled" class="ingredients__btn">Добавить
-                Инргидиент</CommonVButton>
-
             <div class="form__item tags">
                 <h3>Тэги</h3>
                 <div class="tags__fields">
@@ -124,6 +95,48 @@ async function handleSubmit(evt: Event) {
                         :value="tag.title" />
                 </div>
             </div>
+
+            <h3>Ингредиенты</h3>
+            <div class="form__item ingredients">
+
+
+                <div class="ingredients__form">
+
+                    <div class="ingredients__fields" @change="handleChange">
+                        <CommonVInput v-model="ingredient.title" type="text" placeholder="Введите ингредиент" />
+                        <CommonVInput v-model="ingredient.quantity" type="number" placeholder="Введите количество" />
+                        <CommonVSelect :options="measures" v-model="ingredient.measure_id" select-name="measures"
+                            class="ingredients__select" />
+                    </div>
+
+                    <CommonVButton small @click="addIngredient" :disabled="isDisabled" class="ingredients__btn">Добавить
+                        Инргидиент</CommonVButton>
+                </div>
+
+                <TransitionGroup name="list" tag="ul" class="ingredients__list" v-show="recipe.ingredients?.length">
+
+                    <li class="ingredients__item" v-for="(ingridient, index) in recipe.ingredients"
+                        :key="`ingredient-${index}`">
+
+                        <p class="ingredients__text">{{ ingridient.title }} - {{ ingridient.quantity }} {{
+                            ingridient.measure_id }}</p>
+
+                        <span class="ingredients__remove" @click="removeIngredient(index)">
+                            <IconsIconClose></IconsIconClose>
+                        </span>
+                    </li>
+                </TransitionGroup>
+
+            </div>
+
+
+            <div class="form__item">
+                <h3>Источник</h3>
+                <CommonVInput v-model="recipe.source" type="text" placeholder="Укажите автора или ссылку на автора">
+                </CommonVInput>
+            </div>
+
+
 
 
             <div class="form__item">
@@ -164,45 +177,22 @@ h3 {
 }
 
 .ingredients {
-    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 
-    &__list {
-        font-size: 1.4rem;
-        color: var(--main-2);
-    }
+    &__form {
+        flex: 1;
+        margin-right: var(--gap);
 
-    &__item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    &__text {
-        width: 100%;
-        padding: .6rem;
-        background-color: bisque;
-        border-radius: 5px;
-    }
-
-    &__remove {
-        margin-left: 1rem;
-        margin-right: 1rem;
-        transition: scale .4s;
-
-        svg {
-            width: 3rem;
-        }
-
-        &:hover {
-            cursor: pointer;
-            scale: 1.2;
+        .VInput {
+            width: 14rem;
         }
     }
 
     &__fields {
         display: flex;
         gap: .5rem;
-        width: 100%;
     }
 
     &__select {
@@ -210,7 +200,49 @@ h3 {
     }
 
     &__btn {
-        margin-bottom: 1.6rem;
+        margin-top: calc(var(--gap) / 2);
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        width: 28%;
+        padding-left: var(--gap);
+        border-left: 1px solid #f9573866;
+        font-size: 1.4rem;
+        color: var(--main-2);
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__text {
+        flex: 1;
+        text-transform: lowercase;
+
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
+
+    &__remove {
+        width: 2rem;
+        height: 2rem;
+        margin-right: .4rem;
+        transition: scale .4s;
+        color: var(--main-1);
+
+        &:hover {
+            cursor: pointer;
+            scale: 1.2;
+        }
     }
 }
 

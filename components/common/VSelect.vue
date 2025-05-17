@@ -72,7 +72,7 @@ useClickOutside(
         border: solid #2f4f4fc4;
         border-width: 0 2px 2px 0;
         display: inline-block;
-        padding: 3px;
+        padding: 2px;
         transform: rotate(45deg);
         transition: transform .4s;
     }
@@ -105,10 +105,6 @@ useClickOutside(
         transform: scaleY(0);
         opacity: 0;
         visibility: hidden;
-
-        &:focus-within {
-            box-shadow: 0 10px 25px rgba(94, 108, 233, 0.6);
-        }
 
         label {
             display: flex;
