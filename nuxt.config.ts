@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     '/api/**': {
       cors: true,
     },
-    '/api/auth': {
+    '/auth': {
       prerender: true,
     },
     '/page': {
