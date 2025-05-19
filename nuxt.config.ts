@@ -33,9 +33,6 @@ export default defineNuxtConfig({
     '/api/**': {
       cors: true,
     },
-    '/auth': {
-      prerender: true,
-    },
     '/page': {
       headers: {
         'x-hackathon': 'true'
