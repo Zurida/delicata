@@ -64,8 +64,10 @@ async function handleSubmit(evt: Event) {
         return await $fetch('/api/recipes', {
             method: 'POST',
             body
+        }).then(() => {
+            navigateTo('/')
         })
-        // navigateTo('/')
+
     } catch (error) {
         console.log(error)
     }
