@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { TRecipe } from '~/types/recipe';
 
+definePageMeta({
+    middleware: ['auth'],
+});
+
 const { data: measures } = await useFetch('/api/measures')
 const { data: tags } = await useFetch('/api/tags')
 
