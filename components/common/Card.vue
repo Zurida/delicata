@@ -6,9 +6,6 @@ defineProps<{
   card: TRecipe,
   to: string,
 }>()
-
-
-
 </script>
 
 <template>

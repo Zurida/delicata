@@ -34,6 +34,16 @@ async function setActiveId(category: TExistingCategory) {
   }
 }
 
+async function handleResetRecipes() {
+  currentId.value = 0
+  try {
+    const response = await $fetch<TRecipe[]>(`/api/recipes`)
+
+    cards.value = response
+  } catch (error) {
+    console.log(error)
+  }
+}
 // const filter = reactive<TTag>({
 //   tags: []
 // });
@@ -46,7 +56,9 @@ async function setActiveId(category: TExistingCategory) {
       <aside class="aside reverse">
         <h4>Категории</h4>
         <div class="aside__container">
-          <Collapse :category="{ id: 0, title: 'Все категории' }"></Collapse>
+          <Collapse :category="{ id: 0, title: 'Все категории' }" @click="handleResetRecipes" :class="{
+            'is-visible': currentId === 0
+          }"></Collapse>
           <Collapse v-for="category in categoryStore.categories" :category="category" :class="{
             'is-visible': category.id === currentId
           }" @click="setActiveId(category)" />
