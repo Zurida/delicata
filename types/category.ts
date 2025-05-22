@@ -4,4 +4,4 @@ export type TCategory = {
     text: string | null,
 }
 
-export type TExistingCategory = TCategory & { id: string }
+export type TExistingCategory = TCategory & { id: number }

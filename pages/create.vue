@@ -212,7 +212,7 @@ h3 {
     &__list {
         display: flex;
         flex-wrap: wrap;
-        width: 28%;
+        width: 40%;
         padding-left: var(--gap);
         border-left: 1px solid #f9573866;
         font-size: 1.4rem;

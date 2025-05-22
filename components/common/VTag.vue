@@ -3,6 +3,7 @@ const props = defineProps({
     modelValue: { type: [Array] },
     value: { type: [String] },
     label: { type: String },
+    isDisabled: { type: Boolean },
 });
 const emit = defineEmits(["update:modelValue"]);
 const model = computed({
@@ -17,7 +18,7 @@ const model = computed({
 </script>
 
 <template>
-    <div class="VTag">
+    <div class="VTag" :class="{ 'VTag--disabled': isDisabled }">
         <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="value">
         <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
     </div>
@@ -28,6 +29,10 @@ const model = computed({
     position: relative;
     display: inline-flex;
     align-items: center;
+
+    &--disabled {
+        pointer-events: none;
+    }
 
     input {
         opacity: 0;

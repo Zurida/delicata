@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { formatDate } from '~/assets/js/utils';
-import type { TTag } from '~/types/tag';
-
-type Card = {
-  id: number,
-  title: string;
-  created_at: string;
-  tags: TTag[];
-  img: string;
-}
+import type { TRecipe } from '~/types/recipe';
 
 defineProps<{
-  card: Card,
+  card: TRecipe,
   to: string,
 }>()
 
@@ -20,27 +12,67 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink :to="to" class="card">
-    <div class="card__image" :style="{ backgroundImage: card.img ? `url(${card.img})` : 'none' }"></div>
-    <div class="card__description">
-      <div class="card__date">Добавлено: {{ formatDate(card.created_at) }}</div>
-      <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
-      <div class="card__tags">
-        <CommonTag v-for="tag in card.tags" :key="tag.title" :tag="tag" />
-      </div>
+  <div class="card">
+    <div class="card__actions">
+
+      <span>
+        <IconsIconEdit />
+      </span>
     </div>
-  </NuxtLink>
+    <NuxtLink :to="to" class="card__link">
+
+      <div class="card__image"></div>
+      <div class="card__description">
+        <div class="card__date">Добавлено: {{ formatDate(card.created_at) }}</div>
+        <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
+        <div class="card__tags">
+          <CommonVTag v-for="tag in card.tags" :key="tag.title" :label="tag.title" :tag="tag" is-disabled />
+        </div>
+      </div>
+    </NuxtLink>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .card {
-  display: inline-block;
+  position: relative;
   background-color: var(--white);
   border-radius: var(--border-radius);
-  transition: box-shadow 0.4s;
 
-  &:hover {
-    box-shadow: 0 0 20px 0 rgba(150, 150, 150, 0.623);
+  &__link {
+    display: inline-block;
+    width: 100%;
+    transition: box-shadow 0.4s;
+
+    &:hover {
+      box-shadow: 0 0 20px 0 rgba(150, 150, 150, 0.623);
+    }
+  }
+
+
+
+  &__actions {
+    display: flex;
+    position: absolute;
+    top: .4rem;
+    right: .4rem;
+    z-index: 1;
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.2rem;
+      padding: 0.4rem;
+      background-color: rgba(255, 255, 255, .6);
+      border-radius: 10%;
+      cursor: pointer;
+      transition: color .4s;
+
+      &:hover {
+        color: var(--main-1);
+      }
+    }
   }
 
   &__image {
@@ -94,11 +126,12 @@ defineProps<{
       border: 3px solid transparent;
     }
   }
-}
 
-.tag {
-  &:not(:last-child) {
-    margin-right: 0.6rem;
+
+  .VTag {
+    &:not(:last-child) {
+      margin-right: 0.6rem;
+    }
   }
 }
 </style>

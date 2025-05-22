@@ -1,31 +1,42 @@
-<script setup>
+<script setup lang="ts">
+import type { TExistingCategory } from '~/types/category';
+import type { TRecipe } from '~/types/recipe';
+import type { TTag } from '~/types/tag';
+
 const categoryStore = useCategoryStore()
 
-const { data: recipes } = await useFetch('/api/recipes')
+
+const { data: recipes } = await useFetch<TRecipe[]>('/api/recipes')
+const { data: tags } = await useFetch<TTag[]>('/api/tags')
 
 
 let currentId = ref(0);
-const searchVal = ref('')
-const cards = ref(recipes)
-
-// const { session, loggedIn, user } = useUserSession()
+const cards = ref<TRecipe[] | null>(recipes.value)
 
 definePageMeta({
   middleware: ['auth'],
 });
 
 
-async function setActiveId(category) {
+async function setActiveId(category: TExistingCategory) {
   currentId.value = category.id
 
   try {
-    const response = await $fetch(`/api/recipes?category_id=${category.id}`)
+    const response = await $fetch<TRecipe[]>(`/api/recipes`, {
+      query: {
+        category_id: category.id,
+      }
+    })
 
     cards.value = response
   } catch (error) {
     console.log(error)
   }
 }
+
+// const filter = reactive<TTag>({
+//   tags: []
+// });
 
 </script>
 
@@ -35,7 +46,7 @@ async function setActiveId(category) {
       <aside class="aside reverse">
         <h4>Категории</h4>
         <div class="aside__container">
-          <Collapse :category="{ id: 0, text: 'Все категории' }"></Collapse>
+          <Collapse :category="{ id: 0, title: 'Все категории' }"></Collapse>
           <Collapse v-for="category in categoryStore.categories" :category="category" :class="{
             'is-visible': category.id === currentId
           }" @click="setActiveId(category)" />
@@ -54,26 +65,25 @@ async function setActiveId(category) {
 
         </div> -->
 
-        <ul class="main__nav">
+        <!-- <ul class="main__nav">
           <li>Мои рецепты</li>
           <li>Все рецепты</li>
-        </ul>
+        </ul> -->
 
-        <div class="actions__search search">
+        <!-- <div class="actions__search search">
           <div class="search__field">
             <CommonVInput v-model="searchVal" placeholder="Найти рецепт"></CommonVInput>
           </div>
-        </div>
+        </div> -->
 
 
         <div class="filters">
-          <!-- <CommonTag tag="Завтрак" :is-active="false"></CommonTag>
-          <CommonTag tag="Завтрак" :is-active="false"></CommonTag> -->
+          <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags">
+          </CommonVTag>
         </div>
 
-
         <div class="cards">
-          <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" />
+          <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" :key="`card-${card.id}`" />
         </div>
       </div>
     </div>
@@ -181,6 +191,10 @@ h4 {
 }
 
 .filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: var(--gap);
 }
 
