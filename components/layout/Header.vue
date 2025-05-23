@@ -19,7 +19,7 @@ function handleClick() {
         </nuxt-link>
         <ul class="header__menu menu">
             <li class="menu__item is-active">Доска рецептов</li>
-            <li>Меню на неделю</li>
+            <!-- <li>Меню на неделю</li> -->
         </ul>
 
 
@@ -39,7 +39,7 @@ function handleClick() {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1;
+    z-index: 20;
     display: flex;
     justify-content: space-between;
     align-items: center;

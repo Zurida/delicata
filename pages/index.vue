@@ -19,6 +19,8 @@ definePageMeta({
 
 
 async function setActiveId(category: TExistingCategory) {
+
+  if (currentId.value === category.id) { return }
   currentId.value = category.id
 
   try {
@@ -35,18 +37,43 @@ async function setActiveId(category: TExistingCategory) {
 }
 
 async function handleResetRecipes() {
-  currentId.value = 0
+  if (currentId.value !== 0) {
+    currentId.value = 0
+    try {
+      const response = await $fetch<TRecipe[]>(`/api/recipes`)
+
+      cards.value = response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+type TFilter = {
+  tags: string[];
+}
+
+const filter = reactive<TFilter>({
+  tags: [],
+});
+
+async function handleFilterSubmit() {
   try {
-    const response = await $fetch<TRecipe[]>(`/api/recipes`)
+    const response = await $fetch<TRecipe[]>(`/api/recipes/`, {
+      query: {
+        'tag_ids[]': filter.tags,
+      }
+    })
 
     cards.value = response
   } catch (error) {
     console.log(error)
   }
 }
-// const filter = reactive<TTag>({
-//   tags: []
-// });
+
+function handleResetFilter() {
+  filter.tags = []
+}
 
 </script>
 
@@ -89,10 +116,13 @@ async function handleResetRecipes() {
         </div> -->
 
 
-        <div class="filters">
-          <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags">
-          </CommonVTag>
-        </div>
+        <form class="filter" v-if="currentId === 0">
+          <div class="filter__tags">
+            <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags" v-model="filter.tags"
+              :value="tag.id" @change="handleFilterSubmit">
+            </CommonVTag>
+          </div>
+        </form>
 
         <div class="cards">
           <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" :key="`card-${card.id}`" />
@@ -202,12 +232,19 @@ h4 {
   }
 }
 
-.filters {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+.filter {
   margin-bottom: var(--gap);
+
+  &__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .VButton {
+    margin-top: var(--gap-sm);
+  }
 }
 
 .cards {

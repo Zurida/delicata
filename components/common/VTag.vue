@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
     modelValue: { type: [Array] },
-    value: { type: [String] },
+    value: { type: [String] } | { type: [Number] },
     label: { type: String },
     isDisabled: { type: Boolean },
 });
