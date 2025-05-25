@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import VOverlay from '../common/VOverlay.vue';
-
 const isActive = ref(false);
 
 function handleClick() {
@@ -10,9 +8,7 @@ function handleClick() {
 
 <template>
     <header class="header">
-        <Transition>
-            <VOverlay @click="isActive = false" v-if="isActive" />
-        </Transition>
+        <CommonVOverlay :is-visible="isActive" @click="isActive = false" />
         <nuxt-link to="/" class="header__logo">
             <CommonVLogo :is-animated="false" />
             <p>DELICATA</p>

@@ -17,62 +17,67 @@ definePageMeta({
   middleware: ['auth'],
 });
 
+type TFilter = {
+  title: string;
+  tags: string[];
+}
 
-async function setActiveId(category: TExistingCategory) {
+const filterData = reactive<TFilter>({
+  title: '',
+  tags: []
+})
 
-  if (currentId.value === category.id) { return }
-  currentId.value = category.id
 
+const isLoading = ref(false)
+
+async function fetchRecipes(categoryId: number) {
   try {
+    if (!categoryId && filterData.tags.length === 0) {
+      cards.value = recipes.value
+    }
+    isLoading.value = true
+
     const response = await $fetch<TRecipe[]>(`/api/recipes`, {
       query: {
-        category_id: category.id,
+        category_id: categoryId ? categoryId : '',
+        'tag_ids[]': filterData.tags,
+        title: filterData.title,
       }
     })
 
     cards.value = response
+    isLoading.value = false
+
   } catch (error) {
     console.log(error)
   }
+}
+
+async function setActiveId(categoryId: number) {
+  if (currentId.value === categoryId) { return }
+  currentId.value = categoryId
+  await fetchRecipes(currentId.value)
 }
 
 async function handleResetRecipes() {
   if (currentId.value !== 0) {
     currentId.value = 0
-    try {
-      const response = await $fetch<TRecipe[]>(`/api/recipes`)
-
-      cards.value = response
-    } catch (error) {
-      console.log(error)
-    }
+    await fetchRecipes(currentId.value)
   }
 }
 
-type TFilter = {
-  tags: string[];
-}
-
-const filter = reactive<TFilter>({
-  tags: [],
-});
-
-async function handleFilterSubmit() {
-  try {
-    const response = await $fetch<TRecipe[]>(`/api/recipes/`, {
-      query: {
-        'tag_ids[]': filter.tags,
-      }
-    })
-
-    cards.value = response
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 function handleResetFilter() {
-  filter.tags = []
+  filterData.tags = []
+}
+
+async function handleTagChange() {
+  await fetchRecipes(currentId.value)
+}
+
+async function handleTitleSubmit() {
+  if (filterData.title === '') { return }
+  await fetchRecipes(currentId.value)
 }
 
 </script>
@@ -83,12 +88,12 @@ function handleResetFilter() {
       <aside class="aside reverse">
         <h4>Категории</h4>
         <div class="aside__container">
-          <Collapse :category="{ id: 0, title: 'Все категории' }" @click="handleResetRecipes" :class="{
+          <Collapse :category="{ id: 0, title: 'Все рецепты' }" @click="handleResetRecipes" :class="{
             'is-visible': currentId === 0
           }"></Collapse>
           <Collapse v-for="category in categoryStore.categories" :category="category" :class="{
             'is-visible': category.id === currentId
-          }" @click="setActiveId(category)" />
+          }" @click="setActiveId(category.id)" />
         </div>
         <div class="btn">
           <CommonVButton to="/create" class="actions__link">
@@ -98,7 +103,9 @@ function handleResetFilter() {
         </div>
       </aside>
       <div class="main">
-
+        <CommonVOverlay :is-visible="isLoading">
+          <CommonVLoader />
+        </CommonVOverlay>
         <!-- <div>
           <h4>Доска рецептов</h4>
 
@@ -108,24 +115,27 @@ function handleResetFilter() {
           <li>Мои рецепты</li>
           <li>Все рецепты</li>
         </ul> -->
-
-        <!-- <div class="actions__search search">
-          <div class="search__field">
-            <CommonVInput v-model="searchVal" placeholder="Найти рецепт"></CommonVInput>
+        <form class="filter">
+          <div class="search" @submit.prevent="handleTitleSubmit" v-if="!currentId">
+            <div class="search__field">
+              <CommonVInput v-model="filterData.title" placeholder="Найти рецепт"></CommonVInput>
+              <button class="search__btn">
+                <IconsIconSearch class="search__icon" />
+              </button>
+            </div>
           </div>
-        </div> -->
 
-
-        <form class="filter" v-if="currentId === 0">
           <div class="filter__tags">
-            <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags" v-model="filter.tags"
-              :value="tag.id" @change="handleFilterSubmit">
-            </CommonVTag>
+            <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags"
+              v-model="filterData.tags" :value="tag.id" @change="handleTagChange" />
           </div>
         </form>
 
         <div class="cards">
-          <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" :key="`card-${card.id}`" />
+          <div class="cards__list" v-if="cards && cards.length">
+            <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" :key="`card-${card.id}`" />
+          </div>
+          <p v-else>Таких шедевров еще не готовили, но все впереди!</p>
         </div>
       </div>
     </div>
@@ -140,6 +150,13 @@ function handleResetFilter() {
   justify-content: center;
   margin-top: auto;
   margin-bottom: var(--gap);
+}
+
+
+.VOverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo {
@@ -184,15 +201,11 @@ h4 {
 
     }
   }
-
-  &__search {
-    margin-left: auto;
-    margin-bottom: var(--gap);
-  }
 }
 
 .aside {
   position: fixed;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   width: 19rem;
@@ -210,6 +223,8 @@ h4 {
 }
 
 .main {
+  position: relative;
+  z-index: 1;
   flex: 1;
   padding: var(--gap) var(--gap) var(--gap) calc(19rem + var(--gap));
   background-color: #EFF2F4;
@@ -232,6 +247,37 @@ h4 {
   }
 }
 
+.search {
+  position: relative;
+  margin-bottom: var(--gap);
+  // width: 40rem;
+  // margin-left  : auto;
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    background-color: var(--main-1);
+    border-radius: var(--border-radius);
+    color: var(--white);
+
+    span {
+      font-size: 2rem;
+    }
+
+  }
+
+  &__icon {
+    width: 2rem;
+  }
+}
+
 .filter {
   margin-bottom: var(--gap);
 
@@ -248,9 +294,16 @@ h4 {
 }
 
 .cards {
-  display: grid;
-  flex: 1;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
+  &__list {
+    display: grid;
+    flex: 1;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
+  }
+
+  p {
+    font-size: 4rem;
+    color: var(--main-3);
+  }
 }
 </style>
