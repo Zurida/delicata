@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { TExistingCategory } from '~/types/category';
 import type { TRecipe } from '~/types/recipe';
 import type { TTag } from '~/types/tag';
 
@@ -67,8 +66,9 @@ async function handleResetRecipes() {
 }
 
 
-function handleResetFilter() {
+async function handleResetFilter() {
   filterData.tags = []
+  await fetchRecipes(currentId.value)
 }
 
 async function handleTagChange() {
@@ -115,21 +115,22 @@ async function handleTitleSubmit() {
           <li>Мои рецепты</li>
           <li>Все рецепты</li>
         </ul> -->
-        <form class="filter">
-          <div class="search" @submit.prevent="handleTitleSubmit" v-if="!currentId">
+        <div class="filter">
+          <form class="search" @submit.prevent="handleTitleSubmit">
             <div class="search__field">
               <CommonVInput v-model="filterData.title" placeholder="Найти рецепт"></CommonVInput>
               <button class="search__btn">
                 <IconsIconSearch class="search__icon" />
               </button>
             </div>
-          </div>
+          </form>
 
           <div class="filter__tags">
             <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags"
               v-model="filterData.tags" :value="tag.id" @change="handleTagChange" />
           </div>
-        </form>
+          <CommonVButton @click="handleResetFilter" small>Сбросить теги</CommonVButton>
+        </div>
 
         <div class="cards">
           <div class="cards__list" v-if="cards && cards.length">
