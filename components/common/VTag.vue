@@ -52,8 +52,10 @@ const model = computed({
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 6.8rem;
+        // width: 6.8rem;
         height: 2.2rem;
+        padding-left: var(--gap-sm);
+        padding-right: var(--gap-sm);
         border: .5px solid var(--main-2);
         background-color: transparent;
         color: var(--main-2);

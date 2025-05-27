@@ -119,9 +119,18 @@ async function handleTitleSubmit() {
           <form class="search" @submit.prevent="handleTitleSubmit">
             <div class="search__field">
               <CommonVInput v-model="filterData.title" placeholder="Найти рецепт"></CommonVInput>
-              <button class="search__btn">
-                <IconsIconSearch class="search__icon" />
-              </button>
+
+              <div class="search__btns">
+                <button type="submit" class="search__btn">
+                  <span>Найти</span>
+                  <IconsIconSearch class="search__icon" />
+                </button>
+
+                <button type="reset" class="search__btn">
+                  <span>Очистить</span>
+                  <IconsIconClose class="search__icon" />
+                </button>
+              </div>
             </div>
           </form>
 
@@ -232,7 +241,6 @@ h4 {
 
   &__nav {
     display: flex;
-    // margin-top: var(--gap-sm);
     margin-bottom: var(--gap-sm);
 
     li {
@@ -251,31 +259,61 @@ h4 {
 .search {
   position: relative;
   margin-bottom: var(--gap);
-  // width: 40rem;
-  // margin-left  : auto;
 
-  &__btn {
+  &__btns {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 4rem;
-    height: 100%;
     position: absolute;
-    top: 0;
     right: 0;
-    cursor: pointer;
-    background-color: var(--main-1);
-    border-radius: var(--border-radius);
-    color: var(--white);
+    top: 0;
+    height: 100%;
+  }
 
-    span {
-      font-size: 2rem;
+  &__btn {
+    display: grid;
+    grid-template-columns: 40% 10%;
+    align-items: center;
+    min-width: 6.6rem;
+    height: 100%;
+    cursor: pointer;
+    background-color: var(--main-2);
+    color: var(--white);
+    padding-left: var(--gap-sm);
+    padding-right: var(--gap-sm);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: grid-template-columns 0.25s;
+
+    &:hover {
+      grid-template-columns: 80% auto;
+
+      span {
+        opacity: 1;
+      }
     }
 
+
+    &:first-child {
+      border-right: 1px solid white;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-child {
+      border-right: 1px solid white;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    span {
+      opacity: 0;
+      transition: all .2s;
+      margin-right: .4rem;
+    }
   }
 
   &__icon {
-    width: 2rem;
+    width: 1.2rem;
   }
 }
 
@@ -291,6 +329,7 @@ h4 {
 
   .VButton {
     margin-top: var(--gap-sm);
+    background-color: var(--main-2);
   }
 }
 
