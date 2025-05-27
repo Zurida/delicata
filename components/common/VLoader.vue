@@ -1,38 +1,33 @@
 <template>
     <div class="loader"></div>
+
 </template>
 
 <style lang="scss" scoped>
 .loader {
-    width: 30px;
-    aspect-ratio: .577;
-    color: var(--white);
-    display: grid;
+    width: 60px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(farthest-side, #000 90%, #0000);
     background:
-        linear-gradient(currentColor 0 0) top /100% 1px,
-        linear-gradient(currentColor 0 0) bottom/100% 1px,
-        linear-gradient(to bottom right, #0000 calc(50% - 2px), currentColor calc(50% - 1px), #0000 50%) top/100% calc(100% + 2px),
-        linear-gradient(to bottom left, #0000 calc(50% - 2px), currentColor calc(50% - 1px), #0000 50%) top/100% calc(100% + 2px);
-    background-repeat: no-repeat;
-    animation: l17 4s infinite linear;
+        var(--_g) 0 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 100% 50%;
+    background-size: 25% 50%;
+    animation: l12 1s infinite linear;
 }
 
-.loader::before,
-.loader::after {
-    content: "";
-    grid-area: 1/1;
-    background: inherit;
-    border: inherit;
-    animation: inherit;
-}
+@keyframes l12 {
+    33% {
+        background-position: 0 0, 50% 100%, 50% 100%, 100% 0
+    }
 
-.loader::after {
-    animation-duration: 2s;
-}
+    66% {
+        background-position: 50% 0, 0 100%, 100% 100%, 50% 0
+    }
 
-@keyframes l17 {
     100% {
-        transform: rotate(1turn)
+        background-position: 50% 50%, 0 50%, 100% 50%, 50% 50%
     }
 }
 </style>
