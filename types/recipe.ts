@@ -1,10 +1,6 @@
+import type { TIngredient } from './ingredient'
 import type { TTag } from './tag'
 
-type TIngrigient = {
-    title: string,
-    quantity: number | null,
-    measure_id: number | null,
-}
 
 export type TRecipe = {
     id?: number,
@@ -14,6 +10,6 @@ export type TRecipe = {
     description?: string,
     source?: string,
     tags?: TTag[],
-    ingredients?: TIngrigient[],
+    ingredients?: TIngredient[],
     images?: []
 }

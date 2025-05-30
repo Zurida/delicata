@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { TOption } from '~/types/option';
 import type { TRecipe } from '~/types/recipe';
+import type { TIngredient } from '~/types/ingredient';
+import type { TMeasure } from '~/types/measure';
 
 definePageMeta({
     middleware: ['auth'],
@@ -21,11 +24,12 @@ const recipe = reactive<TRecipe>({
 
 const isDisabled = ref(true)
 
-const ingredient = ref({
+const ingredient = ref<TIngredient>({
     title: "",
     quantity: 0,
     measure_id: null
 })
+
 
 function addIngredient() {
     recipe.ingredients?.push({
@@ -104,8 +108,6 @@ async function handleSubmit(evt: Event) {
 
             <h3>Ингредиенты</h3>
             <div class="form__item ingredients">
-
-
                 <div class="ingredients__form">
 
                     <div class="ingredients__fields" @change="handleChange">
@@ -120,12 +122,12 @@ async function handleSubmit(evt: Event) {
                 </div>
 
                 <TransitionGroup name="list" tag="ul" class="ingredients__list" v-show="recipe.ingredients?.length">
-
                     <li class="ingredients__item" v-for="(ingridient, index) in recipe.ingredients"
                         :key="`ingredient-${index}`">
 
-                        <p class="ingredients__text">{{ ingridient.title }} - {{ ingridient.quantity }} {{
-                            ingridient.measure_id }}</p>
+                        <p class="ingredients__text">
+                            {{ ingridient.title }} - {{ ingridient.quantity }}
+                            {{measures.find((measure: TMeasure) => measure.id === ingridient.measure_id)?.title}}</p>
 
                         <span class="ingredients__remove" @click="removeIngredient(index)">
                             <IconsIconClose></IconsIconClose>

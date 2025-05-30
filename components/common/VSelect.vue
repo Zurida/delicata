@@ -6,17 +6,16 @@ const props = defineProps<{
     options: TOption[] | null,
     selectName: string
 }>()
-
 const model = defineModel()
 
 const componentRef = ref()
 const buttonRef = ref()
 const isActive = ref(false)
 
-const selectedOption = ref()
+const selectedOptionTitle = ref()
 
 function handleClick(option: TOption) {
-    selectedOption.value = option.title
+    selectedOptionTitle.value = option.title
     isActive.value = false
 }
 
@@ -35,7 +34,7 @@ useClickOutside(
         <button type="button" ref="buttonRef" class="select-button" role="combobox" aria-label="select button"
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
             @click="isActive = !isActive">
-            <span class="selected-value">{{ model ? selectedOption : 'Выбрать' }}</span>
+            <span class="selected-value">{{ model ? selectedOptionTitle : 'Выбрать' }}</span>
             <i class="arrow right"></i>
         </button>
 

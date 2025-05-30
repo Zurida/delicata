@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const modelValue = defineModel<string | number>()
+const modelValue = defineModel<string | number | null>()
 
 interface Props {
     id?: string,
