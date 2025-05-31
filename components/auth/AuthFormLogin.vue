@@ -91,7 +91,8 @@ const onSubmit = async () => {
 <template>
     <form class="auth-form" @submit.prevent="onSubmit">
         <div class="auth-form__container">
-            <CommonVInput id="email" label="Email" :error="authFormErrors.email" v-model="authFormData.email">Введите
+            <CommonVInput id="email" label="Email" type="email" :error="authFormErrors.email"
+                v-model="authFormData.email">Введите
                 почту
             </CommonVInput>
             <CommonVInput id="password" label="Пароль" type="password" :error="authFormErrors.password"

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { TOption } from '~/types/option';
 import type { TRecipe } from '~/types/recipe';
 import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';

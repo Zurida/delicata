@@ -9,11 +9,12 @@ export default defineEventHandler(async (event) => {
     // Clear the current user session just in case
     await clearUserSession(event);
 
-    const { username, password, email } = await readBody(event);
+    const { name, email, password, password_confirmation } = await readBody(event);
 
     const hashedPassword = await hashPassword(password); // Hash password
+    const hashedPasswordConfirmation = await hashPassword(password_confirmation); // Hash password
 
-    const userData = { name: username, email: email, password: hashedPassword };
+    const userData = { name, email: email, password: hashedPassword, password_confirmation: hashedPasswordConfirmation };
 
     try {
 
@@ -22,12 +23,12 @@ export default defineEventHandler(async (event) => {
             body: userData
         })
 
-        // if (!res) {
-        //     return createError({
-        //         statusCode: 401,
-        //         statusMessage: "Error occured",
-        //     });
-        // }
+        if (!res) {
+            return createError({
+                statusCode: 401,
+                statusMessage: "Error occured",
+            });
+        }
 
         // const loginRes = await $fetch<TRes>(`${useRuntimeConfig().myProxyUrl}auth/login/`, {
         //     method: 'POST',
