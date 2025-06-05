@@ -3,8 +3,10 @@ const props = defineProps({
     modelValue: { type: [Array] },
     value: { type: [String] } | { type: [Number] },
     label: { type: String },
-    isDisabled: { type: Boolean },
+    inactive: { type: Boolean },
+    filled: { type: Boolean },
 });
+
 const emit = defineEmits(["update:modelValue"]);
 const model = computed({
     get() {
@@ -18,7 +20,7 @@ const model = computed({
 </script>
 
 <template>
-    <div class="VTag" :class="{ 'VTag--disabled': isDisabled }">
+    <div class="VTag" :class="{ 'VTag--inactive': inactive, 'VTag--filled': filled }">
         <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="value">
         <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
     </div>
@@ -29,10 +31,6 @@ const model = computed({
     position: relative;
     display: inline-flex;
     align-items: center;
-
-    &--disabled {
-        pointer-events: none;
-    }
 
     input {
         opacity: 0;
@@ -52,7 +50,7 @@ const model = computed({
         display: flex;
         align-items: center;
         justify-content: center;
-        // width: 6.8rem;
+        width: max-content;
         height: 2.2rem;
         padding-left: var(--gap-sm);
         padding-right: var(--gap-sm);
@@ -65,6 +63,17 @@ const model = computed({
 
         &:hover {
             background-color: var(--white);
+        }
+    }
+
+    &--inactive {
+        pointer-events: none;
+    }
+
+    &--filled {
+        label {
+            background-color: var(--main-2);
+            color: var(--white);
         }
     }
 }

@@ -23,7 +23,7 @@ defineProps<{
         <div class="card__date">Добавлено: {{ formatDate(card.created_at) }}</div>
         <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
         <div class="card__tags">
-          <CommonVTag v-for="tag in card.tags" :key="tag.title" :label="tag.title" :tag="tag" is-disabled />
+          <CommonVTag v-for="tag in card.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive />
         </div>
       </div>
     </NuxtLink>
@@ -45,8 +45,6 @@ defineProps<{
       box-shadow: 0 0 20px 0 rgba(150, 150, 150, 0.623);
     }
   }
-
-
 
   &__actions {
     display: flex;
@@ -109,7 +107,7 @@ defineProps<{
 
     &::-webkit-scrollbar {
       width: 0.1rem;
-      height: 5px;
+      height: 3px;
       /* width of the entire scrollbar */
     }
 
@@ -126,6 +124,8 @@ defineProps<{
 
 
   .VTag {
+    margin-bottom: 5px;
+
     &:not(:last-child) {
       margin-right: 0.6rem;
     }
