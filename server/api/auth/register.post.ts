@@ -11,44 +11,16 @@ export default defineEventHandler(async (event) => {
 
     const { name, email, password, password_confirmation } = await readBody(event);
 
-    const hashedPassword = await hashPassword(password); // Hash password
-    const hashedPasswordConfirmation = await hashPassword(password_confirmation); // Hash password
+    // const hashedPassword = await hashPassword(password); // Hash password
+    // const hashedPasswordConfirmation = await hashPassword(password_confirmation); // Hash password
 
-    const userData = { name, email: email, password: hashedPassword, password_confirmation: hashedPasswordConfirmation };
+    const userData = { name, email, password, password_confirmation };
 
     try {
-
         const res = await $fetch(`${useRuntimeConfig().myProxyUrl}auth/register`, {
             method: 'POST',
             body: userData
         })
-
-        if (!res) {
-            return createError({
-                statusCode: 401,
-                statusMessage: "Error occured",
-            });
-        }
-
-        // const loginRes = await $fetch<TRes>(`${useRuntimeConfig().myProxyUrl}auth/login/`, {
-        //     method: 'POST',
-        //     body: { email: email, password: hashedPassword }
-        // })
-
-        // if (!loginRes) {
-        //     return createError({
-        //         statusCode: 401,
-        //         statusMessage: "Error occured",
-        //     });
-        // }
-
-        // setCookie(event, 'auth_token', loginRes.access_token, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: 'strict',
-        //     path: '/',
-        //     maxAge: 60 * 60,
-        // });
 
         // return await setUserSession(event, {
         //     user: email,
@@ -56,10 +28,7 @@ export default defineEventHandler(async (event) => {
         // });
     } catch (error) {
         console.error("Error creating user:", error);
-        return createError({
-            statusCode: 409,
-            statusMessage: "Username already exists",
-        });
+
     }
 
 });

@@ -72,6 +72,7 @@ async function handleTagsReset() {
 async function handleTitleReset() {
   if (!filterData.title.length) { return }
   filterData.title = ''
+  await fetchRecipes(currentId.value)
 }
 
 async function handleTagsChange() {
@@ -80,9 +81,7 @@ async function handleTagsChange() {
 
 async function handleTitleSubmit() {
   if (filterData.title === '') { return }
-  await fetchRecipes(currentId.value).then(() => {
-    filterData.title = ''
-  })
+  await fetchRecipes(currentId.value)
 }
 </script>
 

@@ -4,7 +4,8 @@ import type { TOption } from '~/types/option';
 
 const props = defineProps<{
     options: TOption[] | null,
-    selectName: string
+    selectName: string,
+    checked?: boolean
 }>()
 const model = defineModel()
 

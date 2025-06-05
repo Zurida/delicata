@@ -54,30 +54,15 @@ async function handleSubmit() {
     authFormErrors.value = {};
 
     // If the validation is successful, send data to the server.
-    try {
 
-        await $fetch('/api/auth/register', {
-            method: 'POST',
-            body: authFormData.value
-        }).then(async () => {
-            await $fetch('/api/auth', {
-                method: 'POST',
-                body: {
-                    email: authFormData.value.email,
-                    password: authFormData.value.password,
-                }
-
-            })
-                .then(() => {
-                    window.location.replace('/')
-                })
-        })
-            .catch(() => alert('Bad credentials'))
+    await $fetch('/api/auth/register', {
+        method: 'POST',
+        body: authFormData.value
+    })
+        .catch(() => alert('Bad credentials'))
 
 
-    } catch {
-        statusMessage.value = "There was an unexpected error.";
-    }
+
 };
 
 

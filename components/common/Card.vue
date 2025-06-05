@@ -12,9 +12,9 @@ defineProps<{
   <div class="card">
     <div class="card__actions">
 
-      <span>
+      <button type="button" class="card__btn" @click="$router.push(`/recipe/${card.id}/edit`)">
         <IconsIconEdit />
-      </span>
+      </button>
     </div>
     <NuxtLink :to="to" class="card__link">
 
@@ -54,21 +54,21 @@ defineProps<{
     top: .4rem;
     right: .4rem;
     z-index: 1;
+  }
 
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.2rem;
-      padding: 0.4rem;
-      background-color: rgba(255, 255, 255, .6);
-      border-radius: 10%;
-      cursor: pointer;
-      transition: color .4s;
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    padding: 0.4rem;
+    background-color: rgba(255, 255, 255, .6);
+    border-radius: 10%;
+    cursor: pointer;
+    transition: color .4s;
 
-      &:hover {
-        color: var(--main-1);
-      }
+    &:hover {
+      color: var(--main-1);
     }
   }
 

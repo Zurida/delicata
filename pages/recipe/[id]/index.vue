@@ -4,6 +4,9 @@ import { Swiper } from 'swiper';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 Swiper.use([Thumbs, FreeMode, Navigation]);
 
+definePageMeta({
+    middleware: ['auth'],
+});
 
 const { params: { id } } = useRoute();
 const { data: recipe } = await useFetch(`/api/recipes/${id}`)
