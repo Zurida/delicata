@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
     modelValue: { type: [Array] },
-    value: { type: [String] } | { type: [Number] },
+    val: { type: [String] } | { type: [Number] },
     label: { type: String },
     inactive: { type: Boolean },
     filled: { type: Boolean },
@@ -20,9 +20,11 @@ const model = computed({
 </script>
 
 <template>
-    <div class="VTag" :class="{ 'VTag--inactive': inactive, 'VTag--filled': filled }">
-        <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="value">
-        <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
+    <div class="VTag">
+        <div :class="{ 'VTag--inactive': inactive, 'VTag--filled': filled }">
+            <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="val">
+            <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
+        </div>
     </div>
 </template>
 

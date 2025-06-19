@@ -7,24 +7,34 @@ definePageMeta({
     middleware: ['auth'],
 });
 
-const { data: measures } = await useFetch('/api/measures')
-const { data: tags } = await useFetch('/api/tags')
-
-
 const route = useRoute()
 const id = computed(() => route.params.id)
-const { data: recipeData, error } = await useFetch(`/api/recipes/${id.value}`)
-
 const categoryStore = useCategoryStore()
 
+const { data: measures } = await useFetch('/api/measures')
+const { data: tags } = await useFetch('/api/tags')
+const { data: recipeData } = await useFetch<TRecipe>(`/api/recipes/${id.value}`)
+
+const ingredientsNew = computed(() => recipeData.value?.ingredients?.map((ingredient: TIngredient) => {
+    return {
+        title: ingredient.title,
+        // @ts-ignore:
+        measure_id: ingredient.measure.id,
+        quantity: ingredient.quantity
+    }
+}))
+
 let recipe = reactive<TRecipe>({
-    title: "",
-    category_id: 0,
-    source: "",
-    ingredients: [],
-    description: "",
-    tags: []
+    title: recipeData.value?.title || '',
+    category_id: recipeData.value?.category?.id || 0,
+    source: recipeData.value?.source,
+    // @ts-ignore:
+    ingredients: ingredientsNew,
+    description: recipeData.value?.description,
+    // @ts-ignore:
+    tags: recipeData.value?.tags?.map(tag => tag.title),
 });
+
 
 const isDisabled = ref(true)
 
@@ -33,9 +43,6 @@ const ingredient = ref<TIngredient>({
     quantity: 0,
     measure_id: null
 })
-
-
-recipe = recipeData.value as TRecipe
 
 function addIngredient() {
     recipe.ingredients?.push({
@@ -55,10 +62,6 @@ function removeIngredient(index: number) {
     recipe.ingredients?.splice(index, 1)
 }
 
-function removeTag(index: number) {
-    recipe.tags?.splice(index, 1)
-}
-
 function handleChange() {
     if (ingredient.value.title && ingredient.value.quantity && ingredient.value.measure_id) {
         isDisabled.value = false
@@ -71,24 +74,32 @@ async function handleSubmit(evt: Event) {
 
     evt.preventDefault()
 
+
+    // const body = {
+    //     title: 'Творожные тру-туту',
+    //     category_id: 1,
+    //     description: "Все перемешать",
+    //     source: 'фдылводфлво',
+    //     tags: ['Recordkeeping Clerk'],
+    //     ingredients: [{ id: 7, title: "Творог", measure: { "id": 1, "title": "мл" }, quantity: 4 }]
+
+    // }
     const body: TRecipe = {
         ...recipe
     }
 
-    console.log(body)
     try {
-        return await $fetch('/api/recipes', {
+        return await $fetch(`https://kavkaz-build.ru/api/recipes/${id.value}`, {
             method: 'POST',
             body
         }).then(() => {
-            navigateTo('/')
+            // navigateTo('/')
         })
 
     } catch (error) {
         console.log(error)
     }
 }
-
 </script>
 
 <template>
@@ -98,7 +109,6 @@ async function handleSubmit(evt: Event) {
                 <h3>Категория*</h3>
                 <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id"
                     select-name="categories" />
-                {{ recipe }}
             </div>
 
             <div class="form__item">
@@ -109,9 +119,10 @@ async function handleSubmit(evt: Event) {
 
             <div class="form__item tags">
                 <h3>Тэги</h3>
+
                 <div class="tags__fields">
                     <CommonVTag class="recipe__tag" v-for="tag in tags" :label="tag.title" v-model="recipe.tags"
-                        :value="tag.title" />
+                        :val="tag.title" />
                 </div>
             </div>
 

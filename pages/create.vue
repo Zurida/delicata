@@ -101,7 +101,7 @@ async function handleSubmit(evt: Event) {
                 <h3>Тэги</h3>
                 <div class="tags__fields">
                     <CommonVTag class="recipe__tag" v-for="tag in tags" :label="tag.title" v-model="recipe.tags"
-                        :value="tag.title" />
+                        :val="tag.title" />
                 </div>
             </div>
 

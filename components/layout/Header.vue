@@ -4,6 +4,8 @@ const isActive = ref(false);
 function handleClick() {
     isActive.value = !isActive.value
 }
+
+const route = useRoute();
 </script>
 
 <template>
@@ -13,11 +15,20 @@ function handleClick() {
             <CommonVLogo :is-animated="false" />
             <p>DELICATA</p>
         </nuxt-link>
-        <ul class="header__menu menu">
-            <li class="menu__item is-active">Доска рецептов</li>
-            <!-- <li>Меню на неделю</li> -->
-        </ul>
+        <Transition mode="out-in">
+            <ul class="header__menu menu" v-if="route.path === '/'">
+                <li class="menu__item is-active"><nuxt-link to="/">Доска рецептов</nuxt-link></li>
+                <!-- <li>Меню на неделю</li> -->
+            </ul>
 
+            <ul class="header__menu menu" v-else>
+                <li class="menu__item"><nuxt-link to="/" class="menu__link">
+                        <IconsIconLeft class="menu__back" />
+                        <p>Вернуться к рецептам</p>
+                    </nuxt-link></li>
+                <!-- <li>Меню на неделю</li> -->
+            </ul>
+        </Transition>
 
         <div class="header__user">
             <UserInfo />
@@ -66,16 +77,21 @@ function handleClick() {
         font-size: 1.8rem;
         text-transform: uppercase;
 
-        li {
-            cursor: pointer;
+        a {
             transition: color .4s;
+        }
 
+        li {
             &:hover {
-                color: var(--main-1);
+                a {
+                    color: var(--main-1);
+                }
             }
 
             &.is-active {
-                color: var(--main-1);
+                a {
+                    color: var(--main-1);
+                }
             }
         }
     }
@@ -99,6 +115,18 @@ function handleClick() {
     .user-popup {
         top: 120%;
         right: 0;
+    }
+}
+
+.menu {
+    &__link {
+        display: flex;
+        align-items: center;
+    }
+
+    &__back {
+        width: 2rem;
+        margin-right: .6rem;
     }
 }
 </style>

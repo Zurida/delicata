@@ -13,10 +13,10 @@ const componentRef = ref()
 const buttonRef = ref()
 const isActive = ref(false)
 
-const selectedOptionTitle = ref()
+const selectedOption = ref({ title: '', id: 0 })
 
 function handleClick(option: TOption) {
-    selectedOptionTitle.value = option.title
+    selectedOption.value.title = option.title
     isActive.value = false
 }
 
@@ -28,6 +28,12 @@ useClickOutside(
     buttonRef
 )
 
+const title = computed(() => {
+    return props.options?.find(option => {
+        return option.id === model.value
+    })?.title || 'Выбрать'
+})
+
 </script>
 
 <template>
@@ -35,7 +41,7 @@ useClickOutside(
         <button type="button" ref="buttonRef" class="select-button" role="combobox" aria-label="select button"
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
             @click="isActive = !isActive">
-            <span class="selected-value">{{ model ? selectedOptionTitle : 'Выбрать' }}</span>
+            <span class="selected-value">{{ title }}</span>
             <i class="arrow right"></i>
         </button>
 
