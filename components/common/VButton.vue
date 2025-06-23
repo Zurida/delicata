@@ -31,7 +31,7 @@ const component = computed(() => {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: .8rem 1rem;
+    padding: .6rem 1rem;
     font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: .06rem;

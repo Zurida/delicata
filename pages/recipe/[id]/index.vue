@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Swiper } from 'swiper';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { formatDate } from '~/assets/js/utils';
 Swiper.use([Thumbs, FreeMode, Navigation]);
 
 definePageMeta({
@@ -45,99 +46,106 @@ onMounted(() => {
         <!-- {{ status === 'pending' ? 'Loading' : recipe }} -->
 
         <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
+        <div class="recipe__date">Добавлено: {{ formatDate(recipe.created_at) }}</div>
 
+        <div class="recipe__tags">
+            <CommonVTag v-for="tag in recipe.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive filled />
+        </div>
         <!-- <div class="recipe__timing">
             <NuxtIcon name="clock" class="icon-clock" />
             <p>5-7 минут</p>
         </div> -->
 
-        <div class="recipe__tags">
-            <CommonVTag v-for="tag in recipe.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive filled />
-        </div>
 
         <div class="recipe__columns">
-            <div class="recipe__image"></div>
-            <div class="recipe__slider" v-if="false">
 
-                <div class="swiper gallery-main">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img
-                                src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
+            <div class="recipe__info">
+                <div class="recipe__image"></div>
+                <div class="recipe__slider" v-if="false">
+
+                    <div class="swiper gallery-main">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img
+                                    src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
                         </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                    </div>
+
+                    <div class="swiper gallery-thumbs">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img
+                                    src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
+                            <div class="swiper-slide"><img
+                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="swiper gallery-thumbs">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img
-                                src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
-                        <div class="swiper-slide"><img
-                                src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                        </div>
+                <div class="recipe__ingredients">
+                    <div class="recipe__subtitle">
+                        Ингредиенты:
                     </div>
-                </div>
-            </div>
 
-            <div class="recipe__ingredients">
-                <div class="recipe__subtitle">
-                    Ингредиенты:
-                </div>
-
-                <div class="recipe__list">
-                    <div class="recipe__item" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
-                        <!-- <CommonVCheckbox class="recipe__checkbox" :label="ingredient.name" v-model="selectedingredients"
+                    <div class="recipe__list">
+                        <div class="recipe__item" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
+                            <!-- <CommonVCheckbox class="recipe__checkbox" :label="ingredient.name" v-model="selectedingredients"
                             :value="ingredient" /> -->
 
-                        <div class="checkbox-wrapper-52">
-                            <label :for="ingredient.id" class="item">
-                                <input type="checkbox" :id="ingredient.id" class="hidden" v-model="selectedingredients"
-                                    :value="ingredient" />
-                                <label :for="ingredient.id" class="cbx">
-                                    <svg width="14px" height="12px" viewBox="0 0 14 12">
-                                        <polyline points="1 7.6 5 11 13 1"></polyline>
-                                    </svg>
+                            <div class="checkbox-wrapper-52">
+                                <label :for="ingredient.id" class="item">
+                                    <input type="checkbox" :id="ingredient.id" class="hidden"
+                                        v-model="selectedingredients" :value="ingredient" />
+                                    <label :for="ingredient.id" class="cbx">
+                                        <svg width="14px" height="12px" viewBox="0 0 14 12">
+                                            <polyline points="1 7.6 5 11 13 1"></polyline>
+                                        </svg>
+                                    </label>
+                                    <label :for="ingredient.id" class="cbx-lbl">{{ ingredient.title }} - {{
+                                        ingredient.quantity }}
+                                        {{
+                                            ingredient.measure.title }}</label>
                                 </label>
-                                <label :for="ingredient.id" class="cbx-lbl">{{ ingredient.title }} - {{
-                                    ingredient.quantity }}
-                                    {{
-                                        ingredient.measure.title }}</label>
-                            </label>
-                        </div>
-                        <!-- <span class="recipe__mesure">{{ ingredient.title }} - {{ ingredient.quantity }} {{
+                            </div>
+                            <!-- <span class="recipe__mesure">{{ ingredient.title }} - {{ ingredient.quantity }} {{
                             ingredient.measure.title }}</span> -->
+                        </div>
                     </div>
                 </div>
             </div>
 
+
+
         </div>
+
+
 
         <div class="recipe__description">
             <h4>Способ приготовления:</h4>
@@ -145,6 +153,8 @@ onMounted(() => {
                 <p>{{ recipe.description }}</p>
             </div>
         </div>
+
+        <CommonVButton small>Удалить рецепт</CommonVButton>
 
 
     </div>
@@ -165,20 +175,31 @@ onMounted(() => {
         line-height: 1;
     }
 
+    &__date {
+        font-size: var(--fs-small);
+        margin-bottom: var(--gap-sm);
+    }
+
     &__tags {
         display: flex;
-        margin-bottom: var(--gap);
+        margin-bottom: var(--gap-sm);
 
         .VTag {
             margin-right: var(--gap-sm);
         }
     }
 
-    &__columns {
+    &__info {
         display: flex;
+    }
+
+    &__columns {
         background-color: rgba(255, 255, 255, 0.6);
         padding: var(--gap);
+
     }
+
+
 
     &__image {
         flex-shrink: 0;
@@ -227,7 +248,7 @@ onMounted(() => {
         h4 {
             font-size: 1.8rem;
             font-weight: 600;
-            margin-bottom: var(--gap);
+            margin-bottom: var(--gap-sm);
         }
     }
 

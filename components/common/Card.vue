@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { formatDate } from '~/assets/js/utils';
 import type { TRecipe } from '~/types/recipe';
 
 defineProps<{
@@ -20,10 +19,9 @@ defineProps<{
 
       <div class="card__image"></div>
       <div class="card__description">
-        <div class="card__date">Добавлено: {{ formatDate(card.created_at) }}</div>
         <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
         <div class="card__tags">
-          <CommonVTag v-for="tag in card.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive />
+          <CommonVTag v-for="tag in card.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive filled />
         </div>
       </div>
     </NuxtLink>
@@ -58,8 +56,8 @@ defineProps<{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.2rem;
-    padding: 0.4rem;
+    width: 1.8rem;
+    padding: 0.3rem;
     background-color: rgba(255, 255, 255, .6);
     border-radius: 10%;
     cursor: pointer;
@@ -78,12 +76,6 @@ defineProps<{
     background-position: center;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
-  }
-
-  &__date {
-    margin-bottom: 1rem;
-    font-size: var(--fs-micro);
-    color: #797979;
   }
 
   &__description {
@@ -124,7 +116,7 @@ defineProps<{
 
 
   .VTag {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 
     &:not(:last-child) {
       margin-right: 0.6rem;

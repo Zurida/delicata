@@ -74,8 +74,14 @@ const model = computed({
 
     &--filled {
         label {
-            background-color: var(--main-2);
-            color: var(--white);
+            // background-color: #296f6f;
+            // background-color: #f9573826;
+            background-color: #e9e9e9;
+            border-color: #e9e9e9;
+            height: 1.8rem;
+            color: var(--black);
+            padding-left: .4rem;
+            padding-right: .4rem;
         }
     }
 }
