@@ -82,6 +82,7 @@ const model = computed({
             color: var(--black);
             padding-left: .4rem;
             padding-right: .4rem;
+            // font-size: 10px;
         }
     }
 }

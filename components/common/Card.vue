@@ -37,6 +37,7 @@ defineProps<{
   &__link {
     display: inline-block;
     width: 100%;
+    height: 100%;
     transition: box-shadow 0.4s;
 
     &:hover {

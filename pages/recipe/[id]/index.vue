@@ -45,7 +45,27 @@ onMounted(() => {
     <div class="container recipe">
         <!-- {{ status === 'pending' ? 'Loading' : recipe }} -->
 
-        <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
+        <div class="recipe__top">
+            <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
+
+            <div class="recipe__menu menu">
+                <button type="button" class="menu__btn" title="Удалить">
+                    <span></span>
+                    <IconsIconDelete class="menu__icon" />
+                </button>
+                <button type="button" class="menu__btn">
+                    <span></span>
+                    <IconsIconEdit class="menu__icon" />
+                </button>
+                <button type="button" class="menu__btn">
+                    <span></span>
+                    <IconsIconShare class="menu__icon" />
+                </button>
+
+
+            </div>
+
+        </div>
         <div class="recipe__date">Добавлено: {{ formatDate(recipe.created_at) }}</div>
 
         <div class="recipe__tags">
@@ -60,7 +80,10 @@ onMounted(() => {
         <div class="recipe__columns">
 
             <div class="recipe__info">
-                <div class="recipe__image"></div>
+                <div class="recipe__image">
+                    <img src="https://prostokvashino.ru/upload/resize_cache/iblock/69d/800_800_0/69dad574b017f44178e3b2f22a3dab3c.jpg"
+                        alt="">
+                </div>
                 <div class="recipe__slider" v-if="false">
 
                     <div class="swiper gallery-main">
@@ -138,6 +161,8 @@ onMounted(() => {
                             ingredient.measure.title }}</span> -->
                         </div>
                     </div>
+                    <CommonVButton small class="recipe__btn">Поделиться списком</CommonVButton>
+
                 </div>
             </div>
 
@@ -154,7 +179,6 @@ onMounted(() => {
             </div>
         </div>
 
-        <CommonVButton small>Удалить рецепт</CommonVButton>
 
 
     </div>
@@ -164,6 +188,12 @@ onMounted(() => {
 .recipe {
     padding-top: var(--gap);
     padding-bottom: var(--gap);
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
 
     &__timing {
         display: flex;
@@ -182,7 +212,7 @@ onMounted(() => {
 
     &__tags {
         display: flex;
-        margin-bottom: var(--gap-sm);
+        margin-bottom: var(--gap);
 
         .VTag {
             margin-right: var(--gap-sm);
@@ -192,14 +222,6 @@ onMounted(() => {
     &__info {
         display: flex;
     }
-
-    &__columns {
-        background-color: rgba(255, 255, 255, 0.6);
-        padding: var(--gap);
-
-    }
-
-
 
     &__image {
         flex-shrink: 0;
@@ -219,14 +241,14 @@ onMounted(() => {
     &__subtitle {
         margin-bottom: var(--gap);
         line-height: 1;
-        font-size: var(--fs-base);
+        font-size: 1.8rem;
         font-weight: 600;
         text-transform: uppercase;
     }
 
     &__item {
         display: flex;
-        font-size: 1.4rem;
+        font-size: var(--fs-base);
 
         &:not(:last-child) {
             margin-bottom: 1rem;
@@ -244,6 +266,8 @@ onMounted(() => {
 
     &__description {
         margin-top: calc(var(--gap) * 2);
+        padding-top: var(--gap);
+        border-top: 1px solid #00000019;
 
         h4 {
             font-size: 1.8rem;
@@ -259,6 +283,55 @@ onMounted(() => {
             list-style: decimal;
         }
     }
+
+    &__btn {
+        margin-top: var(--gap);
+    }
+}
+
+.container {
+    position: relative;
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    width: 14rem;
+    height: 7rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+
+    &__btn {
+        // position: absolute;
+        background-color: #5c979b;
+        color: var(--white);
+        border-radius: var(--border-radius);
+        width: 2.8rem;
+        height: 2.8rem;
+        transition: all 0.3s ease;
+
+        &:not(:last-child) {
+            margin-right: var(--gap-sm);
+        }
+
+        svg {
+            transition: fill 0.3s ease;
+        }
+
+        &:hover {
+            background-color: white;
+            color: #5c979b;
+        }
+    }
+
+    // &__icon {
+    //     width: 1.2rem;
+    // }
 }
 
 .icon-clock {
@@ -344,25 +417,22 @@ onMounted(() => {
     }
 }
 
+
+.checkbox-wrapper-52 {
+    margin-bottom: var(--gap-sm);
+}
+
 .checkbox-wrapper-52 input[type="checkbox"] {
     visibility: hidden;
     display: none;
 }
 
 .checkbox-wrapper-52 label {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
+    display: flex;
+    align-items: center;
+
     vertical-align: baseline;
     line-height: 1;
-}
-
-.checkbox-wrapper-52 *,
-.checkbox-wrapper-52 ::after,
-.checkbox-wrapper-52 ::before {
-    box-sizing: border-box;
 }
 
 .checkbox-wrapper-52 .item .cbx {
