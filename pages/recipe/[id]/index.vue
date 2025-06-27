@@ -34,10 +34,17 @@ function initSlider() {
     });
 }
 
-onMounted(() => {
-    initSlider()
-})
+// onMounted(() => {
+//     initSlider()
+// })
 
+async function handleDelete() {
+    await $fetch(`https://kavkaz-build.ru/api/recipes/${id}`, {
+        method: 'DELETE'
+    }).then(() => {
+        navigateTo('/')
+    })
+}
 </script>
 <template>
 
@@ -47,23 +54,34 @@ onMounted(() => {
 
         <div class="recipe__top">
             <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
-
             <div class="recipe__menu menu">
-                <button type="button" class="menu__btn" title="Удалить">
+                <button type="button" class="menu__btn" title="Удалить" @click="handleDelete">
                     <span></span>
                     <IconsIconDelete class="menu__icon" />
                 </button>
-                <button type="button" class="menu__btn">
+                <button type="button" class="menu__btn" title="Изменить" @click="$router.push(`/recipe/${id}/edit`)">
                     <span></span>
                     <IconsIconEdit class="menu__icon" />
                 </button>
-                <button type="button" class="menu__btn">
-                    <span></span>
-                    <IconsIconShare class="menu__icon" />
-                </button>
 
+                <!-- <div class="menu-share">
+                    <button type="button" class="menu__btn" title="Поделиться рецептом">
+                        <span></span>
+                        <IconsIconShare class="menu__icon" />
+                    </button>
+                    <div class="menu-share__list">
+                        <SocialShare network="telegram" :styled="true" :icon="true" :label="false">
+                            <template #icon>
+                                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path class="cls-1"
+                                        d="M40.83,8.48c1.14,0,2,1,1.54,2.86l-5.58,26.3c-.39,1.87-1.52,2.32-3.08,1.45L20.4,29.26a.4.4,0,0,1,0-.65L35.77,14.73c.7-.62-.15-.92-1.07-.36L15.41,26.54a.46.46,0,0,1-.4.05L6.82,24C5,23.47,5,22.22,7.23,21.33L40,8.69a2.16,2.16,0,0,1,.83-.21Z" />
+                                </svg></template>
+</SocialShare>
+</div>
+</div> -->
 
             </div>
+
 
         </div>
         <div class="recipe__date">Добавлено: {{ formatDate(recipe.created_at) }}</div>
@@ -137,7 +155,8 @@ onMounted(() => {
                         Ингредиенты:
                     </div>
 
-                    <div class="recipe__list">
+
+                    <div class="recipe__list" v-if="recipe.ingredients.length">
                         <div class="recipe__item" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
                             <!-- <CommonVCheckbox class="recipe__checkbox" :label="ingredient.name" v-model="selectedingredients"
                             :value="ingredient" /> -->
@@ -161,18 +180,17 @@ onMounted(() => {
                             ingredient.measure.title }}</span> -->
                         </div>
                     </div>
-                    <CommonVButton small class="recipe__btn">Поделиться списком</CommonVButton>
+                    <p v-else>Пока ничего не добавили</p>
+
+                    <!-- <CommonVButton small class="recipe__btn">Поделиться списком</CommonVButton> -->
 
                 </div>
             </div>
-
-
-
         </div>
 
 
 
-        <div class="recipe__description">
+        <div class="recipe__description" v-if="recipe.description">
             <h4>Способ приготовления:</h4>
             <div class="recipe__steps">
                 <p>{{ recipe.description }}</p>
@@ -185,6 +203,13 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.cls-1 {
+    fill: none;
+    stroke: #000000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .recipe {
     padding-top: var(--gap);
     padding-bottom: var(--gap);
@@ -212,11 +237,19 @@ onMounted(() => {
 
     &__tags {
         display: flex;
-        margin-bottom: var(--gap);
+        // margin-bottom: calc(var(--gap) * 2);
+        // border-bottom: 1px solid lightgray;
+        padding-bottom: var(--gap);
 
         .VTag {
             margin-right: var(--gap-sm);
         }
+    }
+
+    &__columns {
+        background-color: var(--white);
+        padding: var(--gap);
+        border-radius: var(--border-radius);
     }
 
     &__info {
@@ -265,9 +298,9 @@ onMounted(() => {
     }
 
     &__description {
-        margin-top: calc(var(--gap) * 2);
+        // margin-top: calc(var(--gap) * 2);
         padding-top: var(--gap);
-        border-top: 1px solid #00000019;
+        // border-top: 1px solid #00000019;
 
         h4 {
             font-size: 1.8rem;
@@ -301,8 +334,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     margin-right: 8px;
-    width: 14rem;
-    height: 7rem;
+    padding: var(--gap);
     background-color: white;
     border-radius: var(--border-radius);
 
@@ -320,6 +352,7 @@ onMounted(() => {
         }
 
         svg {
+            width: 1.4rem;
             transition: fill 0.3s ease;
         }
 
@@ -332,6 +365,14 @@ onMounted(() => {
     // &__icon {
     //     width: 1.2rem;
     // }
+}
+
+.menu-share {
+    display: inline-flex;
+
+    &__list {
+        position: absolute;
+    }
 }
 
 .icon-clock {

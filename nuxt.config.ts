@@ -17,7 +17,7 @@ export default defineNuxtConfig({
       Montserrat: true,
       Nunito: true,
     }
-  }], 'nuxt-icons', '@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils'],
+  }], 'nuxt-icons', '@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils', '@stefanobartoletti/nuxt-social-share'],
 
   nitro: {
     storage: {
@@ -27,6 +27,9 @@ export default defineNuxtConfig({
       }
     },
 
+  },
+  socialShare: {
+    baseUrl: process.env.NUXT_MY_PROXY_URL
   },
 
   routeRules: {

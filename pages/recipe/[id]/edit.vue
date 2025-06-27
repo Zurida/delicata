@@ -15,14 +15,17 @@ const { data: measures } = await useFetch('/api/measures')
 const { data: tags } = await useFetch('/api/tags')
 const { data: recipeData } = await useFetch<TRecipe>(`/api/recipes/${id.value}`)
 
-const ingredientsNew = computed(() => recipeData.value?.ingredients?.map((ingredient: TIngredient) => {
+
+const ingredientsNew = recipeData.value?.ingredients?.map((ingredient: TIngredient) => {
     return {
         title: ingredient.title,
         // @ts-ignore:
         measure_id: ingredient.measure.id,
         quantity: ingredient.quantity
     }
-}))
+})
+
+
 
 let recipe = reactive<TRecipe>({
     title: recipeData.value?.title || '',
@@ -74,16 +77,6 @@ async function handleSubmit(evt: Event) {
 
     evt.preventDefault()
 
-
-    // const body = {
-    //     title: 'Творожные тру-туту',
-    //     category_id: 1,
-    //     description: "Все перемешать",
-    //     source: 'фдылводфлво',
-    //     tags: ['Recordkeeping Clerk'],
-    //     ingredients: [{ id: 7, title: "Творог", measure: { "id": 1, "title": "мл" }, quantity: 4 }]
-
-    // }
     const body: TRecipe = {
         ...recipe
     }
@@ -93,7 +86,7 @@ async function handleSubmit(evt: Event) {
             method: 'POST',
             body
         }).then(() => {
-            // navigateTo('/')
+            navigateTo('/')
         })
 
     } catch (error) {
@@ -140,7 +133,6 @@ async function handleSubmit(evt: Event) {
                     <CommonVButton small @click="addIngredient" :disabled="isDisabled" class="ingredients__btn">Добавить
                         Инргидиент</CommonVButton>
                 </div>
-
                 <TransitionGroup name="list" tag="ul" class="ingredients__list" v-show="recipe.ingredients?.length">
                     <li class="ingredients__item" v-for="(ingridient, index) in recipe.ingredients"
                         :key="`ingredient-${index}`">
