@@ -18,7 +18,8 @@ const recipe = reactive<TRecipe>({
     source: "",
     ingredients: [],
     description: "",
-    tags: []
+    tags: [],
+    images: []
 });
 
 const isDisabled = ref(true)
@@ -64,21 +65,56 @@ async function handleSubmit(evt: Event) {
 
     evt.preventDefault()
 
+
     const body: TRecipe = {
-        ...recipe
+        ...recipe,
     }
+
+
     try {
         return await $fetch('/api/recipes', {
             method: 'POST',
             body
         }).then(() => {
-            navigateTo('/')
+            // navigateTo('/')
         })
 
     } catch (error) {
         console.log(error)
     }
 }
+
+// interface HTMLInputEvent extends Event {
+//     // target: Parameters<HTMLInputElement['onchange']> extends null ? undefined : Parameters<HTMLInputElement['onchange']>[0]['target']
+//     // target: HTMLInputElement['onchange'] extends null ? undefined : Parameters<HTMLInputElement['onchange']>[0]['target']
+//     // target: EventTarget
+//     target: HTMLInputElement & EventTarget
+// }
+// function handleFileChange(event: HTMLInputEvent | DragEvent) {
+//     if (!(event as DragEvent).dataTransfer) {
+//         return
+//     }
+//     let files = (event as HTMLInputEvent).target.files || (event as DragEvent).dataTransfer?.files
+//     if (!files?.length) return
+
+//     recipe.main_image = files[0].name
+// }
+
+// const files = ref<File[]>([]);
+
+
+function handleFileChange(e: Event) {
+    const eventTarget = e.target as HTMLInputElement;
+    const filesAsArray = Array.from(eventTarget?.files || []);
+    recipe.images = [...filesAsArray];
+}
+
+function removeFile(index: number) {
+    if (!recipe.images) return
+    recipe.images.splice(index, 1);
+}
+
+
 
 </script>
 
@@ -151,10 +187,21 @@ async function handleSubmit(evt: Event) {
                 <CommonVTextarea placeholder="Введите текст" id="steps" v-model="recipe.description"></CommonVTextarea>
             </div>
 
-            <!-- <div class="form__item">
+            <div class="form__item">
                 <span>+</span>
-                <p>Добавить фото</p>
-            </div> -->
+                <label for="file-input" class="btn">
+                    Upload File
+                </label>
+                <input id="file-input" hidden type="file" @change="handleFileChange" multiple />
+
+                <ul>
+                    <li v-for="(file, index) in recipe.images" :key="file.name">
+                        {{ file.name }}
+                        <button @click="removeFile(index)">Remove</button>
+                    </li>
+                </ul>
+
+            </div>
 
 
             <CommonVButton type="submit">Сохранить</CommonVButton>

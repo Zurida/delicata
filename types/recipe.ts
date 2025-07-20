@@ -15,5 +15,6 @@ export type TRecipe = {
     source?: string,
     tags?: TTag[],
     ingredients?: TIngredient[],
-    images?: []
+    images?: File[],
+    main_image?: {}
 }
