@@ -34,9 +34,9 @@ function initSlider() {
     });
 }
 
-// onMounted(() => {
-//     initSlider()
-// })
+onMounted(() => {
+    initSlider()
+})
 
 async function handleDelete() {
     await $fetch(`https://kavkaz-build.ru/api/recipes/${id}`, {
@@ -98,57 +98,28 @@ async function handleDelete() {
         <div class="recipe__columns">
 
             <div class="recipe__info">
-                <div class="recipe__image">
-                    <img src="https://prostokvashino.ru/upload/resize_cache/iblock/69d/800_800_0/69dad574b017f44178e3b2f22a3dab3c.jpg"
-                        alt="">
-                </div>
-                <div class="recipe__slider" v-if="false">
+
+                <div class="recipe__slider" v-if="recipe.images.length">
 
                     <div class="swiper gallery-main">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><img
-                                    src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
+                            <div class="swiper-slide" v-for="slide in recipe.images" :key="slide.id"><img
+                                    :src="slide.url" />
                             </div>
                         </div>
                     </div>
 
                     <div class="swiper gallery-thumbs">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><img
-                                    src="https://eda.ru/img/eda/c390x390/s1.eda.ru/StaticContent/Photos/e/b7/eb731a7eb3454f64a7f14f368aaf65f8.jpg" />
+                            <div class="swiper-slide" v-for="slide in recipe.images" :key="slide.id"><img
+                                    :src="slide.url" />
                             </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
-                            <div class="swiper-slide"><img
-                                    src="https://img.inmyroom.ru/inmyroom/thumb/620x398/jpg:85/uploads/food_recipe/teaser/39/39ea/jpg_1000_39eaf9a5-972a-4f37-9ef4-b856bed3f29d.jpg?sign=67231d6d2e69ff675f4f1828e0c86bdf255ff5f3cd1f401622a194c02ff81eb8" />
-                            </div>
+
                         </div>
                     </div>
+                </div>
+                <div class="recipe__image" v-else>
+
                 </div>
                 <div class="recipe__ingredients">
                     <div class="recipe__subtitle">

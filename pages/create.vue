@@ -61,9 +61,54 @@ function handleChange() {
     }
 }
 
+const formData = new FormData()
+
+type TypedKeys<T> = {
+    [P in keyof T]: P
+}[keyof T][];
+
+function getTypedKeys<T extends Record<string, any>>(obj: T): TypedKeys<T> {
+    return Object.keys(obj);
+}
+
 async function handleSubmit(evt: Event) {
 
     evt.preventDefault()
+
+    // type Keys = (keyof typeof recipe)[];
+    const typedKeys = getTypedKeys(recipe);
+    // const typedKeys = Object.keys(recipe) as Keys;
+
+    typedKeys.forEach((key) => {
+        // if (key !== 'images' && Array.isArray(recipe[key])) {
+        //     recipe[key]?.forEach((keyItem) => {
+        //         formData.append(`${key}[]`, keyItem);
+        //     })
+        // }
+        if (typeof key === 'string') {
+            formData.append(key, recipe[key] as string);
+        }
+        // if (recipe[key] && key === 'images') {
+        //     for (const file of recipe[key]) {
+        //         formData.append('images[]', file);
+        //     }
+        // }
+        // if (key === 'ingredients') {
+        //     recipe[key]?.forEach((ingredient) => {
+        //         formData.append('ingredients[]', JSON.stringify(ingredient));
+        //     })
+        // }
+
+    })
+    console.log(formData)
+
+    // formData.append('title', recipe.title);
+    // formData.append('category_id', recipe.category_id.toString())
+    // if (recipe.images) {
+    //     for (const file of recipe.images) {
+    //         formData.append('images[]', file);
+    //     }
+    // }
 
 
     const body: TRecipe = {
@@ -72,9 +117,9 @@ async function handleSubmit(evt: Event) {
 
 
     try {
-        return await $fetch('/api/recipes', {
+        return await $fetch('https://kavkaz-build.ru/api/recipes/', {
             method: 'POST',
-            body
+            body: formData,
         }).then(() => {
             // navigateTo('/')
         })
@@ -105,8 +150,7 @@ async function handleSubmit(evt: Event) {
 
 function handleFileChange(e: Event) {
     const eventTarget = e.target as HTMLInputElement;
-    const filesAsArray = Array.from(eventTarget?.files || []);
-    recipe.images = [...filesAsArray];
+    recipe.images = Array.from(eventTarget?.files || []);
 }
 
 function removeFile(index: number) {
@@ -120,7 +164,7 @@ function removeFile(index: number) {
 
 <template>
     <div class="create container">
-        <form class="form" @submit.prevent="handleSubmit">
+        <form class="form" @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="form__item">
                 <h3>Категория*</h3>
                 <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id"
