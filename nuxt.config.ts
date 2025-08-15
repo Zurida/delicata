@@ -46,9 +46,9 @@ export default defineNuxtConfig({
   vite: {
     css: {
       preprocessorOptions: {
-        sass: {
-          api: 'modern',
-        },
+        // sass: {
+        //   api: 'modern-compiler',
+        // },
       },
     },
   },

@@ -117,7 +117,7 @@ async function handleSubmit(evt: Event) {
 
 
     try {
-        return await $fetch('https://kavkaz-build.ru/api/recipes/', {
+        return await $fetch('/api/recipes/', {
             method: 'POST',
             body: formData,
         }).then(() => {

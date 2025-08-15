@@ -14,7 +14,7 @@
     "@pinia/nuxt": "^0.5.4",
     "bcrypt": "^5.1.1",
     "nitropack": "^2.8.1",
-    "nuxt": "^3.10.2",
+    "nuxt": "^3.18.1",
     "nuxt-auth-utils": "^0.5.16",
     "nuxt-icons": "^3.2.1",
     "pinia": "^2.2.2",
