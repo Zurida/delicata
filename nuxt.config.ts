@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     myProxyUrl: process.env.NUXT_MY_PROXY_URL,
+    public: {
+      myProxyUrl: process.env.NUXT_MY_PROXY_URL
+    }
   },
   typescript: {
     typeCheck: true

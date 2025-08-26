@@ -22,7 +22,6 @@ let errors: ZodIssue[]
 // Validation.
 const validateFormData = (value: unknown): boolean => {
     const result = RegisterFormSchema.safeParse(value);
-    console.log(result)
     if (!result.success) {
         errors = [...result.error.errors];
     }
@@ -39,7 +38,6 @@ const displayErrors = () => {
 }
 
 async function handleSubmit() {
-    console.log("onSubmit");
     isLoading.value = true;
 
     // Reset statusMessage.
@@ -59,10 +57,16 @@ async function handleSubmit() {
         method: 'POST',
         body: authFormData.value
     })
-        .catch(() => alert('Bad credentials'))
-
-
-
+        .then(() => {
+            $fetch('/api/auth', {
+                method: 'POST',
+                body: authFormData.value
+            }).then(() => {
+                // navigateTo('/')
+                window.location.replace('/')
+            })
+        })
+        .catch((err) => console.log(err))
 };
 
 

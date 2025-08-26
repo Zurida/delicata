@@ -11,31 +11,16 @@ export default defineEventHandler(async (event) => {
             statusMessage: "No file provided",
         });
     }
-    for (const field of body) {
-        if (field.data instanceof Buffer) {
-            // 'field.data' will be a Buffer containing the file's binary content
-            // 'field.filename' will contain the original filename
-            // 'field.type' will contain the MIME type (e.g., 'image/png')
-            console.log('File Buffer:', field.data);
-            console.log('Filename:', field.filename);
-            console.log('MIME Type:', field.type);
-        }
-    }
-    const file = body.find((f) => f.name === 'images')
 
-    if (!file) return
-
+    console.log('body', body)
 
     try {
 
         const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}recipes/`, {
             method: 'POST',
-            body,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
+            body
         })
-        console.log('res', res)
+        // console.log('res', res)
 
         return res
 

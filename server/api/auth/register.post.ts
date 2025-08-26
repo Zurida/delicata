@@ -9,12 +9,12 @@ export default defineEventHandler(async (event) => {
     // Clear the current user session just in case
     await clearUserSession(event);
 
-    const { name, email, password, password_confirmation } = await readBody(event);
+    const body = await readBody(event);
 
     // const hashedPassword = await hashPassword(password); // Hash password
     // const hashedPasswordConfirmation = await hashPassword(password_confirmation); // Hash password
 
-    const userData = { name, email, password, password_confirmation };
+    const userData = { name: body.name, email: body.email, password: body.password, password_confirmation: body.password_confirmation };
 
     try {
         const res = await $fetch(`${useRuntimeConfig().myProxyUrl}auth/register`, {
@@ -28,7 +28,5 @@ export default defineEventHandler(async (event) => {
         // });
     } catch (error) {
         console.error("Error creating user:", error);
-
     }
-
 });

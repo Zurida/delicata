@@ -75,49 +75,47 @@ async function handleSubmit(evt: Event) {
 
     evt.preventDefault()
 
-    // type Keys = (keyof typeof recipe)[];
     const typedKeys = getTypedKeys(recipe);
-    // const typedKeys = Object.keys(recipe) as Keys;
 
     typedKeys.forEach((key) => {
-        // if (key !== 'images' && Array.isArray(recipe[key])) {
-        //     recipe[key]?.forEach((keyItem) => {
-        //         formData.append(`${key}[]`, keyItem);
-        //     })
-        // }
-        if (typeof key === 'string') {
-            formData.append(key, recipe[key] as string);
+        if (key) {
+            if (key === 'ingredients') {
+                recipe[key]?.forEach((ingredientObj, index) => {
+                    const ingredientTypedKeys = getTypedKeys(ingredientObj);
+                    ingredientTypedKeys.forEach((ingrKey) => {
+                        formData.append(`ingredients[${index}][${ingrKey}]`, `${ingredientObj[ingrKey]}`);
+                    })
+                })
+            }
+
+            if (key === 'images') {
+                recipe[key]?.forEach((file) => {
+                    formData.append('images[]', file)
+                })
+            }
+
+            if (key === 'tags') {
+                recipe[key]?.forEach((tag, index) => {
+                    formData.append(`${key}[]`, `${tag}`);
+                })
+            }
+
+            if (typeof recipe[key] === 'string' || typeof recipe[key] === 'number') {
+                formData.append(key, recipe[key] as string);
+            }
         }
-        // if (recipe[key] && key === 'images') {
-        //     for (const file of recipe[key]) {
-        //         formData.append('images[]', file);
-        //     }
-        // }
-        // if (key === 'ingredients') {
-        //     recipe[key]?.forEach((ingredient) => {
-        //         formData.append('ingredients[]', JSON.stringify(ingredient));
-        //     })
-        // }
 
     })
-    console.log(formData)
 
-    // formData.append('title', recipe.title);
-    // formData.append('category_id', recipe.category_id.toString())
-    // if (recipe.images) {
-    //     for (const file of recipe.images) {
-    //         formData.append('images[]', file);
-    //     }
-    // }
-
-
-    const body: TRecipe = {
-        ...recipe,
+    for (const pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
     }
 
 
+    const url = useRuntimeConfig().public.myProxyUrl
+
     try {
-        return await $fetch('/api/recipes/', {
+        return await $fetch(`${url}recipes/`, {
             method: 'POST',
             body: formData,
         }).then(() => {
@@ -128,24 +126,6 @@ async function handleSubmit(evt: Event) {
         console.log(error)
     }
 }
-
-// interface HTMLInputEvent extends Event {
-//     // target: Parameters<HTMLInputElement['onchange']> extends null ? undefined : Parameters<HTMLInputElement['onchange']>[0]['target']
-//     // target: HTMLInputElement['onchange'] extends null ? undefined : Parameters<HTMLInputElement['onchange']>[0]['target']
-//     // target: EventTarget
-//     target: HTMLInputElement & EventTarget
-// }
-// function handleFileChange(event: HTMLInputEvent | DragEvent) {
-//     if (!(event as DragEvent).dataTransfer) {
-//         return
-//     }
-//     let files = (event as HTMLInputEvent).target.files || (event as DragEvent).dataTransfer?.files
-//     if (!files?.length) return
-
-//     recipe.main_image = files[0].name
-// }
-
-// const files = ref<File[]>([]);
 
 
 function handleFileChange(e: Event) {
