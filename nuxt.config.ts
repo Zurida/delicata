@@ -2,9 +2,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
-    myProxyUrl: process.env.NUXT_MY_PROXY_URL,
+    myProxyUrl: process.env.NUXT_MY_PROD_PROXY_URL,
     public: {
-      myProxyUrl: process.env.NUXT_MY_PROXY_URL
+      myProxyUrl: process.env.NUXT_MY_PROD_PROXY_URL
     }
   },
   typescript: {
@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 
   },
   socialShare: {
-    baseUrl: process.env.NUXT_MY_PROXY_URL
+    baseUrl: process.env.NUXT_MY_PROD_PROXY_URL
   },
 
   routeRules: {

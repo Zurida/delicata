@@ -119,7 +119,7 @@ async function handleSubmit(evt: Event) {
             method: 'POST',
             body: formData,
         }).then(() => {
-            // navigateTo('/')
+            navigateTo('/')
         })
 
     } catch (error) {
@@ -137,9 +137,6 @@ function removeFile(index: number) {
     if (!recipe.images) return
     recipe.images.splice(index, 1);
 }
-
-
-
 </script>
 
 <template>
