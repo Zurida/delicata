@@ -61,7 +61,7 @@ const onSubmit = async () => {
             window.location.replace('/')
 
         })
-            .catch(() => alert('Bad credentials'))
+            .catch((error) => console.log(error))
 
         // await $fetch('/api/login', {
         //     method: 'POST',
