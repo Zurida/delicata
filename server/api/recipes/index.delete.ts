@@ -18,9 +18,5 @@ export default defineEventHandler(async (event) => {
 
     } catch (error) {
         console.log('my error', error)
-        // return createError({
-        //     statusCode: 500,
-        //     statusMessage: "Failed to process request",
-        // });
     }
 })

@@ -13,15 +13,6 @@ export default defineEventHandler(async (event) => {
             body: { email, password }
         })
 
-
-        if (!res) {
-            return createError({
-                statusCode: 401,
-                statusMessage: "Invalid username or password",
-            });
-        }
-
-
         setCookie(event, 'auth_token', res.access_token, {
             httpOnly: true,
             secure: true,

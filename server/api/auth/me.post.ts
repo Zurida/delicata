@@ -11,13 +11,6 @@ export default defineEventHandler(async (event) => {
             }
         })
 
-        if (!res) {
-            return createError({
-                statusCode: 401,
-                statusMessage: "Invalid username or password",
-            });
-        }
-
         // if (!refreshToken) {
         //     setCookie(event, 'auth_token', res?.access_token, {
         //         httpOnly: true,
@@ -37,9 +30,6 @@ export default defineEventHandler(async (event) => {
         // return { success: true, userData };
 
     } catch (error) {
-        return createError({
-            statusCode: 500,
-            statusMessage: "Failed to process request",
-        });
+        console.error(error)
     }
 })

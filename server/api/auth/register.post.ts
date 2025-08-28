@@ -1,10 +1,4 @@
 import bcrypt from "bcrypt";
-type TRes = {
-    access_token: string,
-    token_type: string,
-    expires_in: number
-}
-
 export default defineEventHandler(async (event) => {
     // Clear the current user session just in case
     await clearUserSession(event);
@@ -21,11 +15,6 @@ export default defineEventHandler(async (event) => {
             method: 'POST',
             body: userData
         })
-
-        // return await setUserSession(event, {
-        //     user: email,
-        //     loggedInAt: new Date(),
-        // });
     } catch (error) {
         console.error("Error creating user:", error);
     }
