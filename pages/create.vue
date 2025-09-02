@@ -365,14 +365,14 @@ h3 {
         transition: .4s opacity cubic-bezier(0.075, 0.82, 0.165, 1), opacity .4s;
 
         &:hover {
-            opacity: .8;
+            opacity: .6;
         }
     }
 
     &.is-dragging {
         .upload__label {
-            opacity: 0.7;
-            border-color: green;
+            opacity: 0.6;
+            border-color: var(--main-1);
         }
     }
 
