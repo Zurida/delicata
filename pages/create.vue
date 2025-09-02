@@ -3,6 +3,7 @@ import type { TRecipe } from '~/types/recipe';
 import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';
 import { getTypedKeys } from '~/assets/ts/utils';
+import { TransitionGroup } from 'vue';
 
 definePageMeta({
     middleware: ['auth'],
@@ -24,6 +25,8 @@ const recipe = reactive<TRecipe>({
 });
 
 const isDisabled = ref(true)
+const isDragging = ref(false)
+
 
 const ingredient = ref<TIngredient>({
     title: "",
@@ -32,8 +35,6 @@ const ingredient = ref<TIngredient>({
 })
 
 const formData = new FormData()
-
-
 
 function addIngredient() {
     recipe.ingredients?.push({
@@ -61,13 +62,6 @@ function handleChange() {
     }
 }
 
-
-
-
-
-const images = ref([])
-
-
 function handleFileChange(e: Event) {
     const eventTarget = e.target as HTMLInputElement;
     recipe.images = [...Array.from(eventTarget?.files || [])];
@@ -78,9 +72,6 @@ function removeFile(index: number) {
     recipe.images.splice(index, 1);
 }
 
-const isDragging = ref(false)
-
-
 function dragover(e: Event) {
     e.preventDefault();
     isDragging.value = true;
@@ -90,15 +81,22 @@ function dragleave() {
     isDragging.value = false;
 }
 
-function drop(e: Event) {
+function handleDrop(e: DragEvent) {
     e.preventDefault();
-    //   this.$refs.file.files = e.dataTransfer.files;
-    //   this.onChange();
-    //   this.isDragging = false;
+    recipe.images = [...Array.from(e.dataTransfer?.files || [])];
+    isDragging.value = false;
+
+}
+
+function generateURL(file: File) {
+    let fileSrc = URL.createObjectURL(file);
+    setTimeout(() => {
+        URL.revokeObjectURL(fileSrc);
+    }, 1000);
+    return fileSrc;
 }
 
 async function handleSubmit(evt: Event) {
-
     evt.preventDefault()
 
     const typedKeys = getTypedKeys(recipe);
@@ -133,11 +131,6 @@ async function handleSubmit(evt: Event) {
 
     })
 
-    for (const pair of formData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-    }
-
-
     const url = useRuntimeConfig().public.myProxyUrl
 
     try {
@@ -151,14 +144,6 @@ async function handleSubmit(evt: Event) {
     } catch (error) {
         console.log(error)
     }
-}
-
-function generateURL(file: File) {
-    let fileSrc = URL.createObjectURL(file);
-    setTimeout(() => {
-        URL.revokeObjectURL(fileSrc);
-    }, 1000);
-    return fileSrc;
 }
 
 </script>
@@ -217,30 +202,29 @@ function generateURL(file: File) {
 
             </div>
 
-
             <div class="form__item">
                 <h3>Источник</h3>
                 <CommonVInput v-model="recipe.source" type="text" placeholder="Укажите автора или ссылку на автора">
                 </CommonVInput>
             </div>
 
-
-
-
             <div class="form__item">
                 <h3>Способ приготовления</h3>
                 <CommonVTextarea placeholder="Введите текст" id="steps" v-model="recipe.description"></CommonVTextarea>
             </div>
 
-            <div class="form__item upload" @dragover="dragover" @dragleave="dragleave" @drop="drop">
+            <div class="form__item upload" :class="{ 'is-dragging': isDragging }" @dragover="dragover"
+                @dragleave="dragleave" @drop="handleDrop">
                 <label for="file-input" class="upload__label">
                     <IconsIconUpload class="upload__icon"></IconsIconUpload>
                     Добавить одну или несколько картинок
                 </label>
-                <input id="file-input" hidden type="file" @change="handleFileChange" multiple accept=".jpg,.jpeg,.png"
-                    ref="file" />
+                <input id="file-input" hidden type="file" @change="handleFileChange" multiple
+                    accept=".jpg,.jpeg,.png" />
 
-                <ul class="upload__list">
+
+
+                <TransitionGroup name="list" tag="ul" class="upload__list">
                     <li v-for="(file, index) in recipe.images" :key="file.name" class="upload__item">
                         <IconsIconClose class="upload__remove" @click="removeFile(index)"></IconsIconClose>
 
@@ -253,10 +237,8 @@ function generateURL(file: File) {
                             <p>{{ Math.round(file.size / 1000) }} КБ</p>
                         </div>
                     </li>
-                </ul>
-
+                </TransitionGroup>
             </div>
-
 
             <CommonVButton type="submit">Сохранить</CommonVButton>
 
@@ -373,10 +355,17 @@ h3 {
         background-color: var(--white);
         font-size: var(--fs-small);
         cursor: pointer;
-        transition: .4s opacity cubic-bezier(0.075, 0.82, 0.165, 1);
+        transition: .4s opacity cubic-bezier(0.075, 0.82, 0.165, 1), opacity .4s;
 
         &:hover {
             opacity: .8;
+        }
+    }
+
+    &.is-dragging {
+        .upload__label {
+            opacity: 0.7;
+            border-color: green;
         }
     }
 
