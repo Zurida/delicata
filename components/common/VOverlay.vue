@@ -8,7 +8,7 @@ defineProps({
 
 <template>
     <transition>
-        <div v-if="isVisible" class="VOverlay">
+        <div class="VOverlay" v-if="isVisible">
             <slot></slot>
         </div>
     </transition>
@@ -17,11 +17,14 @@ defineProps({
 <style lang="scss" scoped>
 .VOverlay {
     position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
     z-index: 2;
-    width: 100%;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 }
 </style>

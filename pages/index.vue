@@ -159,12 +159,6 @@ async function handleTitleSubmit() {
 
 
 <style scoped lang="scss">
-.VOverlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .home {
   position: relative;
 

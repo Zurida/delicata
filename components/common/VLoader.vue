@@ -1,12 +1,11 @@
 <template>
     <div class="loader"></div>
-
 </template>
 
 <style lang="scss" scoped>
 .loader {
     width: 60px;
-    aspect-ratio: 2;
+    height: 30px;
     --_g: no-repeat radial-gradient(farthest-side, var(--main-2) 90%, #0000);
     background:
         var(--_g) 0 50%,

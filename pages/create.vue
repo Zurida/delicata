@@ -26,6 +26,7 @@ const recipe = reactive<TRecipe>({
 
 const isDisabled = ref(true)
 const isDragging = ref(false)
+const isLoading = ref(false)
 
 
 const ingredient = ref<TIngredient>({
@@ -98,6 +99,7 @@ function generateURL(file: File) {
 
 async function handleSubmit(evt: Event) {
     evt.preventDefault()
+    isLoading.value = true
 
     const typedKeys = getTypedKeys(recipe);
 
@@ -138,6 +140,7 @@ async function handleSubmit(evt: Event) {
             method: 'POST',
             body: formData,
         }).then(() => {
+            isLoading.value = false
             navigateTo('/')
         })
 
@@ -150,6 +153,9 @@ async function handleSubmit(evt: Event) {
 
 <template>
     <div class="create container">
+        <CommonVOverlay :is-visible="isLoading">
+            <CommonVLoader />
+        </CommonVOverlay>
         <form class="form" @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="form__item">
                 <h3>Категория*</h3>
@@ -240,7 +246,7 @@ async function handleSubmit(evt: Event) {
                 </TransitionGroup>
             </div>
 
-            <CommonVButton type="submit">Сохранить</CommonVButton>
+            <CommonVButton type="submit" :disabled="isLoading">Сохранить</CommonVButton>
 
         </form>
     </div>
@@ -250,6 +256,7 @@ async function handleSubmit(evt: Event) {
 .create {
     padding-top: var(--gap);
     padding-bottom: var(--gap);
+    position: relative;
 }
 
 .form {
