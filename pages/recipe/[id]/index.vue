@@ -39,7 +39,7 @@ onMounted(() => {
 })
 
 async function handleDelete() {
-    await $fetch(`https://kavkaz-build.ru/api/recipes/${id}`, {
+    await $fetch(`/api/recipes/${id}`, {
         method: 'DELETE'
     }).then(() => {
         navigateTo('/')

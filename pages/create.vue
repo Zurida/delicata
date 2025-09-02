@@ -252,9 +252,6 @@ function generateURL(file: File) {
                             <p> {{ file.name }}</p>
                             <p>{{ Math.round(file.size / 1000) }} КБ</p>
                         </div>
-
-
-                        <!-- <button @click="removeFile(index)" class="upload__remove">Remove</button> -->
                     </li>
                 </ul>
 
