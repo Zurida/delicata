@@ -2,6 +2,7 @@
 import type { TRecipe } from '~/types/recipe';
 import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';
+import { getTypedKeys } from '~/assets/ts/utils';
 
 definePageMeta({
     middleware: ['auth'],
@@ -30,6 +31,9 @@ const ingredient = ref<TIngredient>({
     measure_id: null
 })
 
+const formData = new FormData()
+
+
 
 function addIngredient() {
     recipe.ingredients?.push({
@@ -49,10 +53,6 @@ function removeIngredient(index: number) {
     recipe.ingredients?.splice(index, 1)
 }
 
-function removeTag(index: number) {
-    recipe.tags?.splice(index, 1)
-}
-
 function handleChange() {
     if (ingredient.value.title && ingredient.value.quantity && ingredient.value.measure_id) {
         isDisabled.value = false
@@ -61,14 +61,40 @@ function handleChange() {
     }
 }
 
-const formData = new FormData()
 
-type TypedKeys<T> = {
-    [P in keyof T]: P
-}[keyof T][];
 
-function getTypedKeys<T extends Record<string, any>>(obj: T): TypedKeys<T> {
-    return Object.keys(obj);
+
+
+const images = ref([])
+
+
+function handleFileChange(e: Event) {
+    const eventTarget = e.target as HTMLInputElement;
+    recipe.images = [...Array.from(eventTarget?.files || [])];
+}
+
+function removeFile(index: number) {
+    if (!recipe.images) return
+    recipe.images.splice(index, 1);
+}
+
+const isDragging = ref(false)
+
+
+function dragover(e: Event) {
+    e.preventDefault();
+    isDragging.value = true;
+}
+
+function dragleave() {
+    isDragging.value = false;
+}
+
+function drop(e: Event) {
+    e.preventDefault();
+    //   this.$refs.file.files = e.dataTransfer.files;
+    //   this.onChange();
+    //   this.isDragging = false;
 }
 
 async function handleSubmit(evt: Event) {
@@ -127,16 +153,14 @@ async function handleSubmit(evt: Event) {
     }
 }
 
-
-function handleFileChange(e: Event) {
-    const eventTarget = e.target as HTMLInputElement;
-    recipe.images = Array.from(eventTarget?.files || []);
+function generateURL(file: File) {
+    let fileSrc = URL.createObjectURL(file);
+    setTimeout(() => {
+        URL.revokeObjectURL(fileSrc);
+    }, 1000);
+    return fileSrc;
 }
 
-function removeFile(index: number) {
-    if (!recipe.images) return
-    recipe.images.splice(index, 1);
-}
 </script>
 
 <template>
@@ -208,17 +232,29 @@ function removeFile(index: number) {
                 <CommonVTextarea placeholder="Введите текст" id="steps" v-model="recipe.description"></CommonVTextarea>
             </div>
 
-            <div class="form__item">
-                <span>+</span>
-                <label for="file-input" class="btn">
-                    Upload File
+            <div class="form__item upload" @dragover="dragover" @dragleave="dragleave" @drop="drop">
+                <label for="file-input" class="upload__label">
+                    <IconsIconUpload class="upload__icon"></IconsIconUpload>
+                    Добавить одну или несколько картинок
                 </label>
-                <input id="file-input" hidden type="file" @change="handleFileChange" multiple />
+                <input id="file-input" hidden type="file" @change="handleFileChange" multiple accept=".jpg,.jpeg,.png"
+                    ref="file" />
 
-                <ul>
-                    <li v-for="(file, index) in recipe.images" :key="file.name">
-                        {{ file.name }}
-                        <button @click="removeFile(index)">Remove</button>
+                <ul class="upload__list">
+                    <li v-for="(file, index) in recipe.images" :key="file.name" class="upload__item">
+                        <IconsIconClose class="upload__remove" @click="removeFile(index)"></IconsIconClose>
+
+                        <div class="upload__preview">
+
+                            <img :src="generateURL(file)" />
+                        </div>
+                        <div>
+                            <p> {{ file.name }}</p>
+                            <p>{{ Math.round(file.size / 1000) }} КБ</p>
+                        </div>
+
+
+                        <!-- <button @click="removeFile(index)" class="upload__remove">Remove</button> -->
                     </li>
                 </ul>
 
@@ -326,6 +362,97 @@ h3 {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+    }
+}
+
+.upload {
+    &__label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 1px dashed var(--main-3);
+        padding: var(--gap);
+        border-radius: var(--border-radius);
+        background-color: var(--white);
+        font-size: var(--fs-small);
+        cursor: pointer;
+        transition: .4s opacity cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:hover {
+            opacity: .8;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: calc(var(--border-radius) / 2);
+        margin-right: calc(var(--gap-sm));
+        line-height: 1;
+        font-size: calc(var(--fs-base) * 2);
+        color: var(--main-1);
+
+        svg {
+            fill: currentColor;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gap-sm);
+        margin-top: var(--gap-sm);
+    }
+
+    &__item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-right: 1.6rem;
+
+        p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 4.8rem;
+        }
+    }
+
+    &__remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        color: var(--main-1);
+        width: 1.2rem;
+        height: 1.2rem;
+        transition: scale .4s, color .4s;
+
+        &:hover {
+            scale: 1.2;
+            color: red;
+        }
+    }
+
+    &__preview {
+        width: 5rem;
+        height: 5rem;
+        border-radius: var(--border-radius);
+        padding: 3px;
+        border: 1px solid var(--main-1);
+        background-color: var(--white);
+        overflow: hidden;
+
+
+        img {
+            object-fit: cover;
+            border-radius: inherit;
+        }
     }
 }
 </style>

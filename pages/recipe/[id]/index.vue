@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Swiper } from 'swiper';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
-import { formatDate } from '~/assets/js/utils';
+import { formatDate } from '~/assets/ts/utils';
 Swiper.use([Thumbs, FreeMode, Navigation]);
 
 definePageMeta({
