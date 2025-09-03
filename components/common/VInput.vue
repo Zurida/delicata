@@ -23,7 +23,9 @@ const props = withDefaults(defineProps<Props>(), {
                 {{ props.label }}
             </label>
         </div>
-        <p v-if="props.error" class="VInput__error">{{ props.error }}</p>
+        <Transition>
+            <p v-if="props.error" class="VInput__error">{{ props.error }}</p>
+        </Transition>
     </div>
 </template>
 
@@ -69,7 +71,7 @@ const props = withDefaults(defineProps<Props>(), {
         }
 
         &.is-error {
-            border-color: red;
+            border-color: var(--error);
         }
     }
 
@@ -92,6 +94,11 @@ const props = withDefaults(defineProps<Props>(), {
             opacity: 1;
             top: 0;
         }
+    }
+
+    &__error {
+        font-size: var(--fs-micro);
+        color: var(--error);
     }
 
 }

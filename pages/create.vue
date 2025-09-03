@@ -3,7 +3,11 @@ import type { TRecipe } from '~/types/recipe';
 import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';
 import { getTypedKeys } from '~/assets/ts/utils';
-import { TransitionGroup } from 'vue';
+
+import type { ZodIssue } from "zod"
+import type { TRecipeForm, TRecipeFormErrors } from "~/types/schemas";
+import { RecipeFormSchema } from "~/types/schemas";
+
 
 definePageMeta({
     middleware: ['auth'],
@@ -24,10 +28,41 @@ const recipe = reactive<TRecipe>({
     images: []
 });
 
+
 const isDisabled = ref(true)
 const isDragging = ref(false)
 const isLoading = ref(false)
 
+const recipeFormErrors = ref<TRecipeFormErrors>({});
+
+let errors: ZodIssue[]
+
+// Validation.
+const validateFormData = (value: unknown): boolean => {
+    const result = RecipeFormSchema.safeParse(value);
+
+    if (!result.success) {
+        errors = [...result.error.errors];
+    }
+
+    return result.success;
+};
+
+const displayErrors = () => {
+    recipeFormErrors.value = errors.reduce((acc: Record<string, string>, error) => {
+        acc[error.path[0]] = error.message;
+        return acc
+    }, {})
+    console.log(recipeFormErrors.value)
+
+    setTimeout(() => {
+        recipeFormErrors.value = {
+            category_id: '',
+            title: '',
+        }
+    }, 4000)
+    return false;
+}
 
 const ingredient = ref<TIngredient>({
     title: "",
@@ -101,6 +136,14 @@ async function handleSubmit(evt: Event) {
     evt.preventDefault()
     isLoading.value = true
 
+    if (!validateFormData(recipe)) {
+        isLoading.value = false
+        return displayErrors();
+    };
+
+    // Reset errors if data are valid.
+    recipeFormErrors.value = {};
+
     const typedKeys = getTypedKeys(recipe);
 
     typedKeys.forEach((key) => {
@@ -136,16 +179,18 @@ async function handleSubmit(evt: Event) {
     const url = useRuntimeConfig().public.myProxyUrl
 
     try {
-        return await $fetch(`${url}recipes/`, {
+        await $fetch(`${url}recipes/`, {
             method: 'POST',
             body: formData,
         }).then(() => {
-            isLoading.value = false
             navigateTo('/')
         })
 
     } catch (error) {
         console.log(error)
+    }
+    finally {
+        isLoading.value = false
     }
 }
 
@@ -159,13 +204,14 @@ async function handleSubmit(evt: Event) {
         <form class="form" @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="form__item">
                 <h3>Категория*</h3>
-                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id"
-                    select-name="categories" />
+                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id" select-name="categories"
+                    :error="recipeFormErrors.category_id" />
             </div>
 
             <div class="form__item">
                 <h3>Заголовок*</h3>
-                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите текст">
+                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите текст"
+                    :error="recipeFormErrors.title">
                 </CommonVInput>
             </div>
 
@@ -428,7 +474,7 @@ h3 {
 
         &:hover {
             scale: 1.2;
-            color: red;
+            color: var(--error);
         }
     }
 

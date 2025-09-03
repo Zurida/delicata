@@ -6,6 +6,7 @@ const props = defineProps<{
     options: TOption[] | null,
     selectName: string,
     checked?: boolean
+    error?: string
 }>()
 const model = defineModel()
 
@@ -40,7 +41,7 @@ const title = computed(() => {
     <div class="VSelect" :class="{ active: isActive }">
         <button type="button" ref="buttonRef" class="select-button" role="combobox" aria-label="select button"
             aria-haspopup="listbox" :aria-expanded="isActive" aria-controls="select-dropdown"
-            @click="isActive = !isActive">
+            @click="isActive = !isActive" :class="{ 'is-error': error }">
             <span class="selected-value">{{ title }}</span>
             <i class="arrow right"></i>
         </button>
@@ -51,6 +52,11 @@ const title = computed(() => {
                 <label :for="`${selectName}-${option.id}`" @click="handleClick(option)">{{ option.title }}</label>
             </li>
         </ul>
+
+
+        <Transition>
+            <p class="VSelect__error" v-if="error">{{ error }}</p>
+        </Transition>
     </div>
 </template>
 
@@ -72,6 +78,10 @@ const title = computed(() => {
         padding: 0.675em 1em;
         border-radius: 0.4rem;
         border: 1px solid var(--border-color);
+
+        &.is-error {
+            border-color: var(--error);
+        }
     }
 
     .arrow {
@@ -153,6 +163,11 @@ const title = computed(() => {
             left: 0;
             opacity: 0;
         }
+    }
+
+    &__error {
+        font-size: var(--fs-micro);
+        color: var(--error);
     }
 }
 </style>
