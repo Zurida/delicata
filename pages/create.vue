@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { TRecipe } from '~/types/recipe';
+import type { TImage, TRecipe } from '~/types/recipe';
 import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';
 import { getTypedKeys } from '~/assets/ts/utils';
 
 import type { ZodIssue } from "zod"
-import type { TRecipeForm, TRecipeFormErrors } from "~/types/schemas";
+import type { TRecipeFormErrors } from "~/types/schemas";
 import { RecipeFormSchema } from "~/types/schemas";
 
 
@@ -100,7 +100,8 @@ function handleChange() {
 
 function handleFileChange(e: Event) {
     const eventTarget = e.target as HTMLInputElement;
-    recipe.images = [...Array.from(eventTarget?.files || [])];
+    const files: File[] = Array.from(eventTarget?.files || [])
+    recipe.images = files;
 }
 
 function removeFile(index: number) {
@@ -108,12 +109,12 @@ function removeFile(index: number) {
     recipe.images.splice(index, 1);
 }
 
-function dragover(e: Event) {
+function handleDragover(e: Event) {
     e.preventDefault();
     isDragging.value = true;
 }
 
-function dragleave() {
+function handleDragleave() {
     isDragging.value = false;
 }
 
@@ -121,11 +122,11 @@ function handleDrop(e: DragEvent) {
     e.preventDefault();
     recipe.images = [...Array.from(e.dataTransfer?.files || [])];
     isDragging.value = false;
-
 }
 
 function generateURL(file: File) {
-    let fileSrc = URL.createObjectURL(file);
+    const uploadedFile: File = file
+    let fileSrc = URL.createObjectURL(uploadedFile);
     setTimeout(() => {
         URL.revokeObjectURL(fileSrc);
     }, 1000);
@@ -158,13 +159,15 @@ async function handleSubmit(evt: Event) {
             }
 
             if (key === 'images') {
-                recipe[key]?.forEach((file) => {
-                    formData.append('images[]', file)
+                recipe[key]?.forEach((file: TImage) => {
+                    if (!(file instanceof File)) return
+                    const uploadedFile: File = file
+                    formData.append('images[]', uploadedFile)
                 })
             }
 
             if (key === 'tags') {
-                recipe[key]?.forEach((tag, index) => {
+                recipe[key]?.forEach((tag) => {
                     formData.append(`${key}[]`, `${tag}`);
                 })
             }
@@ -193,6 +196,10 @@ async function handleSubmit(evt: Event) {
         isLoading.value = false
     }
 }
+
+const computedImages = computed(() => {
+    return recipe.images?.filter(item => item instanceof File)
+})
 
 </script>
 
@@ -265,8 +272,8 @@ async function handleSubmit(evt: Event) {
                 <CommonVTextarea placeholder="Введите текст" id="steps" v-model="recipe.description"></CommonVTextarea>
             </div>
 
-            <div class="form__item upload" :class="{ 'is-dragging': isDragging }" @dragover="dragover"
-                @dragleave="dragleave" @drop="handleDrop">
+            <div class="form__item upload" :class="{ 'is-dragging': isDragging }" @dragover="handleDragover"
+                @dragleave="handleDragleave" @drop="handleDrop">
                 <label for="file-input" class="upload__label">
                     <IconsIconUpload class="upload__icon"></IconsIconUpload>
                     Добавить одну или несколько картинок
@@ -277,7 +284,7 @@ async function handleSubmit(evt: Event) {
 
 
                 <TransitionGroup name="list" tag="ul" class="upload__list">
-                    <li v-for="(file, index) in recipe.images" :key="file.name" class="upload__item">
+                    <li v-for="(file, index) in computedImages" :key="file.name" class="upload__item">
                         <IconsIconClose class="upload__remove" @click="removeFile(index)"></IconsIconClose>
 
                         <div class="upload__preview">
@@ -285,9 +292,11 @@ async function handleSubmit(evt: Event) {
                             <img :src="generateURL(file)" />
                         </div>
                         <div>
+
                             <p> {{ file.name }}</p>
-                            <p>{{ Math.round(file.size / 1000) }} КБ</p>
+                            <!-- <p>{{ Math.round(file.size / 1000) }} КБ</p> -->
                         </div>
+
                     </li>
                 </TransitionGroup>
             </div>

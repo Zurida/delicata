@@ -1,6 +1,14 @@
 import type { TIngredient } from './ingredient'
 import type { TTag } from './tag'
 
+interface IRecievedFile {
+    id: number,
+    url: string,
+    name: string
+}
+
+export type TImage = IRecievedFile | File
+
 
 export type TRecipe = {
     id?: number,
@@ -15,6 +23,6 @@ export type TRecipe = {
     source?: string,
     tags?: TTag[],
     ingredients?: TIngredient[],
-    images?: File[],
+    images?: TImage[],
     main_image?: {}
 }

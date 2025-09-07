@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { TRecipe } from '~/types/recipe';
+import type { TImage, TRecipe } from '~/types/recipe';
 import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';
+import { getTypedKeys } from '~/assets/ts/utils';
 
 definePageMeta({
     middleware: ['auth'],
@@ -10,34 +11,31 @@ definePageMeta({
 const route = useRoute()
 const id = computed(() => route.params.id)
 const categoryStore = useCategoryStore()
+const isDragging = ref(false)
 
 const { data: measures } = await useFetch('/api/measures')
 const { data: tags } = await useFetch('/api/tags')
 const { data: recipeData } = await useFetch<TRecipe>(`/api/recipes/${id.value}`)
 
 
-const ingredientsNew = recipeData.value?.ingredients?.map((ingredient: TIngredient) => {
+const ingredientsNew = recipeData.value?.ingredients?.map((ingredient: any) => {
     return {
         title: ingredient.title,
-        // @ts-ignore:
         measure_id: ingredient.measure.id,
         quantity: ingredient.quantity
     }
 })
 
-
-
-let recipe = reactive<TRecipe>({
+const recipe = reactive<TRecipe>({
     title: recipeData.value?.title || '',
     category_id: recipeData.value?.category?.id || 0,
     source: recipeData.value?.source,
-    // @ts-ignore:
     ingredients: ingredientsNew,
     description: recipeData.value?.description,
     // @ts-ignore:
     tags: recipeData.value?.tags?.map(tag => tag.title),
+    images: recipeData.value?.images
 });
-
 
 const isDisabled = ref(true)
 
@@ -46,6 +44,9 @@ const ingredient = ref<TIngredient>({
     quantity: 0,
     measure_id: null
 })
+
+const formData = new FormData()
+
 
 function addIngredient() {
     recipe.ingredients?.push({
@@ -73,18 +74,87 @@ function handleChange() {
     }
 }
 
-async function handleSubmit(evt: Event) {
+function handleFileChange(e: Event) {
+    const eventTarget = e.target as HTMLInputElement;
+    recipe.images = [...Array.from(eventTarget?.files || [])];
+}
 
+function removeFile(index: number) {
+    if (!recipe.images) return
+    recipe.images.splice(index, 1);
+}
+
+function handleDragover(e: Event) {
+    e.preventDefault();
+    isDragging.value = true;
+}
+
+function handleDragleave() {
+    isDragging.value = false;
+}
+
+function handleDrop(e: DragEvent) {
+    e.preventDefault();
+    recipe.images = [...Array.from(e.dataTransfer?.files || [])];
+    isDragging.value = false;
+}
+
+function generateURL(file: TImage) {
+    if (file instanceof File) {
+        let fileSrc = URL.createObjectURL(file);
+        setTimeout(() => {
+            URL.revokeObjectURL(fileSrc);
+        }, 1000);
+        return fileSrc;
+    } else {
+        return file.url
+    }
+}
+
+async function handleSubmit(evt: Event) {
     evt.preventDefault()
 
-    const body: TRecipe = {
-        ...recipe
-    }
+    const typedKeys = getTypedKeys(recipe);
+
+    typedKeys.forEach((key) => {
+        if (key) {
+            if (key === 'ingredients') {
+                recipe[key]?.forEach((ingredientObj, index) => {
+                    const ingredientTypedKeys = getTypedKeys(ingredientObj);
+                    ingredientTypedKeys.forEach((ingrKey) => {
+                        formData.append(`ingredients[${index}][${ingrKey}]`, `${ingredientObj[ingrKey]}`);
+                    })
+                })
+            }
+
+            if (key === 'images') {
+                recipe[key]?.forEach((file: TImage) => {
+                    if (file instanceof File) {
+                        const uploadedFile: File = file
+                        formData.append('images[]', uploadedFile)
+                    }
+                })
+            }
+
+            if (key === 'tags') {
+                recipe[key]?.forEach((tag) => {
+                    formData.append(`${key}[]`, `${tag}`);
+                })
+            }
+
+            if (typeof recipe[key] === 'string' || typeof recipe[key] === 'number') {
+                formData.append(key, recipe[key] as string);
+            }
+        }
+
+    })
+
+    const url = useRuntimeConfig().public.myProxyUrl
 
     try {
-        return await $fetch(`https://kavkaz-build.ru/api/recipes/${id.value}`, {
+        return await $fetch(`${url}recipes/${id.value}`, {
             method: 'POST',
-            body
+            body: formData
         }).then(() => {
             navigateTo('/')
         })
@@ -169,6 +239,31 @@ async function handleSubmit(evt: Event) {
                 <p>Добавить фото</p>
             </div> -->
 
+
+            <div class="form__item upload" :class="{ 'is-dragging': isDragging }" @dragover="handleDragover"
+                @dragleave="handleDragleave" @drop="handleDrop">
+                <label for="file-input" class="upload__label">
+                    <IconsIconUpload class="upload__icon"></IconsIconUpload>
+                    Добавить одну или несколько картинок
+                </label>
+                <input id="file-input" hidden type="file" @change="handleFileChange" multiple
+                    accept=".jpg,.jpeg,.png" />
+
+
+                <TransitionGroup name="list" tag="ul" class="upload__list">
+                    <li v-for="(image, index) in recipe.images" :key="index" class="upload__item">
+                        <IconsIconClose class="upload__remove" @click="removeFile(index)"></IconsIconClose>
+
+                        <div class="upload__preview">
+                            <img :src="generateURL(image)" />
+                        </div>
+                        <!-- <div>
+                            <p> {{ image.name }}</p>
+                            <p>{{ Math.round(image.size / 1000) }} КБ</p>
+                        </div> -->
+                    </li>
+                </TransitionGroup>
+            </div>
 
             <CommonVButton type="submit">Сохранить</CommonVButton>
 
@@ -271,6 +366,104 @@ h3 {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+    }
+}
+
+.upload {
+    &__label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 1px dashed var(--main-3);
+        padding: var(--gap);
+        border-radius: var(--border-radius);
+        background-color: var(--white);
+        font-size: var(--fs-small);
+        cursor: pointer;
+        transition: .4s opacity cubic-bezier(0.075, 0.82, 0.165, 1), opacity .4s;
+
+        &:hover {
+            opacity: .6;
+        }
+    }
+
+    &.is-dragging {
+        .upload__label {
+            opacity: 0.6;
+            border-color: var(--main-1);
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: calc(var(--border-radius) / 2);
+        margin-right: calc(var(--gap-sm));
+        line-height: 1;
+        font-size: calc(var(--fs-base) * 2);
+        color: var(--main-1);
+
+        svg {
+            fill: currentColor;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gap-sm);
+        margin-top: var(--gap-sm);
+    }
+
+    &__item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-right: 1.6rem;
+
+        p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 4.8rem;
+        }
+    }
+
+    &__remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        color: var(--main-1);
+        width: 1.2rem;
+        height: 1.2rem;
+        transition: scale .4s, color .4s;
+
+        &:hover {
+            scale: 1.2;
+            color: var(--error);
+        }
+    }
+
+    &__preview {
+        width: 5rem;
+        height: 5rem;
+        border-radius: var(--border-radius);
+        padding: 3px;
+        border: 1px solid var(--main-1);
+        background-color: var(--white);
+        overflow: hidden;
+
+
+        img {
+            object-fit: cover;
+            border-radius: inherit;
+        }
     }
 }
 </style>
