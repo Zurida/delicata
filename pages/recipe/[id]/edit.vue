@@ -4,6 +4,11 @@ import type { TIngredient } from '~/types/ingredient';
 import type { TMeasure } from '~/types/measure';
 import { getTypedKeys } from '~/assets/ts/utils';
 
+
+import type { ZodIssue } from "zod"
+import type { TRecipeFormErrors } from "~/types/schemas";
+import { RecipeFormSchema } from "~/types/schemas";
+
 definePageMeta({
     middleware: ['auth'],
 });
@@ -12,6 +17,39 @@ const route = useRoute()
 const id = computed(() => route.params.id)
 const categoryStore = useCategoryStore()
 const isDragging = ref(false)
+const isLoading = ref(false)
+
+
+const recipeFormErrors = ref<TRecipeFormErrors>({});
+
+let errors: ZodIssue[]
+
+// Validation.
+const validateFormData = (value: unknown): boolean => {
+    const result = RecipeFormSchema.safeParse(value);
+
+    if (!result.success) {
+        errors = [...result.error.errors];
+    }
+
+    return result.success;
+};
+
+const displayErrors = () => {
+    recipeFormErrors.value = errors.reduce((acc: Record<string, string>, error) => {
+        acc[error.path[0]] = error.message;
+        return acc
+    }, {})
+    console.log(recipeFormErrors.value)
+
+    setTimeout(() => {
+        recipeFormErrors.value = {
+            category_id: '',
+            title: '',
+        }
+    }, 4000)
+    return false;
+}
 
 const { data: measures } = await useFetch('/api/measures')
 const { data: tags } = await useFetch('/api/tags')
@@ -114,6 +152,15 @@ function generateURL(file: TImage) {
 
 async function handleSubmit(evt: Event) {
     evt.preventDefault()
+    isLoading.value = true
+
+    if (!validateFormData(recipe)) {
+        isLoading.value = false
+        return displayErrors();
+    };
+
+    // Reset errors if data are valid.
+    recipeFormErrors.value = {};
 
     const typedKeys = getTypedKeys(recipe);
 
@@ -173,16 +220,20 @@ async function handleSubmit(evt: Event) {
 
 <template>
     <div class="create container">
+        <CommonVOverlay :is-visible="isLoading">
+            <CommonVLoader />
+        </CommonVOverlay>
         <form class="form" @submit.prevent="handleSubmit">
             <div class="form__item">
                 <h3>Категория*</h3>
-                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id"
-                    select-name="categories" />
+                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id" select-name="categories"
+                    :error="recipeFormErrors.category_id" />
             </div>
 
             <div class="form__item">
                 <h3>Заголовок*</h3>
-                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите текст">
+                <CommonVInput v-model="recipe.title" type="text" placeholder="Введите текст"
+                    :error="recipeFormErrors.title">
                 </CommonVInput>
             </div>
 
@@ -271,7 +322,7 @@ async function handleSubmit(evt: Event) {
                 </TransitionGroup>
             </div>
 
-            <CommonVButton type="submit">Сохранить</CommonVButton>
+            <CommonVButton type="submit" :disabled="isLoading">Сохранить</CommonVButton>
 
         </form>
     </div>
