@@ -29,7 +29,7 @@ html {
 body {
     min-height: 100vh;
     color: var(--black);
-    background: #EFF2F4;
+    background: var(--bg-color);
     /* background-color: #2f4f4f52; */
     transition: color 0.5s, background-color 0.5s;
     font-family: 'Advent Pro', sans-serif;

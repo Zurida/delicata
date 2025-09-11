@@ -53,7 +53,6 @@ const displayErrors = () => {
         acc[error.path[0]] = error.message;
         return acc
     }, {})
-    console.log(recipeFormErrors.value)
 
     setTimeout(() => {
         recipeFormErrors.value = {

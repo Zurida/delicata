@@ -222,7 +222,7 @@ h4 {
   z-index: 1;
   flex: 1;
   padding-left: 19rem;
-  background-color: #EFF2F4;
+  background-color: var(--bg-color);
 
   // &__nav {
   //   display: flex;
@@ -247,7 +247,7 @@ h4 {
   top: var(--header-height);
   padding: var(--gap);
   z-index: 2;
-  background-color: #EFF2F4;
+  background-color: var(--bg-color);
 }
 
 .search {
