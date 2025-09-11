@@ -26,6 +26,7 @@ const ingredientsNew = recipeData.value?.ingredients?.map((ingredient: any) => {
     }
 })
 
+
 const recipe = reactive<TRecipe>({
     title: recipeData.value?.title || '',
     category_id: recipeData.value?.category?.id || 0,
@@ -133,6 +134,11 @@ async function handleSubmit(evt: Event) {
                         const uploadedFile: File = file
                         formData.append('images[]', uploadedFile)
                     }
+                    // else {
+                    //     const recievedImage = {
+
+                    //     }
+                    // }
                 })
             }
 
