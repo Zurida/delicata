@@ -221,7 +221,7 @@ h4 {
   position: relative;
   z-index: 1;
   flex: 1;
-  padding: var(--gap) var(--gap) var(--gap) calc(19rem + var(--gap));
+  padding-left: 19rem;
   background-color: #EFF2F4;
 
   // &__nav {
@@ -243,6 +243,11 @@ h4 {
 
 .filter {
   margin-bottom: var(--gap);
+  position: sticky;
+  top: var(--header-height);
+  padding: var(--gap);
+  z-index: 2;
+  background-color: #EFF2F4;
 }
 
 .search {
@@ -330,6 +335,10 @@ h4 {
 }
 
 .cards {
+  padding-left: var(--gap);
+  padding-right: var(--gap);
+  padding-bottom: var(--gap);
+
   &__list {
     display: grid;
     flex: 1;

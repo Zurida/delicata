@@ -24,7 +24,7 @@ defineProps({
     height: 100%;
     left: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     background-color: rgba(0, 0, 0, 0.4);
 }
 </style>
