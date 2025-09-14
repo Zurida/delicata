@@ -1,0 +1,26 @@
+@use "sass:map";
+
+$breakpoints: (
+    xs: 480px,
+    sm: 768px,
+    md: 1440px,
+    lg: 1920px,
+);
+
+
+@mixin respond-to($key) {
+    @if map.has-key($breakpoints, $key) {
+        $size: map.get($breakpoints, $key);
+
+        @media (max-width: $size) {
+            @content;
+        }
+    }
+}
+
+
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

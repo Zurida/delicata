@@ -1,9 +1,9 @@
 /* Screen font-sizes for html*/
 :root {
-    --fs-320: 8px;
-    --fs-768: 10px;
-    --fs-1440: 11px;
-    --fs-1920: 15px;
+    --fs-xs: 12px;
+    --fs-sm: 11px;
+    --fs-md: 10px;
+    --fs-lg: 13px;
 }
 
 /* Colors */

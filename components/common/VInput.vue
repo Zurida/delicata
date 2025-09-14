@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
     <div class="VInput">
         <div class="VInput__body">
             <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="modelValue"
-                :type="type" :placeholder="placeholder" />
+                :type="type" :placeholder="placeholder" :id="id" />
             <label :for="id" class="VInput__label" v-if="label"
                 :class="{ 'is-lifted': typeof modelValue === 'string' ? modelValue.length : false }">
                 {{ props.label }}

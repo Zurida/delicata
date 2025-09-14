@@ -1,5 +1,5 @@
-@import "_variables.css";
-@import "_animations.css";
+@use "variables";
+@use "animations";
 
 *,
 *::before,
@@ -10,19 +10,19 @@
 }
 
 html {
-    font-size: var(--fs-1440);
+    font-size: var(--fs-lg);
     line-height: 1;
 
-    @media screen and (min-width: 1441px) {
-        font-size: var(--fs-1920);
+    @include respond-to(md) {
+        font-size: var(--fs-md);
     }
 
-    @media screen and (768px <=width <1440px) {
-        font-size: var(--fs-768);
+    @include respond-to(sm) {
+        font-size: var(--fs-sm);
     }
 
-    @media screen and (320px <=width <768px) {
-        font-size: var(--fs-320);
+    @include respond-to(xs) {
+        font-size: var(--fs-xs);
     }
 }
 
@@ -30,7 +30,6 @@ body {
     min-height: 100vh;
     color: var(--black);
     background: var(--bg-color);
-    /* background-color: #2f4f4f52; */
     transition: color 0.5s, background-color 0.5s;
     font-family: 'Advent Pro', sans-serif;
     line-height: 1.6;
@@ -84,8 +83,6 @@ textarea {
     outline: none;
 }
 
-
-
 .title {
     font-size: 3rem;
     font-weight: 600;
@@ -125,6 +122,6 @@ svg {
 
 img {
     width: 100%;
-    aspect-ratio: 1;
+    height: 100%;
     object-fit: cover;
 }

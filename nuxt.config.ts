@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   // imports: {
   //   dirs: ['types/*.ts', 'store/*.ts', 'types/**/*.ts'],
   // },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.scss'],
 
   modules: [['@nuxtjs/google-fonts', {
     families: {
@@ -49,9 +49,9 @@ export default defineNuxtConfig({
   vite: {
     css: {
       preprocessorOptions: {
-        // sass: {
-        //   api: 'modern-compiler',
-        // },
+        scss: {
+          additionalData: `@use "~/assets/css/_mixins.scss" as *;`,
+        },
       },
     },
   },
