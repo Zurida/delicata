@@ -6,7 +6,8 @@ interface Props {
     type?: string,
     error?: string,
     label?: string,
-    placeholder?: string
+    placeholder?: string,
+    name?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     type: 'text',
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
     <div class="VInput">
         <div class="VInput__body">
             <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="modelValue"
-                :type="type" :placeholder="placeholder" :id="id" />
+                :type="type" :placeholder="placeholder" :id="id" :name="name" />
             <label :for="id" class="VInput__label" v-if="label"
                 :class="{ 'is-lifted': typeof modelValue === 'string' ? modelValue.length : false }">
                 {{ props.label }}
@@ -41,12 +42,13 @@ const props = withDefaults(defineProps<Props>(), {
         height: 3.6rem;
         padding: 0.675em 1em;
         border-radius: 5px;
-        font-family: inherit;
         -moz-appearance: textfield;
         transition: box-shadow .4s;
         color: var(--black);
         border: 1px solid var(--border-color);
         border-radius: 5px;
+        font-family: inherit;
+        font-size: 1.3rem;
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {

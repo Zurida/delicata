@@ -64,7 +64,7 @@ const title = computed(() => {
 .VSelect {
     position: relative;
     max-width: 100%;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: #000;
 
     .select-button {
@@ -128,6 +128,7 @@ const title = computed(() => {
             align-items: center;
             width: 100%;
             padding: 8px 10px;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: background-color .4s;
 

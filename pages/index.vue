@@ -149,7 +149,7 @@ async function handleTitleSubmit() {
           <div class="cards__list" v-if="cards && cards.length">
             <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" :key="`card-${card.id}`" />
           </div>
-          <p v-else>Таких шедевров еще не готовили, но все впереди!</p>
+          <p class="cards__error" v-else>Таких шедевров еще не готовили, но все впереди!</p>
         </div>
       </div>
     </div>
@@ -165,6 +165,10 @@ async function handleTitleSubmit() {
   &__content {
     display: flex;
     min-height: calc(100vh - var(--header-height));
+
+    @include respond-to(sm) {
+      flex-direction: column;
+    }
   }
 }
 
@@ -184,12 +188,27 @@ h4 {
   padding-top: var(--gap);
   background-color: var(--black);
 
+  @include respond-to(sm) {
+    position: relative;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    padding-top: 0;
+  }
+
   h4 {
     padding-left: var(--gap);
     padding-right: var(--gap);
     padding-bottom: var(--gap-sm);
-    text-transform: uppercase;
     color: var(--white);
+
+    @include respond-to(sm) {
+      display: none;
+      // margin-bottom: 0;
+      // padding-bottom: 0;
+      // align-content: center;
+      // background-color: var(--black);
+    }
   }
 
   &__actions {
@@ -197,6 +216,10 @@ h4 {
     justify-content: center;
     margin-top: auto;
     margin-bottom: var(--gap);
+
+    @include respond-to(sm) {
+      display: none;
+    }
   }
 
   &__btn {
@@ -215,6 +238,14 @@ h4 {
   span {
     font-weight: 500;
   }
+
+
+  &__container {
+    @include respond-to(sm) {
+      display: flex;
+      overflow-x: auto;
+    }
+  }
 }
 
 .main {
@@ -223,6 +254,10 @@ h4 {
   flex: 1;
   padding-left: 19rem;
   background-color: var(--bg-color);
+
+  @include respond-to(sm) {
+    padding-left: 0;
+  }
 
   // &__nav {
   //   display: flex;
@@ -341,15 +376,16 @@ h4 {
 
   &__list {
     display: grid;
-    flex: 1;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
+    grid-template-columns: repeat(auto-fit, minmax(30rem, .5fr));
 
-
+    @include respond-to(xs) {
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    }
   }
 
-  p {
-    font-size: 4rem;
+  &__error {
+    font-size: 3.6rem;
     color: var(--main-3);
   }
 }

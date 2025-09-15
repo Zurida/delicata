@@ -46,6 +46,11 @@ function setActiveId(id: number) {
 .collapse {
     width: 100%;
 
+    @include respond-to(sm) {
+        width: max-content;
+        flex-shrink: 0;
+    }
+
     &.is-visible {
         .collapse__dropdown {
             grid-template-rows: 1fr;
@@ -69,6 +74,11 @@ function setActiveId(id: number) {
         font-weight: 700;
         transition: color 0.4s;
         overflow: hidden;
+
+        @include respond-to(sm) {
+            padding: calc(var(--gap) / 2);
+            font-size: 1.6rem;
+        }
 
         &:after {
             content: '';
