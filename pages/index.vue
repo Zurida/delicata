@@ -379,6 +379,11 @@ h4 {
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(30rem, .5fr));
 
+    @include respond-to(sm) {
+      grid-template-columns: repeat(auto-fit, minmax(18rem, .5fr));
+
+    }
+
     @include respond-to(xs) {
       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     }

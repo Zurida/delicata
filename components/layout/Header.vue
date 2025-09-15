@@ -67,6 +67,10 @@ const route = useRoute();
 
         p {
             font-weight: 300;
+
+            @include respond-to (xs) {
+                display: none;
+            }
         }
     }
 
@@ -104,6 +108,10 @@ const route = useRoute();
         .UserInfo {
             position: relative;
             z-index: 1;
+
+            @include respond-to(xs) {
+                display: none;
+            }
         }
 
         .user-avatar {
