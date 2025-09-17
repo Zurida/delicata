@@ -283,6 +283,10 @@ h4 {
   padding: var(--gap);
   z-index: 2;
   background-color: var(--bg-color);
+
+  @include respond-to(sm) {
+    top: 0;
+  }
 }
 
 .search {
@@ -352,6 +356,10 @@ h4 {
 }
 
 .tags {
+  @include respond-to(sm) {
+    position: sticky;
+    top: var(--header-height)
+  }
 
   &__list {
     display: flex;
