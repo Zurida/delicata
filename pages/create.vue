@@ -306,7 +306,7 @@ const computedImages = computed(() => {
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .create {
     padding-top: var(--gap);
     padding-bottom: var(--gap);

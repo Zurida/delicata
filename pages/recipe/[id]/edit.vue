@@ -327,7 +327,7 @@ async function handleSubmit(evt: Event) {
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .create {
     padding-top: var(--gap);
     padding-bottom: var(--gap);
@@ -352,18 +352,47 @@ h3 {
     align-items: flex-start;
     justify-content: space-between;
 
+    @include respond-to(sm) {
+        flex-direction: column;
+        align-items: baseline;
+    }
+
     &__form {
         flex: 1;
         margin-right: var(--gap);
 
+        @include respond-to(sm) {
+            width: 100%;
+        }
+
         .VInput {
             width: 14rem;
+
+            // @include respond-to(sm) {
+            //     width: 30%;
+            // }
+
+            &:first-child {
+                @include respond-to(sm) {
+                    width: 100%;
+                }
+            }
+
+            &:nth-child(2) {
+                @include respond-to(sm) {
+                    width: 50%;
+                }
+            }
         }
     }
 
     &__fields {
         display: flex;
         gap: .5rem;
+
+        @include respond-to(sm) {
+            flex-wrap: wrap;
+        }
     }
 
     &__select {
@@ -382,6 +411,11 @@ h3 {
         border-left: 1px solid #f9573866;
         font-size: 1.4rem;
         color: var(--main-2);
+
+        @include respond-to(sm) {
+            width: 100%;
+            margin-top: var(--gap);
+        }
     }
 
     &__item {
@@ -391,6 +425,10 @@ h3 {
 
         &:not(:last-child) {
             margin-bottom: 1rem;
+        }
+
+        @include respond-to(sm) {
+            flex-direction: row-reverse;
         }
     }
 
