@@ -24,3 +24,13 @@ $breakpoints: (
     justify-content: center;
     align-items: center;
 }
+
+@mixin hover {
+    $desktop: map.get($breakpoints, 'sm');
+
+    @media (min-width: #{$desktop + 1px}) {
+        &:hover {
+            @content;
+        }
+    }
+}

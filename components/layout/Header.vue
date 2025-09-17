@@ -81,12 +81,27 @@ const route = useRoute();
         font-size: 1.8rem;
         text-transform: uppercase;
 
+        @include respond-to(xs) {
+            font-size: 1.4rem;
+        }
+
         a {
             transition: color .4s;
         }
 
+        p {
+            line-height: 1;
+            margin-top: 2px;
+        }
+
         li {
-            &:hover {
+            @include hover() {
+                a {
+                    color: var(--main-1);
+                }
+            }
+
+            @include respond-to(sm) {
                 a {
                     color: var(--main-1);
                 }

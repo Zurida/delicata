@@ -57,7 +57,7 @@ function toggleTab(tab: keyof typeof tabs) {
 <style scoped lang="scss">
 .auth {
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
 
     &__container {

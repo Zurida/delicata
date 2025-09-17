@@ -153,6 +153,9 @@ async function handleTitleSubmit() {
         </div>
       </div>
     </div>
+    <NuxtLink to="/create" class="home__create">
+      <IconsIconAdd></IconsIconAdd>
+    </NuxtLink>
   </div>
 </template>
 
@@ -168,6 +171,28 @@ async function handleTitleSubmit() {
 
     @include respond-to(sm) {
       flex-direction: column;
+    }
+  }
+
+  &__create {
+    display: none;
+
+    @include respond-to(sm) {
+      @include center();
+      position: fixed;
+      bottom: calc(var(--gap)/2);
+      right: calc(var(--gap)/2);
+      z-index: 10;
+      width: 4rem;
+      height: 4rem;
+      background-color: #f95738;
+      color: var(--white);
+      border-radius: var(--border-radius);
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+      }
     }
   }
 }
@@ -204,10 +229,6 @@ h4 {
 
     @include respond-to(sm) {
       display: none;
-      // margin-bottom: 0;
-      // padding-bottom: 0;
-      // align-content: center;
-      // background-color: var(--black);
     }
   }
 
@@ -317,16 +338,27 @@ h4 {
     font-size: 1rem;
     transition: grid-template-columns 0.25s;
 
+    @include respond-to(sm) {
+      min-width: 5rem;
+      justify-content: center;
+    }
+
+    @include respond-to(xs) {
+      min-width: 4rem;
+    }
+
     &:disabled {
       background-color: var(--main-3);
       cursor: default
     }
 
-    &:not(:disabled):hover {
-      grid-template-columns: 80% auto;
+    &:not(:disabled) {
+      @include hover() {
+        grid-template-columns: 80% auto;
 
-      span {
-        opacity: 1;
+        span {
+          opacity: 1;
+        }
       }
     }
 
@@ -347,6 +379,10 @@ h4 {
       opacity: 0;
       transition: all .2s;
       margin-right: .4rem;
+
+      @include respond-to(sm) {
+        display: none;
+      }
     }
   }
 
@@ -366,6 +402,12 @@ h4 {
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
+
+    @include respond-to(sm) {
+      flex-wrap: nowrap;
+      overflow: auto;
+      padding-bottom: var(--gap-sm);
+    }
   }
 
   .VButton {
