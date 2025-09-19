@@ -84,13 +84,12 @@ defineProps<{
   }
 
   &__title {
+    @include ellipsis;
+
     margin-bottom: 1rem;
     font-size: 1.4rem;
     line-height: 1.2;
     font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &__tags {

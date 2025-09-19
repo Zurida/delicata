@@ -85,6 +85,7 @@ async function handleDelete() {
 
         </div>
         <div class="recipe__date">Добавлено: {{ formatDate(recipe.created_at) }}</div>
+        <div class="recipe__source">Источник: {{ recipe.source }}</div>
 
         <div class="recipe__tags">
             <CommonVTag v-for="tag in recipe.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive filled />
@@ -151,7 +152,7 @@ async function handleDelete() {
                             ingredient.measure.title }}</span> -->
                         </div>
                     </div>
-                    <p v-else>Пока ничего не добавили</p>
+                    <p class="recipe__error" v-else>Пока ничего не добавили</p>
 
                     <!-- <CommonVButton small class="recipe__btn">Поделиться списком</CommonVButton> -->
 
@@ -198,14 +199,28 @@ async function handleDelete() {
     &__title {
         margin-bottom: var(--gap);
         line-height: 1;
+
+        @include respond-to(s) {
+            max-width: 70vw;
+        }
     }
 
     &__date {
+        font-size: var(--fs-small);
+        // margin-bottom: var(--gap-sm);
+
+        @include respond-to(sm) {
+            font-size: 1.6rem;
+        }
+    }
+
+    &__source {
         font-size: var(--fs-small);
         margin-bottom: var(--gap-sm);
 
         @include respond-to(sm) {
             font-size: 1.6rem;
+
         }
     }
 
@@ -214,6 +229,8 @@ async function handleDelete() {
         // margin-bottom: calc(var(--gap) * 2);
         // border-bottom: 1px solid lightgray;
         padding-bottom: var(--gap);
+        margin-top: var(--gap-sm);
+
 
         @include respond-to(s) {
             padding-bottom: var(--gap-sm);
@@ -282,6 +299,14 @@ async function handleDelete() {
         }
     }
 
+    &__ingredients {
+        flex: 1;
+    }
+
+    &__error {
+        font-size: 1.4rem;
+    }
+
     &__item {
         display: flex;
         font-size: var(--fs-base);
@@ -344,7 +369,7 @@ async function handleDelete() {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 8px;
+    margin-right: var(--gap);
     padding: var(--gap);
     background-color: white;
     border-radius: var(--border-radius);

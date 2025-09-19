@@ -26,6 +26,12 @@ $breakpoints: (
     align-items: center;
 }
 
+@mixin ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @mixin hover {
     $desktop: map.get($breakpoints, 'sm');
 
