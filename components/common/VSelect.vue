@@ -64,8 +64,12 @@ const title = computed(() => {
 .VSelect {
     position: relative;
     max-width: 100%;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #000;
+
+    // @include respond-to(sm) {
+    //     font-size: 1.4rem;
+    // }
 
     .select-button {
         display: flex;
@@ -128,11 +132,11 @@ const title = computed(() => {
             align-items: center;
             width: 100%;
             padding: 8px 10px;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: background-color .4s;
 
-            &:hover {
+            @include hover() {
                 background-color: #f2f2f2;
             }
         }

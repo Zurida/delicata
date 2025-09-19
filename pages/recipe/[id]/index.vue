@@ -182,8 +182,7 @@ async function handleDelete() {
 }
 
 .recipe {
-    padding-top: var(--gap);
-    padding-bottom: var(--gap);
+    padding: var(--gap);
 
     &__top {
         display: flex;
@@ -204,6 +203,10 @@ async function handleDelete() {
     &__date {
         font-size: var(--fs-small);
         margin-bottom: var(--gap-sm);
+
+        @include respond-to(sm) {
+            font-size: 1.6rem;
+        }
     }
 
     &__tags {
@@ -212,8 +215,18 @@ async function handleDelete() {
         // border-bottom: 1px solid lightgray;
         padding-bottom: var(--gap);
 
+        @include respond-to(s) {
+            padding-bottom: var(--gap-sm);
+            overflow-x: auto;
+            margin-bottom: var(--gap-sm);
+        }
+
         .VTag {
             margin-right: var(--gap-sm);
+
+            @include respond-to(sm) {
+                font-size: 1.4rem;
+            }
         }
     }
 
@@ -225,6 +238,10 @@ async function handleDelete() {
 
     &__info {
         display: flex;
+
+        @include respond-to(s) {
+            flex-direction: column;
+        }
     }
 
     &__image {
@@ -235,19 +252,34 @@ async function handleDelete() {
         background-color: #eee;
         margin-right: 4rem;
 
+        @include respond-to(s) {
+            width: min-content;
+            margin-right: 0;
+        }
+
     }
 
     &__slider {
         margin-right: 4rem;
         flex-shrink: 0;
+        width: 20rem;
+
+        @include respond-to(s) {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: calc(var(--gap) + var(--gap) / 2);
+        }
     }
 
     &__subtitle {
         margin-bottom: var(--gap);
         line-height: 1;
-        font-size: 1.8rem;
+        font-size: 2rem;
         font-weight: 600;
-        text-transform: uppercase;
+
+        @include respond-to(s) {
+            font-size: 2.2rem;
+        }
     }
 
     &__item {
@@ -256,6 +288,10 @@ async function handleDelete() {
 
         &:not(:last-child) {
             margin-bottom: 1rem;
+        }
+
+        @include respond-to(s) {
+            font-size: 2 rem;
         }
     }
 
@@ -277,6 +313,10 @@ async function handleDelete() {
             font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: var(--gap-sm);
+
+            @include respond-to(sm) {
+                font-size: 2rem;
+            }
         }
     }
 
@@ -309,6 +349,16 @@ async function handleDelete() {
     background-color: white;
     border-radius: var(--border-radius);
 
+    @include respond-to(s) {
+        position: fixed;
+        top: calc(var(--header-height) + var(--gap-sm));
+        right: 0;
+        flex-direction: column-reverse;
+        margin-right: 0;
+        padding: var(--gap-sm);
+        z-index: 21;
+    }
+
     &__btn {
         // position: absolute;
         background-color: #5c979b;
@@ -320,6 +370,11 @@ async function handleDelete() {
 
         &:not(:last-child) {
             margin-right: var(--gap-sm);
+
+            @include respond-to(s) {
+                margin-right: 0;
+                margin-top: var(--gap-sm);
+            }
         }
 
         svg {
@@ -363,12 +418,9 @@ async function handleDelete() {
     &-wrapper {
         position: relative;
         display: flex;
-        width: 20rem;
     }
 
     &-slide {
-        width: 100%;
-        height: 100%;
         border-radius: 4px;
 
         img {
@@ -396,13 +448,14 @@ async function handleDelete() {
 .gallery-main {
     border-radius: 10px;
 
-    .swiper-wrapper {
-        height: 20rem;
-    }
-
     .swiper-slide img {
         width: 20rem;
         height: 20rem;
+
+        @include respond-to(s) {
+            width: inherit;
+            height: 28rem;
+        }
     }
 }
 

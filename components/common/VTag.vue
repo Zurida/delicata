@@ -20,11 +20,9 @@ const model = computed({
 </script>
 
 <template>
-    <div class="VTag">
-        <div :class="{ 'VTag--inactive': inactive, 'VTag--filled': filled }">
-            <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="val">
-            <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
-        </div>
+    <div class="VTag" :class="{ 'VTag--inactive': inactive, 'VTag--filled': filled }">
+        <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="val">
+        <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
     </div>
 </template>
 
@@ -52,8 +50,8 @@ const model = computed({
         display: flex;
         align-items: center;
         justify-content: center;
-        width: max-content;
-        height: 2.2rem;
+        width: fit-content;
+        // height: 2.2rem;
         padding-left: var(--gap-sm);
         padding-right: var(--gap-sm);
         border: .5px solid var(--main-2);
@@ -74,15 +72,13 @@ const model = computed({
 
     &--filled {
         label {
-            // background-color: #296f6f;
-            // background-color: #f9573826;
+            background-color: #c1dadb;
+            border-color: #c1dadb;
             background-color: #e9e9e9;
             border-color: #e9e9e9;
-            height: 1.8rem;
             color: var(--black);
             padding-left: .4rem;
             padding-right: .4rem;
-            // font-size: 10px;
         }
     }
 }

@@ -200,6 +200,11 @@ const computedImages = computed(() => {
     return recipe.images?.filter(item => item instanceof File)
 })
 
+function handleCancel() {
+    const router = useRouter();
+    router.back()
+}
+
 </script>
 
 <template>
@@ -300,7 +305,10 @@ const computedImages = computed(() => {
                 </TransitionGroup>
             </div>
 
-            <CommonVButton type="submit" :disabled="isLoading">Сохранить</CommonVButton>
+            <CommonVButton type="submit" :disabled="isLoading" class="form__save">Сохранить</CommonVButton>
+
+            <CommonVButton :disabled="isLoading" class="form__cancel" @click="handleCancel">Отмена</CommonVButton>
+
 
         </form>
     </div>
@@ -319,6 +327,15 @@ const computedImages = computed(() => {
 
     &__item {
         margin-bottom: 1.6rem;
+    }
+
+    &__save {
+        background-color: #087575;
+        margin-top: var(--gap);
+    }
+
+    &__cancel {
+        margin-left: 1rem;
     }
 }
 

@@ -215,6 +215,11 @@ async function handleSubmit(evt: Event) {
         console.log(error)
     }
 }
+
+function handleCancel() {
+    const router = useRouter();
+    router.back()
+}
 </script>
 
 <template>
@@ -290,12 +295,6 @@ async function handleSubmit(evt: Event) {
                 <CommonVTextarea placeholder="Введите текст" id="steps" v-model="recipe.description"></CommonVTextarea>
             </div>
 
-            <!-- <div class="form__item">
-                <span>+</span>
-                <p>Добавить фото</p>
-            </div> -->
-
-
             <div class="form__item upload" :class="{ 'is-dragging': isDragging }" @dragover="handleDragover"
                 @dragleave="handleDragleave" @drop="handleDrop">
                 <label for="file-input" class="upload__label">
@@ -313,15 +312,12 @@ async function handleSubmit(evt: Event) {
                         <div class="upload__preview">
                             <img :src="generateURL(image)" />
                         </div>
-                        <!-- <div>
-                            <p> {{ image.name }}</p>
-                            <p>{{ Math.round(image.size / 1000) }} КБ</p>
-                        </div> -->
                     </li>
                 </TransitionGroup>
             </div>
 
-            <CommonVButton type="submit" :disabled="isLoading">Сохранить</CommonVButton>
+            <CommonVButton type="submit" :disabled="isLoading" class="form__save">Сохранить</CommonVButton>
+            <CommonVButton :disabled="isLoading" class="form__cancel" @click="handleCancel">Отмена</CommonVButton>
 
         </form>
     </div>
@@ -338,6 +334,15 @@ async function handleSubmit(evt: Event) {
 
     &__item {
         margin-bottom: 1.6rem;
+    }
+
+    &__save {
+        background-color: #087575;
+        margin-top: var(--gap);
+    }
+
+    &__cancel {
+        margin-left: 1rem;
     }
 }
 
@@ -367,10 +372,6 @@ h3 {
 
         .VInput {
             width: 14rem;
-
-            // @include respond-to(sm) {
-            //     width: 30%;
-            // }
 
             &:first-child {
                 @include respond-to(sm) {
@@ -425,6 +426,10 @@ h3 {
 
         &:not(:last-child) {
             margin-bottom: 1rem;
+
+            @include respond-to(sm) {
+                margin-bottom: .4rem;
+            }
         }
 
         @include respond-to(sm) {

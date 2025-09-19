@@ -124,7 +124,7 @@ const route = useRoute();
             position: relative;
             z-index: 1;
 
-            @include respond-to(xs) {
+            @include respond-to(sm) {
                 display: none;
             }
         }

@@ -63,7 +63,7 @@ const clearSession = (event) => {
         font-weight: 600;
         display: none;
 
-        @include respond-to(xs) {
+        @include respond-to(sm) {
             display: block;
         }
     }

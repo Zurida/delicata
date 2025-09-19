@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
         border: 1px solid var(--border-color);
         border-radius: 5px;
         font-family: inherit;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {

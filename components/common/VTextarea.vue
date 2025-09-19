@@ -31,13 +31,14 @@ const updateValue = (e: Event) => {
 
     &__native {
         width: 100%;
+        min-height: 20rem;
         padding: 0.675em 1em;
         border-radius: 5px;
         border: 1px solid var(--border-color);
         outline: none;
         font-family: inherit;
         resize: none;
-
+        font-size: 1.4rem;
 
         &:focus~.label,
         &:not(:placeholder-shown)~.label {
