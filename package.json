@@ -10,13 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/fonts": "^0.10.3",
+    "@nuxt/fonts": "^0.11.4",
     "@pinia/nuxt": "^0.5.4",
     "bcrypt": "^5.1.1",
     "nitropack": "^2.8.1",
     "nuxt": "^3.18.1",
     "nuxt-auth-utils": "^0.5.16",
-    "nuxt-icons": "^3.2.1",
     "pinia": "^2.2.2",
     "sass": "^1.71.1",
     "swiper": "^11.1.1",

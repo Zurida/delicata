@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
@@ -20,7 +19,7 @@ export default defineNuxtConfig({
       Montserrat: true,
       Nunito: true,
     }
-  }], 'nuxt-icons', '@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils', '@stefanobartoletti/nuxt-social-share'],
+  }], '@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils', '@stefanobartoletti/nuxt-social-share'],
 
   nitro: {
     storage: {
