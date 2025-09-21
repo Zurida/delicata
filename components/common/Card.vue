@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import type { TRecipe } from '~/types/recipe';
+import type { TImage, TRecipe } from '~/types/recipe';
 
-defineProps<{
+const props = defineProps<{
   card: TRecipe,
   to: string,
 }>()
+
+const src = computed(() => {
+  const { images } = props.card
+  if (images && images.length) {
+    const mainImage: TImage = images[0]
+    if ('url' in mainImage) {
+      return mainImage.url
+    }
+  }
+})
+
 </script>
 
 <template>
@@ -17,7 +28,8 @@ defineProps<{
     </div>
     <NuxtLink :to="to" class="card__link">
 
-      <div class="card__image"></div>
+      <div class="card__image" :style="{ backgroundImage: `url(${src})` }">
+      </div>
       <div class="card__description">
         <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
         <div class="card__tags">

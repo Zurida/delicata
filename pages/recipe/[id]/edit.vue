@@ -526,9 +526,7 @@ h3 {
         padding-right: 1.6rem;
 
         p {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            @include ellipsis();
             width: 4.8rem;
         }
     }
