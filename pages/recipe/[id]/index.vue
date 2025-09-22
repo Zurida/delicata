@@ -53,7 +53,7 @@ async function handleDelete() {
         <!-- {{ status === 'pending' ? 'Loading' : recipe }} -->
 
         <div class="recipe__top">
-            <h2 class="recipe__title title">{{ recipe.title ? recipe.title : "" }}</h2>
+            <h2 class="recipe__title title">{{ recipe.title ?? "" }}</h2>
             <div class="recipe__menu menu">
                 <button type="button" class="menu__btn" title="Удалить" @click="handleDelete">
                     <span></span>
