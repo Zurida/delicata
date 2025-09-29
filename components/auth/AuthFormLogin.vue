@@ -85,7 +85,10 @@ const onSubmit = async () => {
     }
 };
 
-
+const password = ref('password')
+function handlePasswordShow() {
+    return password.value.includes('password') ? password.value = 'text' : password.value = 'password'
+}
 </script>
 
 <template>
@@ -95,9 +98,12 @@ const onSubmit = async () => {
                 v-model="authFormData.email">Введите
                 почту
             </CommonVInput>
-            <CommonVInput id="password" label="Пароль" type="password" :error="authFormErrors.password"
-                v-model="authFormData.password">
+            <CommonVInput id="password" label="Пароль" :type="password" :error="authFormErrors.password"
+                v-model="authFormData.password" is-password>
                 Введите пароль
+                <template #icon>
+                    <IconsIconShow @click="handlePasswordShow"></IconsIconShow>
+                </template>
             </CommonVInput>
         </div>
         <div class="auth-form__buttons">

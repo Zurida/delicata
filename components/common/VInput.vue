@@ -7,11 +7,18 @@ interface Props {
     error?: string,
     label?: string,
     placeholder?: string,
-    name?: string
+    name?: string,
+    isPassword?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
     type: 'text',
 })
+
+const isActive = ref(false)
+function handleClick() {
+    if (!props.isPassword) return
+    isActive.value = !isActive.value
+}
 </script>
 
 <template>
@@ -19,6 +26,10 @@ const props = withDefaults(defineProps<Props>(), {
         <div class="VInput__body">
             <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="modelValue"
                 :type="type" :placeholder="placeholder" :id="id" :name="name" />
+            <div class="VInput__icon" v-show="$slots.icon" :class="{ 'is-active': isActive }" @click="handleClick">
+                <slot name="icon"></slot>
+            </div>
+
             <label :for="id" class="VInput__label" v-if="label"
                 :class="{ 'is-lifted': typeof modelValue === 'string' ? modelValue.length : false }">
                 {{ props.label }}
@@ -35,6 +46,27 @@ const props = withDefaults(defineProps<Props>(), {
 
     &__body {
         position: relative;
+    }
+
+    &__icon {
+        position: absolute;
+        right: var(--gap-sm);
+        top: 50%;
+        translate: 0 -50%;
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        color: var(--main-3);
+        transition: color .4s;
+
+        &.is-active {
+            color: var(--main-1);
+            cursor: pointer;
+        }
+
+        @include hover {
+            color: var(--main-1);
+        }
     }
 
     &__native {
