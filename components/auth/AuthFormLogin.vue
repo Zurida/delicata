@@ -57,7 +57,7 @@ const onSubmit = async () => {
             method: 'POST',
             body: authFormData.value
         }).then(() => {
-            // navigateTo('/')
+            // navigateTo('/') // Nuxt navigation prevents nuxt-auth-utils from identifying the user immidiatly => leads to error
             window.location.replace('/')
 
         })
@@ -97,6 +97,9 @@ function handlePasswordShow() {
             <CommonVInput id="email" label="Email" type="email" :error="authFormErrors.email"
                 v-model="authFormData.email">Введите
                 почту
+                <template #icon>
+                    <IconsIconLeft></IconsIconLeft>
+                </template>
             </CommonVInput>
             <CommonVInput id="password" label="Пароль" :type="password" :error="authFormErrors.password"
                 v-model="authFormData.password" is-password>

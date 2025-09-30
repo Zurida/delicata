@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const isActive = ref(false)
+
 function handleClick() {
     if (!props.isPassword) return
     isActive.value = !isActive.value
@@ -26,7 +27,8 @@ function handleClick() {
         <div class="VInput__body">
             <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="modelValue"
                 :type="type" :placeholder="placeholder" :id="id" :name="name" />
-            <div class="VInput__icon" v-show="$slots.icon" :class="{ 'is-active': isActive }" @click="handleClick">
+            <div class="VInput__icon" v-show="$slots.icon" :class="{ 'is-active': isActive, 'is-password': isPassword }"
+                @click="handleClick">
                 <slot name="icon"></slot>
             </div>
 
@@ -55,17 +57,22 @@ function handleClick() {
         translate: 0 -50%;
         width: 2rem;
         height: 2rem;
-        cursor: pointer;
         color: var(--main-3);
         transition: color .4s;
+
+        &.is-password {
+            cursor: pointer;
+
+            &:not(.is-active) {
+                @include hover {
+                    color: var(--main-1);
+                }
+            }
+        }
 
         &.is-active {
             color: var(--main-1);
             cursor: pointer;
-        }
-
-        @include hover {
-            color: var(--main-1);
         }
     }
 
