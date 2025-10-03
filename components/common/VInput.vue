@@ -27,7 +27,7 @@ function handleClick() {
         <div class="VInput__body">
             <input class="VInput__native" :class="{ 'is-error': error, 'has-label': label }" v-model="modelValue"
                 :type="type" :placeholder="placeholder" :id="id" :name="name" />
-            <div class="VInput__icon" v-show="$slots.icon" :class="{ 'is-active': isActive, 'is-password': isPassword }"
+            <div class="VInput__icon" v-show="$slots.icon" :class="{ 'active': isActive, 'is-password': isPassword }"
                 @click="handleClick">
                 <slot name="icon"></slot>
             </div>
@@ -59,18 +59,20 @@ function handleClick() {
         height: 2rem;
         color: var(--main-3);
         transition: color .4s;
+        pointer-events: none;
 
         &.is-password {
+            pointer-events: auto;
             cursor: pointer;
 
-            &:not(.is-active) {
+            &:not(.active) {
                 @include hover {
                     color: var(--main-1);
                 }
             }
         }
 
-        &.is-active {
+        &.active {
             color: var(--main-1);
             cursor: pointer;
         }

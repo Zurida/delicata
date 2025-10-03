@@ -1,14 +1,15 @@
 <script setup>
 const canvas = ref(null)
+let ctx = null;
+
+const resizeCanvas = () => {
+    drawContent(ctx, canvas.value);
+};
 
 
-onMounted(() => {
-    const canvasVal = canvas.value;
-    const ctx = canvas.value.getContext('2d')
+const drawContent = (ctx, canvasVal) => {
     canvasVal.width = innerWidth;
-    canvasVal.height = innerHeight
-
-
+    canvasVal.height = innerHeight;
     const htmlRoot = document.querySelector(':root');
     const rootStyles = getComputedStyle(htmlRoot);
 
@@ -80,7 +81,24 @@ onMounted(() => {
         requestAnimationFrame(animate)
     }
     animate()
+}
+
+
+onMounted(() => {
+    const canvasVal = canvas.value;
+    ctx = canvasVal.getContext('2d')
+    window.addEventListener('resize', resizeCanvas);
+
+    if (canvasVal) {
+        // resizeCanvas(); // Initial resize
+        drawContent(ctx, canvasVal); // Initial draw
+    }
 })
+
+onUnmounted(() => {
+    window.removeEventListener('resize', resizeCanvas);
+});
+
 </script>
 
 <template>
