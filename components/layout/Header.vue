@@ -34,7 +34,7 @@ const route = useRoute();
             <UserInfo />
             <UserAvatar @click="handleClick" :is-active="isActive" />
             <Transition>
-                <UserPopup v-if="isActive"></UserPopup>
+                <UserPopup v-if="isActive" @profile-click="isActive = false"></UserPopup>
             </Transition>
         </div>
     </header>

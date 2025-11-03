@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
             maxAge: 60 * 60,
         });
 
+
         const user = {
             email,
             createdAt: new Date(),

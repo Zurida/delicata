@@ -4,18 +4,14 @@ const { clear } = useUserSession()
 const clearSession = (event) => {
     clear()
     window.location.replace('/auth')
-
-
 }
 </script>
 
 <template>
     <div class="user-popup">
-
         <UserInfo />
-        <nuxt-link to="/profile">Профиль</nuxt-link>
+        <nuxt-link to="/profile" @click="$emit('profile-click')">Профиль</nuxt-link>
         <AuthState v-slot="{ loggedIn, clear }">
-
             <a class="user-popup__logout" v-if="loggedIn" @click="clearSession">
                 <IconsIconLogout></IconsIconLogout>Выйти
             </a>
