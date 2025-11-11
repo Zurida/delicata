@@ -1,13 +1,9 @@
-<script setup lang="ts">
-
-import ProfileMeasures from '~/components/profile/ProfileMeasures.vue';
-
-</script>
-
 <template>
     <div class="profile container">
         <ProfileCategories />
         <ProfileMeasures />
+        <ProfileTags />
+
     </div>
 </template>
 
@@ -15,7 +11,5 @@ import ProfileMeasures from '~/components/profile/ProfileMeasures.vue';
 .profile {
     padding-left: var(--gap);
     padding-right: var(--gap);
-
-
 }
 </style>

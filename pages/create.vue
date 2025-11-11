@@ -13,10 +13,10 @@ definePageMeta({
     middleware: ['auth'],
 });
 
-const { measures, fetchMeasures } = useMeasureStore()
-const { categories, fetchCategories } = useCategoryStore()
+const measuresStore = useMeasureStore()
+const categoriesStore = useCategoryStore()
+const tagsStore = useTagsStore()
 
-const { data: tags } = await useFetch('/api/tags')
 
 const recipe = reactive<TRecipe>({
     title: "",
@@ -215,8 +215,8 @@ function handleCancel() {
         <form class="form" @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="form__item">
                 <h3>Категория*</h3>
-                <CommonVSelect :options="categories" v-model="recipe.category_id" select-name="categories"
-                    :error="recipeFormErrors.category_id" />
+                <CommonVSelect :options="categoriesStore.categories" v-model="recipe.category_id"
+                    select-name="categories" :error="recipeFormErrors.category_id" />
             </div>
 
             <div class="form__item">
@@ -229,8 +229,8 @@ function handleCancel() {
             <div class="form__item tags">
                 <h3>Тэги</h3>
                 <div class="tags__fields">
-                    <CommonVTag class="recipe__tag" v-for="tag in tags" :label="tag.title" v-model="recipe.tags"
-                        :val="tag.title" />
+                    <CommonVTag class="recipe__tag" v-for="tag in tagsStore.tags" :label="tag.title"
+                        v-model="recipe.tags" :val="tag.title" />
                 </div>
             </div>
 
@@ -241,8 +241,8 @@ function handleCancel() {
                     <div class="ingredients__fields" @change="handleChange">
                         <CommonVInput v-model="ingredient.title" type="text" placeholder="Введите ингредиент" />
                         <CommonVInput v-model="ingredient.quantity" type="number" placeholder="Введите количество" />
-                        <CommonVSelect :options="measures" v-model="ingredient.measure_id" select-name="measures"
-                            class="ingredients__select" />
+                        <CommonVSelect :options="measuresStore.measures" v-model="ingredient.measure_id"
+                            select-name="measures" class="ingredients__select" />
                     </div>
 
                     <CommonVButton small @click="addIngredient" :disabled="isDisabled" class="ingredients__btn">Добавить
@@ -255,7 +255,8 @@ function handleCancel() {
 
                         <p class="ingredients__text">
                             {{ ingridient.title }} - {{ ingridient.quantity }}
-                            {{measures?.find((measure: TMeasure) => measure.id === ingridient.measure_id)?.title}}</p>
+                            {{measuresStore.measures?.find((measure: TMeasure) => measure.id ===
+                                ingridient.measure_id)?.title}}</p>
 
                         <span class="ingredients__remove" @click="removeIngredient(index)">
                             <IconsIconClose></IconsIconClose>

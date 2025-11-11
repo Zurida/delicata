@@ -8,23 +8,12 @@ const { measures } = storeToRefs(measuresStore)
 const measure = ref<string>('')
 
 async function handleMeasureSubmit() {
-    try {
-        await $fetch(`/api/measures`, {
-            method: 'POST',
-            body: {
-                title: measure.value
-            },
-        })
-
-    } catch (error) {
-        console.log(error)
-    }
+    await measuresStore.addMeasures(measure.value)
+    measure.value = ''
 }
 
 async function handleRemoveMeasure(measure: TMeasure) {
-    await $fetch(`/api/measures/${measure.id}`, {
-        method: 'DELETE'
-    })
+    await measuresStore.deleteMeasures(measure.id)
 }
 </script>
 

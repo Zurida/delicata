@@ -1,3 +1,25 @@
+<script setup lang="ts">
+const categoriesStore = useCategoryStore()
+const measuresStore = useMeasureStore()
+const tagsStore = useTagsStore()
+
+
+await useAsyncData('categoriesData', async () => {
+  await categoriesStore.fetchCategories();
+  return categoriesStore.categories
+});
+
+await useAsyncData('measuresData', async () => {
+  await measuresStore.fetchMeasures();
+  return measuresStore.measures
+});
+
+await useAsyncData('tagsData', async () => {
+  await tagsStore.fetchTags();
+  return tagsStore.tags
+});
+</script>
+
 <template>
   <NuxtLoadingIndicator />
   <NuxtLayout>

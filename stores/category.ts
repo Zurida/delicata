@@ -6,6 +6,7 @@ export const useCategoryStore = defineStore('category', {
       categories: [] as TExistingCategory[] | null,
     }
   },
+
   actions: {
     async fetchCategories() {
       try {
@@ -18,14 +19,12 @@ export const useCategoryStore = defineStore('category', {
 
     async addCategories(title: string) {
       try {
-        const newCategory = await $fetch<TExistingCategory>(`/api/categories/`, {
+        await $fetch<TExistingCategory>(`/api/categories/`, {
           method: 'POST',
           body: { title }
         }).then(() => {
           this.fetchCategories()
         })
-
-        // this.categories?.push(newCategory)
       } catch (error) {
         console.error('Error fetching:', error);
       }
@@ -33,7 +32,7 @@ export const useCategoryStore = defineStore('category', {
 
     async deleteCategories(id: string | number) {
       try {
-        const category = await $fetch<TExistingCategory>(`/api/categories/${id}`, {
+        await $fetch<TExistingCategory>(`/api/categories/${id}`, {
           method: 'DELETE'
         }).then(() => {
           this.fetchCategories()

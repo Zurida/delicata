@@ -7,13 +7,8 @@ const { categories } = storeToRefs(categoriesStore)
 const category = ref<string>('')
 
 function handleCategorySubmit() {
-    try {
-        categoriesStore.addCategories(category.value)
-        category.value = ''
-
-    } catch (error) {
-        console.log(error)
-    }
+    categoriesStore.addCategories(category.value)
+    category.value = ''
 }
 
 async function handleRemoveCategory(category: TCategory | TExistingCategory) {

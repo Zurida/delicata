@@ -52,7 +52,7 @@ const displayErrors = () => {
 
 const measuresStore = useMeasureStore()
 const measures = measuresStore.measures
-const { data: tags } = await useFetch('/api/tags')
+const tagsStore = useTagsStore()
 const { data: recipeData } = await useFetch<TRecipe>(`/api/recipes/${id.value}`)
 
 
@@ -246,8 +246,8 @@ function handleCancel() {
                 <h3>Тэги</h3>
 
                 <div class="tags__fields">
-                    <CommonVTag class="recipe__tag" v-for="tag in tags" :label="tag.title" v-model="recipe.tags"
-                        :val="tag.title" />
+                    <CommonVTag class="recipe__tag" v-for="tag in tagsStore.tags" :label="tag.title"
+                        v-model="recipe.tags" :val="tag.title" />
                 </div>
             </div>
 
