@@ -57,6 +57,14 @@ const { data: recipeData } = await useFetch<TRecipe>(`/api/recipes/${id.value}`)
 
 
 const ingredientsNew = recipeData.value?.ingredients?.map((ingredient: any) => {
+    if (!ingredient.measure?.id) {
+        return {
+            title: ingredient.title,
+            measure_id: null,
+            quantity: ingredient.quantity
+        }
+
+    }
     return {
         title: ingredient.title,
         measure_id: ingredient.measure.id,
