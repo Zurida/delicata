@@ -1,8 +1,3 @@
-<script setup>
-const categories = useCategoryStore()
-await callOnce(categories.fetchCategories)
-</script>
-
 <template>
   <NuxtLoadingIndicator />
   <NuxtLayout>

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { TCategory } from '~/types/category'
+import type { TCategory, TExistingCategory } from '~/types/category'
 import type { TMeasure } from '~/types/measure'
 import type { TTag } from '~/types/tag'
 
 defineProps<{
-    items: TCategory[] | TMeasure[] | TTag[],
+    items: TExistingCategory[] | TMeasure[] | TTag[] | null,
     title: string,
 }>()
 

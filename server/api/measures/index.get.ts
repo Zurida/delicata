@@ -1,21 +1,16 @@
-
 export default defineEventHandler(async (event) => {
     const token = getCookie(event, 'auth_token');
-    const body = await readBody(event);
 
     try {
+        const res = await $fetch(`${useRuntimeConfig().myProxyUrl}measures/`, {
 
-        const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}categories/`, {
-            method: 'POST',
-            body,
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-
         return res
-
     } catch (error) {
-        console.log('my error', error)
+        console.log(error)
     }
 })

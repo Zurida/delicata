@@ -1,16 +1,13 @@
 <script setup lang="ts">
 
-import type { TMeasure } from '~/types/measure';
-import type { TTag } from '~/types/tag';
-
-const { data: tags } = await useFetch<TTag[]>('/api/tags')
-const { data: measures } = await useFetch<TMeasure[]>('/api/measures')
+import ProfileMeasures from '~/components/profile/ProfileMeasures.vue';
 
 </script>
 
 <template>
     <div class="profile container">
         <ProfileCategories />
+        <ProfileMeasures />
     </div>
 </template>
 

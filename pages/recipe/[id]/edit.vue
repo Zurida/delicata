@@ -50,7 +50,8 @@ const displayErrors = () => {
     return false;
 }
 
-const { data: measures } = await useFetch('/api/measures')
+const measuresStore = useMeasureStore()
+const measures = measuresStore.measures
 const { data: tags } = await useFetch('/api/tags')
 const { data: recipeData } = await useFetch<TRecipe>(`/api/recipes/${id.value}`)
 
@@ -270,7 +271,7 @@ function handleCancel() {
 
                         <p class="ingredients__text">
                             {{ ingridient.title }} - {{ ingridient.quantity }}
-                            {{measures.find((measure: TMeasure) => measure.id === ingridient.measure_id)?.title}}</p>
+                            {{measures?.find((measure: TMeasure) => measure.id === ingridient.measure_id)?.title}}</p>
 
                         <span class="ingredients__remove" @click="removeIngredient(index)">
                             <IconsIconClose></IconsIconClose>

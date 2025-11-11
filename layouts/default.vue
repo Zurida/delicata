@@ -1,3 +1,12 @@
+<script setup>
+const { fetchCategories } = useCategoryStore()
+const { fetchMeasures } = useMeasureStore()
+
+fetchCategories()
+fetchMeasures()
+
+</script>
+
 <template>
     <div class="default-layout">
         <LayoutHeader />

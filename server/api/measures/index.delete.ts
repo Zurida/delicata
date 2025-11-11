@@ -5,8 +5,8 @@ export default defineEventHandler(async (event) => {
 
     try {
 
-        const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}categories/`, {
-            method: 'POST',
+        const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}measures/`, {
+            method: 'DELETE',
             body,
             headers: {
                 Authorization: `Bearer ${token}`

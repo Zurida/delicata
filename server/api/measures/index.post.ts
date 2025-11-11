@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
     try {
 
-        const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}categories/`, {
+        const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}measures/`, {
             method: 'POST',
             body,
             headers: {

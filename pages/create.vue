@@ -13,10 +13,10 @@ definePageMeta({
     middleware: ['auth'],
 });
 
-const { data: measures } = await useFetch('/api/measures')
-const { data: tags } = await useFetch('/api/tags')
+const { measures, fetchMeasures } = useMeasureStore()
+const { categories, fetchCategories } = useCategoryStore()
 
-const categoryStore = useCategoryStore()
+const { data: tags } = await useFetch('/api/tags')
 
 const recipe = reactive<TRecipe>({
     title: "",
@@ -215,7 +215,7 @@ function handleCancel() {
         <form class="form" @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="form__item">
                 <h3>Категория*</h3>
-                <CommonVSelect :options="categoryStore.categories" v-model="recipe.category_id" select-name="categories"
+                <CommonVSelect :options="categories" v-model="recipe.category_id" select-name="categories"
                     :error="recipeFormErrors.category_id" />
             </div>
 
@@ -255,7 +255,7 @@ function handleCancel() {
 
                         <p class="ingredients__text">
                             {{ ingridient.title }} - {{ ingridient.quantity }}
-                            {{measures.find((measure: TMeasure) => measure.id === ingridient.measure_id)?.title}}</p>
+                            {{measures?.find((measure: TMeasure) => measure.id === ingridient.measure_id)?.title}}</p>
 
                         <span class="ingredients__remove" @click="removeIngredient(index)">
                             <IconsIconClose></IconsIconClose>
