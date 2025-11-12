@@ -85,7 +85,7 @@ async function handleDelete() {
 
         </div>
         <div class="recipe__date">Добавлено: {{ formatDate(recipe.created_at) }}</div>
-        <div class="recipe__source">Источник: {{ recipe.source }}</div>
+        <div class="recipe__source" v-show="recipe.source">Источник: {{ recipe.source }}</div>
 
         <div class="recipe__tags">
             <CommonVTag v-for="tag in recipe.tags" :key="tag.title" :label="tag.title" :tag="tag" inactive filled />
@@ -145,7 +145,7 @@ async function handleDelete() {
                                     <label :for="ingredient.id" class="cbx-lbl">{{ ingredient.title }} - {{
                                         ingredient.quantity }}
                                         {{
-                                            ingredient.measure.title }}</label>
+                                            ingredient.measure?.title ?? '' }}</label>
                                 </label>
                             </div>
                             <!-- <span class="recipe__mesure">{{ ingredient.title }} - {{ ingredient.quantity }} {{
@@ -206,17 +206,19 @@ async function handleDelete() {
     }
 
     &__date {
-        font-size: var(--fs-small);
+        font-size: 1.4rem;
+        color: var(--main-3);
         // margin-bottom: var(--gap-sm);
 
         @include respond-to(sm) {
-            font-size: 1.6rem;
+            font-size: var(--fs-base);
         }
     }
 
     &__source {
-        font-size: var(--fs-small);
+        font-size: 1.4rem;
         margin-bottom: var(--gap-sm);
+        color: var(--main-3);
 
         @include respond-to(sm) {
             font-size: 1.6rem;
