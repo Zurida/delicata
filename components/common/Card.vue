@@ -28,8 +28,7 @@ const src = computed(() => {
     </div>
     <NuxtLink :to="to" class="card__link">
 
-      <div class="card__image" :style="{ backgroundImage: `url(${src})` }">
-      </div>
+      <div class="card__image" :style="{ backgroundImage: `url(${src})` }" v-if="src"></div>
       <div class="card__description">
         <h3 class="card__title" :title="card.title">{{ card.title }}</h3>
         <div class="card__tags">

@@ -10,8 +10,8 @@ definePageMeta({
 
 
 const { data: recipes } = await useFetch<TRecipe[]>('/api/recipes')
-const { data: tags } = await useFetch<TTag[]>('/api/tags')
-
+const tagsStore = useTagsStore()
+const tags = tagsStore.tags;
 
 const currentId = ref(0);
 const cards = ref<TRecipe[] | null>(recipes.value)
