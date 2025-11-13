@@ -179,11 +179,15 @@ async function handleSubmit(evt: Event) {
     })
 
     const url = useRuntimeConfig().public.myProxyUrl
+    const authCookie = useCookie('auth_token')
 
     try {
         await $fetch(`${url}recipes/`, {
             method: 'POST',
             body: formData,
+            headers: {
+                Autharization: `Bearer ${authCookie.value}`
+            }
         }).then(() => {
             navigateTo('/')
         })

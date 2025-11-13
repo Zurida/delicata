@@ -142,7 +142,7 @@ async function handleDelete() {
                                             <polyline points="1 7.6 5 11 13 1"></polyline>
                                         </svg>
                                     </label>
-                                    <label :for="ingredient.id" class="cbx-lbl">{{ ingredient.title }} - {{
+                                    <label :for="ingredient.id" class="cbx-lbl"><span>{{ ingredient.title }}</span> - {{
                                         ingredient.quantity }}
                                         {{
                                             ingredient.measure?.title ?? '' }}</label>
@@ -522,9 +522,14 @@ async function handleDelete() {
 .checkbox-wrapper-52 label {
     display: flex;
     align-items: center;
-
     vertical-align: baseline;
     line-height: 1;
+
+    span {
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
 }
 
 .checkbox-wrapper-52 .item .cbx {

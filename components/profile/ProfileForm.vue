@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TCategory, TExistingCategory } from '~/types/category'
+import type { TExistingCategory } from '~/types/category'
 import type { TMeasure } from '~/types/measure'
 import type { TTag } from '~/types/tag'
 
@@ -15,7 +15,10 @@ const modelValue = defineModel<string>()
 
 <template>
     <div class="wrapper">
-        <ul class="form__list">
+        <h4>
+            {{ title }}
+        </h4>
+        <ul class="form__list" v-if="items?.length">
             <li v-for="item in items" class="form__item">
 
                 <p>{{ item.title }}</p>
@@ -25,10 +28,9 @@ const modelValue = defineModel<string>()
 
             </li>
         </ul>
+        <p v-else class="empty">Пока ничего не добавлено </p>
         <form class="form" @submit.prevent="$emit('submit')">
-            <h4>
-                {{ title }}
-            </h4>
+
             <div class="form__actions">
                 <CommonVInput placeholder="Введите категорию" v-model="modelValue"></CommonVInput>
                 <CommonVButton type="submit" class="form__submit">Добавить</CommonVButton>
@@ -47,14 +49,27 @@ const modelValue = defineModel<string>()
     border-radius: var(--border-radius);
 }
 
+h4 {
+    margin-bottom: var(--gap);
+    line-height: 1;
+}
+
+.empty {
+    color: var(--main-3);
+    font-size: 1.4rem;
+    margin-bottom: var(--gap-sm);
+}
+
+.form__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .form {
     .VInput {
         width: 100%;
         margin-right: var(--gap-sm);
-    }
-
-    h4 {
-        margin-bottom: var(--gap);
     }
 
     &__list {

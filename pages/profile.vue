@@ -3,7 +3,6 @@
         <ProfileCategories />
         <ProfileMeasures />
         <ProfileTags />
-
     </div>
 </template>
 

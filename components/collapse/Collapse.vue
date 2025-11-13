@@ -29,7 +29,7 @@ function setActiveId(id: number) {
 <template>
     <div class="collapse">
         <div class="collapse__item" @click="emit('click')">
-            <div class="collapse__title">{{ category.title }}</div>
+            <div class="collapse__title"><span>{{ category.title }}</span></div>
             <!-- <span class="collapse__icon"></span> -->
         </div>
 
@@ -99,11 +99,21 @@ function setActiveId(id: number) {
             cursor: pointer;
             color: var(--main-3);
         }
+
+        span {
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
     }
 
     &__title {
         position: relative;
         z-index: 2;
+
+        &::first-letter {
+            text-transform: uppercase;
+        }
     }
 
     &__icon {

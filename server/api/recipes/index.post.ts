@@ -8,7 +8,10 @@ export default defineEventHandler(async (event) => {
 
         const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}recipes/`, {
             method: 'POST',
-            body
+            body,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
 
         return res

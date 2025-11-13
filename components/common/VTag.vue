@@ -22,7 +22,7 @@ const model = computed({
 <template>
     <div class="VTag" :class="{ 'VTag--inactive': inactive, 'VTag--filled': filled }">
         <input type="checkbox" :id="`tag-${label}`" v-model="model" :value="val">
-        <label :for="`tag-${label}`" class="VTag__label">{{ label }}</label>
+        <label :for="`tag-${label}`" class="VTag__label"><span>{{ label }}</span></label>
     </div>
 </template>
 
@@ -60,6 +60,12 @@ const model = computed({
         transition: background-color .4s;
         border-radius: 2px;
         cursor: pointer;
+
+        span {
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
 
         &:hover {
             background-color: var(--white);
