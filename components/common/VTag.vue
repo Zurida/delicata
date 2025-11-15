@@ -50,7 +50,7 @@ const model = computed({
         display: flex;
         align-items: center;
         justify-content: center;
-        width: fit-content;
+        width: max-content;
         // height: 2.2rem;
         padding-left: var(--gap-sm);
         padding-right: var(--gap-sm);

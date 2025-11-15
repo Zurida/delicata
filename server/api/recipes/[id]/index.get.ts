@@ -1,17 +1,17 @@
 export default defineEventHandler(async (event) => {
+    const recipeId = event.context.params?.id;
     const token = getCookie(event, 'auth_token');
-
+    const query = getQuery(event)
     try {
-        const res = await event.$fetch(`${useRuntimeConfig().myProxyUrl}recipes/`, {
-            method: 'DELETE',
+        const res = await $fetch(`${useRuntimeConfig().myProxyUrl}recipes/${recipeId}`, {
+            method: 'GET',
+            query,
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-
         return res
-
     } catch (error) {
-        console.log('my error', error)
+        console.log(error)
     }
-})
+});

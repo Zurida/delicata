@@ -1,4 +1,7 @@
+
 export default defineEventHandler(async (event) => {
+    const recipeId = event.context.params?.id;
+
     const token = getCookie(event, 'auth_token')
     const parts = await readMultipartFormData(event)
     const fd = new globalThis.FormData() // или import FormData из undici
@@ -19,7 +22,7 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    const res = await $fetch(`${useRuntimeConfig().myProxyUrl}recipes/`, {
+    const res = await $fetch(`${useRuntimeConfig().myProxyUrl}recipes/${recipeId}`, {
         method: 'POST',
         body: fd,
         headers: {

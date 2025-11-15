@@ -28,7 +28,6 @@ const recipe = reactive<TRecipe>({
     images: []
 });
 
-
 const isDisabled = ref(true)
 const isDragging = ref(false)
 const isLoading = ref(false)
@@ -175,19 +174,14 @@ async function handleSubmit(evt: Event) {
                 formData.append(key, recipe[key] as string);
             }
         }
-
     })
 
-    const url = useRuntimeConfig().public.myProxyUrl
-    const authCookie = useCookie('auth_token')
+    // const url = useRuntimeConfig().public.myProxyUrl
 
     try {
-        await $fetch(`${url}recipes/`, {
+        await $fetch(`api/recipes/`, {
             method: 'POST',
-            body: formData,
-            headers: {
-                Autharization: `Bearer ${authCookie.value}`
-            }
+            body: formData
         }).then(() => {
             navigateTo('/')
         })
