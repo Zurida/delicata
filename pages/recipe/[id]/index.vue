@@ -6,7 +6,7 @@ import { formatDate } from '~/assets/ts/utils';
 Swiper.use([Thumbs, FreeMode, Navigation]);
 
 definePageMeta({
-    middleware: ['auth'],
+    // middleware: ['auth'],
 });
 
 const { params: { id } } = useRoute();

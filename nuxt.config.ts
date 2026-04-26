@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     myProxyUrl: process.env.NUXT_MY_PROD_PROXY_URL,
     public: {
       myProxyUrl: process.env.NUXT_MY_PROD_PROXY_URL
-    }
+    },
   },
   typescript: {
     typeCheck: true

@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
                 Authorization: `Bearer ${token}`
             }
         })
-        return res
+        return res ?? []
     } catch (error) {
         console.log(error)
     }

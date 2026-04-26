@@ -13,12 +13,12 @@ export default defineEventHandler(async (event) => {
             body: { email, password }
         })
 
+
         setCookie(event, 'auth_token', res.access_token, {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
             path: '/',
-            maxAge: 60 * 60,
         });
 
 
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
         await setUserSession(event, {
             user,
             loggedInAt: new Date(),
-            expiresIn: res.expires_in,
+            token: res.access_token
         });
 
         return { success: true, user };

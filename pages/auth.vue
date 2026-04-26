@@ -4,13 +4,12 @@ import AuthFormRegister from '~/components/auth/AuthFormRegister.vue';
 
 definePageMeta({
     layout: 'auth',
-    middleware: ['auth2']
 })
 
-const authCookie = useCookie('auth_token')
-if (authCookie.value) {
-    authCookie.value = null
-}
+// const authCookie = useCookie('auth_token')
+// if (authCookie.value) {
+//     authCookie.value = null
+// }
 
 const titles = ['DELICATA']
 const tabs = {
@@ -22,6 +21,14 @@ const currentTab = ref<keyof typeof tabs>('Вход');
 function toggleTab(tab: keyof typeof tabs) {
     currentTab.value = tab
 }
+
+const { session } = useUserSession()
+
+
+onMounted(async () => {
+    console.log(session)
+})
+
 </script>
 
 <template>

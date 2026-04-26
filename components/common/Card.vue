@@ -107,22 +107,6 @@ const src = computed(() => {
     display: flex;
     align-items: center;
     overflow-x: auto;
-
-    &::-webkit-scrollbar {
-      width: 0.1rem;
-      height: 3px;
-      /* width of the entire scrollbar */
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(150, 150, 150, 0.623);
-      border-radius: 20px;
-      border: 3px solid transparent;
-    }
   }
 
 

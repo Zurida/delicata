@@ -39,8 +39,9 @@ const model = computed({
         height: 0;
 
         &:checked+label {
-            background-color: var(--main-2);
+            background-color: var(--main-1);
             color: var(--white);
+            border-color: var(--main-1);
         }
 
     }

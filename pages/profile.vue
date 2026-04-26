@@ -10,5 +10,6 @@
 .profile {
     padding-left: var(--gap);
     padding-right: var(--gap);
+    padding-bottom: var(--gap);
 }
 </style>

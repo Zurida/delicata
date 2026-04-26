@@ -9,10 +9,6 @@ import type { TRecipeFormErrors } from "~/types/schemas";
 import { RecipeFormSchema } from "~/types/schemas";
 
 
-definePageMeta({
-    middleware: ['auth'],
-});
-
 const measuresStore = useMeasureStore()
 const categoriesStore = useCategoryStore()
 const tagsStore = useTagsStore()

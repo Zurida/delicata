@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import type { TRecipe } from '~/types/recipe';
-import type { TTag } from '~/types/tag';
 
 const categoryStore = useCategoryStore()
 
-definePageMeta({
-  middleware: ['auth'],
-});
-
-
-const { data: recipes } = await useFetch<TRecipe[]>('/api/recipes')
+const { data: recipes } = await useFetch<TRecipe[]>('/api/recipes/')
+console.log(recipes)
 const tagsStore = useTagsStore()
 const tags = tagsStore.tags;
 
@@ -212,6 +207,7 @@ h4 {
   height: calc(100vh - var(--header-height));
   padding-top: var(--gap);
   background-color: var(--black);
+  overflow: auto;
 
   @include respond-to(sm) {
     position: relative;
@@ -427,7 +423,7 @@ h4 {
   &__list {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, .5fr));
+    grid-template-columns: repeat(auto-fit, minmax(10rem, .2fr));
 
     @include respond-to(sm) {
       grid-template-columns: repeat(auto-fit, minmax(18rem, .5fr));
