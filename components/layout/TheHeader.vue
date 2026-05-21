@@ -1,40 +1,39 @@
 <script setup lang="ts">
+import TheMenu from '@/components/layout/menu/TheMenu.vue';
+
 const isActive = ref(false);
 
 function handleClick() {
     isActive.value = !isActive.value
 }
-
-const route = useRoute();
 </script>
 
 <template>
     <header class="header">
-        <CommonVOverlay :is-visible="isActive" @click="isActive = false" />
-        <nuxt-link to="/" class="header__logo">
+        <CommonVOverlay
+            :is-visible="isActive"
+            @click="isActive = false"
+        />
+        <nuxt-link
+            to="/"
+            class="header__logo"
+        >
             <CommonVLogo :is-animated="false" />
             <p>DELICATA</p>
         </nuxt-link>
-        <Transition mode="out-in">
-            <ul class="header__menu menu" v-if="route.path === '/'">
-                <li class="menu__item is-active"><nuxt-link to="/">Доска рецептов</nuxt-link></li>
-                <!-- <li>Меню на неделю</li> -->
-            </ul>
-
-            <ul class="header__menu menu" v-else>
-                <li class="menu__item"><nuxt-link to="/" class="menu__link">
-                        <IconsIconLeft class="menu__back" />
-                        <p>Вернуться к рецептам</p>
-                    </nuxt-link></li>
-                <!-- <li>Меню на неделю</li> -->
-            </ul>
-        </Transition>
+        <TheMenu></TheMenu>
 
         <div class="header__user">
             <UserInfo />
-            <UserAvatar @click="handleClick" :is-active="isActive" />
+            <UserAvatar
+                @click="handleClick"
+                :is-active="isActive"
+            />
             <Transition>
-                <UserPopup v-if="isActive" @profile-click="isActive = false"></UserPopup>
+                <UserPopup
+                    v-if="isActive"
+                    @profile-click="isActive = false"
+                ></UserPopup>
             </Transition>
         </div>
     </header>
@@ -76,6 +75,7 @@ const route = useRoute();
 
     &__menu {
         display: flex;
+        align-items: center;
         font-size: var(--fs-base);
         gap: 1rem;
         font-size: 1.8rem;

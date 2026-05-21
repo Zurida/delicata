@@ -134,7 +134,7 @@ async function handleTitleSubmit() {
                 v-model="filterData.tags" :val="tag.id" @change="handleTagsChange" />
             </div>
 
-            <CommonVButton @click="handleTagsReset" small :disabled="!filterData.tags.length">Сбросить теги
+            <CommonVButton @click="handleTagsReset" :disabled="!filterData.tags.length">Сбросить теги
             </CommonVButton>
           </div>
 

@@ -55,11 +55,12 @@ const model = computed({
         // height: 2.2rem;
         padding-left: var(--gap-sm);
         padding-right: var(--gap-sm);
+        font-size: 1.3rem;
         border: .5px solid var(--main-2);
         background-color: transparent;
         color: var(--main-2);
         transition: background-color .4s;
-        border-radius: 2px;
+        border-radius: var(--border-radius);
         cursor: pointer;
 
         span {

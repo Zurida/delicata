@@ -1,3 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+    middleware: 'admin'
+})
+
+</script>
 <template>
     <div class="profile container">
         <ProfileCategories />
