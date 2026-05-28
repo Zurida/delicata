@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import VSelect from '@/components/common/VSelect.vue'
 import type { TOption } from '~/types/option';
 
-
 // Define Recipe type
 type Recipe = {
   id: number
@@ -37,7 +36,7 @@ const recipeOptions = computed<TOption[]>(() => {
 
 // Days of the week
 const days = [
-  'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+  'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'
 ]
 
 // Transform days array to TOption format
@@ -66,24 +65,24 @@ const getRecipe = (id: number) => {
 // Add recipe to a day with time
 const assignRecipeToDay = () => {
   if (!selectedRecipeId.value) return
-  
+
   // Validate time format (HH:mm)
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
   if (!timeRegex.test(mealTime.value)) {
     alert('Please enter a valid time in HH:mm format')
     return
   }
-  
+
   // Check if this recipe is already scheduled at this time on this day
   const alreadyExists = mealPlan.value[selectedDay.value].some(
     meal => meal.recipeId === selectedRecipeId.value && meal.time === mealTime.value
   )
-  
+
   if (alreadyExists) {
     alert('This recipe is already scheduled at this time on this day')
     return
   }
-  
+
   mealPlan.value[selectedDay.value] = [
     ...mealPlan.value[selectedDay.value],
     { recipeId: selectedRecipeId.value, time: mealTime.value }
@@ -104,83 +103,67 @@ const removeRecipeFromDay = (day: string, index: number) => {
 </script>
 
 <template>
-  <div class="meal-planner mt-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-    <div class="bg-gradient-to-r from-rose-50 to-pink-50 px-6 py-5 border-b border-gray-200">
-      <h2 class="text-2xl font-bold text-gray-800">🍽️ Weekly Meal Plan</h2>
-    </div>
+  <div class="meal-planner">
 
-    <!-- Day Picker -->
-    <div class="p-6 bg-gray-50 border-b border-gray-200">
-      <div class="flex flex-col sm:flex-row sm:items-end gap-4">
-        <div class="flex-1">
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">📅 Select Day</label>
-          <VSelect
-            v-model="selectedDay"
-            :options="daysOptions"
-            selectName="dayPicker"
-            class="w-full"
-          />
-        </div>
+    <div class="row">
+
+      <!-- Day Picker -->
+      <div class="meal-planner__row">
+        <label>📅 Выбрать день</label>
+        <VSelect
+          v-model="selectedDay"
+          :options="daysOptions"
+          selectName="dayPicker"
+        />
       </div>
-    </div>
 
-    <!-- Recipe Selection -->
-    <div class="p-6 space-y-4">
-      <h3 class="text-lg font-semibold text-gray-800">Add Recipe to <span class="text-rose-600 font-bold">{{ selectedDay
-          }}</span></h3>
-
-      <div class="flex flex-col sm:flex-row gap-4 items-end">
-        <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-700 mb-1.5">🍲 Recipe</label>
-          <VSelect
-            v-model="selectedRecipeId"
-            :options="recipeOptions"
-            selectName="recipePicker"
-            class="w-full"
-          />
-        </div>
-
-        <div class="w-full sm:w-auto">
-          <label class="block text-sm font-medium text-gray-700 mb-1.5">⏰ Time</label>
-          <input
-            v-model="mealTime"
-            type="time"
-            class="w-full sm:w-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-          />
-        </div>
-
-        <button
-          @click="assignRecipeToDay"
-          :disabled="!selectedRecipeId"
-          class="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-medium rounded-lg hover:from-rose-600 hover:to-pink-600 focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
-        >
-          ➕ Add to Day
-        </button>
+      <!-- Recipe Selection -->
+      <div class="meal-planner__row">
+        <label>🍲 Выбрать рецепт</label>
+        <VSelect
+          v-model="selectedRecipeId"
+          :options="recipeOptions"
+          selectName="recipePicker"
+        />
       </div>
-    </div>
+      <div class="meal-planner__row time">
+        <label>⏰ Выбрать время</label>
+        <input
+          v-model="mealTime"
+          type="time"
+        />
+      </div>
 
+    </div>
+    <button
+      @click="assignRecipeToDay"
+      :disabled="!selectedRecipeId"
+      class="btn-add"
+    >
+      ➕ Добавить
+    </button>
     <!-- Weekly Plan Grid -->
-    <div class="p-6">
-      <div class="grid grid-cols-1 sm:grid-cols-7 gap-3">
+    <div class="meal-planner__grid">
+      <div class="week-grid">
         <div
           v-for="day in days"
           :key="day"
-          class="text-center"
+          class="week-grid__day"
         >
-          <h3 class="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide">{{ day.slice(0, 3) }}</h3>
+          <h3>{{ day.slice(0, 3) }}</h3>
 
-          <div class="space-y-2 min-h-12">
+          <div class="week-grid__meals">
             <div
               v-for="(meal, index) in mealPlan[day]"
               :key="index"
-              class="group relative bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 rounded-lg p-3 text-xs shadow-sm hover:shadow transition-all cursor-default"
+              class="meal-item"
             >
-              <div class="font-semibold text-rose-800 truncate">{{ getRecipe(meal.recipeId)?.name }}</div>
-              <div class="text-rose-600 font-medium">{{ meal.time }}</div>
+              <div class="meal-item__name">{{ getRecipe(meal.recipeId)?.name }}</div>
+              <div class="meal-item__time">{{ meal.time }}</div>
 
               <button
                 @click="removeRecipeFromDay(day, index)"
-                class="absolute -top-1.5 -right-1.5 w-6 h-6 bg-rose-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-600 shadow-sm"
+                class="meal-item__remove"
               >
                 ✕
               </button>
@@ -188,9 +171,9 @@ const removeRecipeFromDay = (day: string, index: number) => {
 
             <div
               v-if="!mealPlan[day].length"
-              class="text-gray-400 text-xs italic py-1.5"
+              class="meal-item__empty"
             >
-              empty
+              Пусто
             </div>
           </div>
         </div>
@@ -199,8 +182,153 @@ const removeRecipeFromDay = (day: string, index: number) => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .meal-planner {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  min-height: calc(100vh - var(--header-height) - var(--gap) * 4);
+  margin-top: var(--gap);
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Advent Pro',
+    sans-serif;
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    width: 100%;
+    margin-bottom: var(--gap);
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &.time {
+      align-items: flex-start;
+    }
+
+    input[type="time" i]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+    }
+
+    input[type="time" i]::-webkit-calendar-picker-indicator:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  label {
+    font-size: var(--fs-base);
+  }
+
+  .btn-add {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(90deg, var(--main-1), #d87a6a);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(90deg, #d15a4a, #c05a4a);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__grid {
+    padding: 1.5rem;
+  }
+
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+
+    &__day {
+      text-align: center;
+
+      h3 {
+        font-weight: 600;
+        color: var(--black);
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+
+  .meal-item {
+    position: relative;
+    background: linear-gradient(135deg, #fff5f5, #fff0f8);
+    border: 1px solid #f0d0d0;
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+    cursor: default;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &__name {
+      font-weight: 500;
+      color: #a04a3a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__time {
+      font-weight: 500;
+      color: #c06758;
+      margin-top: 0.25rem;
+    }
+
+    &__remove {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 20px;
+      height: 20px;
+      background: var(--main-1);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background-color: #d15a4a;
+      }
+    }
+
+    &:hover &__remove {
+      opacity: 1;
+    }
+  }
+
+  .meal-item__empty {
+    font-size: 0.8rem;
+    color: #aaa;
+    font-style: italic;
+    padding: 0.5rem 0;
+  }
 }
 </style>

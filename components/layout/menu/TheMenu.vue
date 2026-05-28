@@ -14,7 +14,7 @@ const MENU = [
     {
         id: 1,
         title: 'Меню на неделю',
-        link: '/plan',
+        link: '/meal-planner',
         icon: '',
     },
 

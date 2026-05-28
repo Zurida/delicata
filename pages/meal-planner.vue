@@ -57,77 +57,17 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">🍽️ Weekly Meal Planner</h1>
+  <div class="meal-planner ">
+    <!-- <div class="meal-planner__header">
+      <h2>🍽️ План</h2>
+    </div> -->
 
-    <!-- Button to Add New Recipe -->
-    <button
-      @click="addNewRecipe"
-      class="mb-6 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition"
-    >
-      + Add New Recipe
-    </button>
-
-    <!-- Recipe List (Editable) -->
-    <div
-      v-if="recipes.length"
-      class="mb-8"
-    >
-      <h2 class="text-xl font-semibold mb-3">Your Recipes</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div
-          v-for="recipe in recipes"
-          :key="recipe.id"
-          class="border rounded-lg p-4 bg-white shadow-sm"
-        >
-          <h3 class="font-bold text-lg">{{ recipe.name }}</h3>
-          <p
-            class="text-sm text-gray-600"
-            v-if="recipe.description"
-          >{{ recipe.description }}</p>
-          <p class="text-sm text-gray-500"><strong>Time:</strong> {{ recipe.prepTime }}</p>
-          <p class="text-sm text-gray-500"><strong>Ingredients:</strong> {{ recipe.ingredients.join(', ') }}</p>
-          <button
-            @click="editRecipe(recipe)"
-            class="text-xs mt-2 text-blue-600 hover:underline"
-          >
-            Edit
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Weekly Meal Planner -->
-    <WeeklyMealPlanner
-      :recipes="recipes"
-      class="mt-6"
-    />
-
-    <!-- Modal for Recipe Form -->
-    <div
-      v-if="showForm"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      @click="closeModal"
-    >
-      <div
-        class="bg-white rounded-xl p-6 max-w-2xl w-full max-h-96 overflow-y-auto"
-        @click="e => e.stopPropagation()"
-      >
-        <h2 class="text-2xl font-bold mb-4">
-          {{ editingRecipe ? 'Edit Recipe' : 'Create New Recipe' }}
-        </h2>
-        <RecipeForm
-          :initial-recipe="editingRecipe"
-          @save-recipe="saveRecipe"
-          @cancel="closeModal"
-        />
-      </div>
-    </div>
+    <WeeklyMealPlanner :recipes="recipes" />
   </div>
 </template>
 
-<style scoped>
-.container {
-  min-height: 100vh;
+<style lang="scss">
+.meal-planner {
+  padding: var(--gap);
 }
 </style>
