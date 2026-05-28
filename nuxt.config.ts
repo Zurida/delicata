@@ -9,17 +9,9 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  // imports: {
-  //   dirs: ['types/*.ts', 'store/*.ts', 'types/**/*.ts'],
-  // },
   css: ['~/assets/css/main.scss'],
 
-  modules: [['@nuxtjs/google-fonts', {
-    families: {
-      Montserrat: true,
-      Nunito: true,
-    }
-  }], '@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils', '@stefanobartoletti/nuxt-social-share'],
+  modules: ['@pinia/nuxt', '@nuxt/fonts', 'nuxt-auth-utils', '@stefanobartoletti/nuxt-social-share'],
 
   nitro: {
     storage: {
@@ -30,6 +22,22 @@ export default defineNuxtConfig({
     },
 
   },
+
+  fonts: {
+    defaults: {
+      weights: [400, 500, 600, 700],
+      styles: ['normal']
+    },
+    provider: 'google',
+    families: [
+      {
+        name: 'Advent Pro',
+        weights: [400, 500, 600, 700],
+        styles: ['normal']
+      }
+    ]
+  },
+
   socialShare: {
     baseUrl: process.env.NUXT_MY_PROD_PROXY_URL
   },
