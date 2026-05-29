@@ -86,16 +86,28 @@ async function handleTitleSubmit() {
       <aside class="aside reverse">
         <h4>Категории</h4>
         <div class="aside__container">
-          <Collapse :category="{ id: 0, title: 'Все рецепты' }" @click="handleRecipesReset" :class="{
-            'is-visible': currentId === 0
-          }"></Collapse>
-          <Collapse v-for="category in categoryStore.categories" :category="category" :class="{
-            'is-visible': category.id === currentId
-          }" @click="setActiveId(category.id)" />
+          <Collapse
+            :category="{ id: 0, title: 'Все рецепты' }"
+            @click="handleRecipesReset"
+            :class="{
+              'is-visible': currentId === 0
+            }"
+          ></Collapse>
+          <Collapse
+            v-for="category in categoryStore.categories"
+            :category="category"
+            :class="{
+              'is-visible': category.id === currentId
+            }"
+            @click="setActiveId(category.id)"
+          />
         </div>
         <div class="aside__actions">
-          <CommonVButton to="/create" class="aside__btn">
-            <IconsIconAdd />
+          <CommonVButton
+            to="/create"
+            class="aside__btn"
+          >
+            <IconsIconPlus />
             <span>Добавить рецепт</span>
           </CommonVButton>
         </div>
@@ -110,17 +122,31 @@ async function handleTitleSubmit() {
           <li>Все рецепты</li>
         </ul> -->
         <div class="filter">
-          <form class="search" @submit.prevent="handleTitleSubmit">
+          <form
+            class="search"
+            @submit.prevent="handleTitleSubmit"
+          >
             <div class="search__field">
-              <CommonVInput v-model="filterData.title" placeholder="Найти рецепт"></CommonVInput>
+              <CommonVInput
+                v-model="filterData.title"
+                placeholder="Найти рецепт"
+              ></CommonVInput>
 
               <div class="search__btns">
-                <button type="submit" class="search__btn" :disabled="!filterData.title.length">
+                <button
+                  type="submit"
+                  class="search__btn"
+                  :disabled="!filterData.title.length"
+                >
                   <span>Найти</span>
                   <IconsIconSearch class="search__icon" />
                 </button>
 
-                <button class="search__btn" @click="handleTitleReset" :disabled="!filterData.title.length">
+                <button
+                  class="search__btn"
+                  @click="handleTitleReset"
+                  :disabled="!filterData.title.length"
+                >
                   <span>Очистить</span>
                   <IconsIconClose class="search__icon" />
                 </button>
@@ -130,26 +156,50 @@ async function handleTitleSubmit() {
 
           <div class="tags">
             <div class="tags__list">
-              <CommonVTag tag="Завтрак" :is-active="false" :label="tag.title" v-for="tag in tags"
-                v-model="filterData.tags" :val="tag.id" @change="handleTagsChange" />
+              <CommonVTag
+                tag="Завтрак"
+                :is-active="false"
+                :label="tag.title"
+                v-for="tag in tags"
+                v-model="filterData.tags"
+                :val="tag.id"
+                @change="handleTagsChange"
+              />
             </div>
 
-            <CommonVButton @click="handleTagsReset" :disabled="!filterData.tags.length">Сбросить теги
+            <CommonVButton
+              @click="handleTagsReset"
+              :disabled="!filterData.tags.length"
+            >Сбросить теги
             </CommonVButton>
           </div>
 
         </div>
 
         <div class="cards">
-          <div class="cards__list" v-if="cards && cards.length">
-            <CommonCard v-for="card in cards" :card="card" :to="`/recipe/${card.id}`" :key="`card-${card.id}`" />
+          <div
+            class="cards__list"
+            v-if="cards && cards.length"
+          >
+            <CommonCard
+              v-for="card in cards"
+              :card="card"
+              :to="`/recipe/${card.id}`"
+              :key="`card-${card.id}`"
+            />
           </div>
-          <p class="cards__error" v-else>Таких шедевров еще не готовили, но все впереди!</p>
+          <p
+            class="cards__error"
+            v-else
+          >Таких шедевров еще не готовили, но все впереди!</p>
         </div>
       </div>
     </div>
-    <NuxtLink to="/create" class="home__create">
-      <IconsIconAdd></IconsIconAdd>
+    <NuxtLink
+      to="/create"
+      class="home__create"
+    >
+      <IconsIconPlus></IconsIconPlus>
     </NuxtLink>
   </div>
 </template>

@@ -7,15 +7,10 @@ import type { TRecipe } from '~/types/recipe'
 const { data: recipes, pending, error } = useAsyncData<TRecipe[]>('recipes', () =>
   $fetch('/api/recipes')
 )
-
 </script>
 
 <template>
   <div class="meal-planner">
-    <!-- <div class="meal-planner__header">
-      <h2>🍽️ План</h2>
-    </div> -->
-
     <div v-if="pending">
       Загрузка рецептов...
     </div>
@@ -25,7 +20,7 @@ const { data: recipes, pending, error } = useAsyncData<TRecipe[]>('recipes', () 
     </div>
 
     <div v-else-if="!recipes || recipes.length === 0">
-      Нет рецептов доступно
+      Нет доступных рецептов
     </div>
 
     <div v-else>
@@ -37,5 +32,6 @@ const { data: recipes, pending, error } = useAsyncData<TRecipe[]>('recipes', () 
 <style lang="scss">
 .meal-planner {
   padding: var(--gap);
+  font-size: var(--fs-base);
 }
 </style>

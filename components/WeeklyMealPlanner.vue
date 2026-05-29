@@ -4,6 +4,21 @@ import VSelect from '@/components/common/VSelect.vue'
 import type { TOption } from '~/types/option';
 import type { TRecipe } from '~/types/recipe'
 
+// Generate time options in 15-minute intervals starting from 05:00
+const generateTimeOptions = (): TOption[] => {
+  const options: TOption[] = []
+  for (let hour = 5; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 15) {
+      const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+      options.push({
+        id: timeString,
+        title: timeString
+      })
+    }
+  }
+  return options
+}
+
 
 // Meal entry with time
 type MealEntry = {
@@ -47,6 +62,11 @@ const selectedDay = ref<string>('Понедельник')
 const selectedRecipeId = ref<number | null>(null)
 const mealTime = ref<string>('08:00')
 
+// Generate time options in 15-minute intervals
+const timeOptions = computed<TOption[]>(() => {
+  return generateTimeOptions()
+})
+
 // Computed: get recipe by ID
 const getRecipe = (id: number) => {
   return props.recipes.find(r => r.id === id) || null
@@ -69,7 +89,7 @@ const assignRecipeToDay = () => {
   )
 
   if (alreadyExists) {
-    alert('This recipe is already scheduled at this time on this day')
+    alert('Данный рецепт уже добавлен на выбранное время')
     return
   }
 
@@ -96,7 +116,14 @@ const removeRecipeFromDay = (day: string, index: number) => {
   <div class="meal-planner">
 
     <div class="row">
-
+      <div class="meal-planner__row">
+        <label>⏰ Выбрать время</label>
+        <VSelect
+          v-model="mealTime"
+          :options="timeOptions"
+          selectName="timePicker"
+        />
+      </div>
       <!-- Day Picker -->
       <div class="meal-planner__row">
         <label>📅 Выбрать день</label>
@@ -116,13 +143,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
           selectName="recipePicker"
         />
       </div>
-      <div class="meal-planner__row time">
-        <label>⏰ Выбрать время</label>
-        <input
-          v-model="mealTime"
-          type="time"
-        />
-      </div>
+
 
     </div>
     <button
@@ -130,7 +151,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
       :disabled="!selectedRecipeId"
       class="btn-add"
     >
-      ➕ Добавить
+      <IconsIconPlus></IconsIconPlus>Добавить
     </button>
     <!-- Weekly Plan Grid -->
     <div class="meal-planner__grid">
@@ -141,7 +162,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
           class="week-grid__day"
         >
 
-          <h3>{{ day.slice(0, 3) }}</h3>
+          <h3>{{ day }}</h3>
 
           <div class="week-grid__meals">
             <div
@@ -222,6 +243,8 @@ const removeRecipeFromDay = (day: string, index: number) => {
   }
 
   .btn-add {
+    display: flex;
+    align-items: center;
     padding: 0.75rem 1.5rem;
     background: linear-gradient(90deg, var(--main-1), #d87a6a);
     color: white;
@@ -239,6 +262,12 @@ const removeRecipeFromDay = (day: string, index: number) => {
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+      margin-right: .4rem;
     }
   }
 
