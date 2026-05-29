@@ -2,15 +2,8 @@
 import { ref, computed } from 'vue'
 import VSelect from '@/components/common/VSelect.vue'
 import type { TOption } from '~/types/option';
+import type { TRecipe } from '~/types/recipe'
 
-// Define Recipe type
-type Recipe = {
-  id: number
-  name: string
-  description?: string
-  ingredients: string[]
-  prepTime?: string
-}
 
 // Meal entry with time
 type MealEntry = {
@@ -20,17 +13,14 @@ type MealEntry = {
 
 // Props: receive recipes from parent
 const props = defineProps<{
-  recipes: Recipe[]
+  recipes: TRecipe[]
 }>()
-
-// Use recipes from props
-const recipes = computed(() => props.recipes)
 
 // Transform recipes array to TOption format
 const recipeOptions = computed<TOption[]>(() => {
-  return recipes.value.map(recipe => ({
-    id: recipe.id,
-    title: recipe.name
+  return props.recipes.map(recipe => ({
+    id: recipe?.id ?? '',
+    title: recipe?.title
   }))
 })
 
@@ -51,7 +41,7 @@ const daysOptions = computed<TOption[]>(() => {
 const mealPlan = ref<Record<string, MealEntry[]>>({ ...days.reduce((acc, day) => ({ ...acc, [day]: [] }), {} as Record<string, MealEntry[]>) })
 
 // Currently selected day in the picker
-const selectedDay = ref<string>('Monday')
+const selectedDay = ref<string>('Понедельник')
 
 // Selected recipe and time for new meal
 const selectedRecipeId = ref<number | null>(null)
@@ -59,7 +49,7 @@ const mealTime = ref<string>('08:00')
 
 // Computed: get recipe by ID
 const getRecipe = (id: number) => {
-  return recipes.value.find(r => r.id === id) || null
+  return props.recipes.find(r => r.id === id) || null
 }
 
 // Add recipe to a day with time
@@ -150,6 +140,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
           :key="day"
           class="week-grid__day"
         >
+
           <h3>{{ day.slice(0, 3) }}</h3>
 
           <div class="week-grid__meals">
@@ -158,15 +149,21 @@ const removeRecipeFromDay = (day: string, index: number) => {
               :key="index"
               class="meal-item"
             >
-              <div class="meal-item__name">{{ getRecipe(meal.recipeId)?.name }}</div>
-              <div class="meal-item__time">{{ meal.time }}</div>
-
-              <button
-                @click="removeRecipeFromDay(day, index)"
-                class="meal-item__remove"
+              <nuxt-link
+                :to="`recipe/${meal.recipeId}`"
+                class="meal-item__link"
               >
-                ✕
-              </button>
+                <div class="meal-item__time">{{ meal.time }}</div>
+
+                <div class="meal-item__name">{{ getRecipe(meal.recipeId)?.title }}</div>
+
+                <button
+                  @click="removeRecipeFromDay(day, index)"
+                  class="meal-item__remove"
+                >
+                  ✕
+                </button>
+              </nuxt-link>
             </div>
 
             <div
@@ -176,6 +173,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
               Пусто
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -260,7 +258,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
         font-weight: 600;
         color: var(--black);
         text-transform: uppercase;
-        font-size: 0.9rem;
+        font-size: 1.4rem;
         letter-spacing: 0.05em;
         margin-bottom: 0.75rem;
       }
@@ -269,31 +267,39 @@ const removeRecipeFromDay = (day: string, index: number) => {
 
   .meal-item {
     position: relative;
-    background: linear-gradient(135deg, #fff5f5, #fff0f8);
-    border: 1px solid #f0d0d0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
     padding: 0.75rem;
-    font-size: 0.85rem;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.4rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.2s;
-    cursor: default;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-bottom: calc(var(--gap) / 2);
+    }
 
     &:hover {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
+    &__link {
+      display: flex;
+      align-items: center;
+    }
+
     &__name {
       font-weight: 500;
-      color: #a04a3a;
+      color: var(--main-2);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     &__time {
+      min-width: 4rem;
       font-weight: 500;
-      color: #c06758;
-      margin-top: 0.25rem;
+      color: var(--main-1);
     }
 
     &__remove {
@@ -325,7 +331,7 @@ const removeRecipeFromDay = (day: string, index: number) => {
   }
 
   .meal-item__empty {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     color: #aaa;
     font-style: italic;
     padding: 0.5rem 0;
